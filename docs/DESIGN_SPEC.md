@@ -14,20 +14,21 @@ Quiet, near-monochrome canvas with **one saturated accent** (hot pink in the ref
 
 Defined as CSS variables in `globals.css`, exposed through Tailwind v4 `@theme`. Components only use semantic names.
 
-| Token                 | Light                                               | Dark                        | Use                               |
-| --------------------- | --------------------------------------------------- | --------------------------- | --------------------------------- |
-| `--background`        | `#F2F2F2`                                           | `#0F0F10`                   | page                              |
-| `--surface`           | `#FFFFFF`                                           | `#18181A`                   | cards, panels                     |
-| `--surface-muted`     | `#FAFAFA`                                           | `#1F1F22`                   | secondary cards, inputs           |
-| `--surface-inverse`   | `#262626`                                           | `#EDEDED`                   | dark quote panel, primary buttons |
-| `--foreground`        | `#2B2B2B`                                           | `#EDEDED`                   | primary text                      |
-| `--muted-foreground`  | `#7A7A7A`                                           | `#9A9A9A`                   | body secondary (check AA!)        |
-| `--subtle-foreground` | `#B5B5B5`                                           | `#5C5C5C`                   | disabled steps, placeholders      |
-| `--border`            | `#E4E4E4`                                           | `#2A2A2D`                   | hairlines, accordion rules        |
-| `--accent`            | `#FF3D71` **(placeholder)**                         | `#FF5C88` **(placeholder)** | ink core, dots, highlights        |
-| `--accent-soft-1..3`  | `#FFB3C6` / `#FFCCD9` / `#FFE3EA` **(placeholder)** | tuned darker equivalents    | pattern art, trails               |
-| `--halftone-dot`      | `rgb(0 0 0 / .10)`                                  | `rgb(255 255 255 / .06)`    | static halftone                   |
-| `--ring`              | `--foreground`                                      | `--foreground`              | focus                             |
+| Token                 | Light                                                             | Dark                                                | Use                               |
+| --------------------- | ----------------------------------------------------------------- | --------------------------------------------------- | --------------------------------- |
+| `--background`        | `#F2F2F2`                                                         | `#0F0F10`                                           | page                              |
+| `--surface`           | `#FFFFFF`                                                         | `#18181A`                                           | cards, panels                     |
+| `--surface-muted`     | `#FAFAFA`                                                         | `#1F1F22`                                           | secondary cards, inputs           |
+| `--surface-inverse`   | `#262626`                                                         | `#EDEDED`                                           | dark quote panel, primary buttons |
+| `--on-inverse`        | `#F2F2F2`                                                         | `#0F0F10`                                           | text/icons on `--surface-inverse` |
+| `--foreground`        | `#2B2B2B`                                                         | `#EDEDED`                                           | primary text                      |
+| `--muted-foreground`  | `#6B6B6B` (was `#7A7A7A` — failed AA, see Phase 01 decisions log) | `#9A9A9A`                                           | body secondary                    |
+| `--subtle-foreground` | `#B5B5B5`                                                         | `#5C5C5C`                                           | disabled steps, placeholders      |
+| `--border`            | `#E4E4E4`                                                         | `#2A2A2D`                                           | hairlines, accordion rules        |
+| `--accent`            | `#FF3D71` **(placeholder)**                                       | `#FF5C88` **(placeholder)**                         | ink core, dots, highlights        |
+| `--accent-soft-1..3`  | `#FFB3C6` / `#FFCCD9` / `#FFE3EA` **(placeholder)**               | `#7A2E3F` / `#5C2433` / `#3D1B24` **(placeholder)** | pattern art, trails               |
+| `--halftone-dot`      | `rgb(0 0 0 / .10)`                                                | `rgb(255 255 255 / .06)`                            | static halftone                   |
+| `--ring`              | `--foreground`                                                    | `--foreground`                                      | focus                             |
 
 **Radii:** panel `2rem` (hero/CTA frames, big cards) · card `1.75rem` · input `0.5rem` · header button `0.5rem` · CTA pill `9999px` · chip `9999px`.
 **Spacing:** 4px base. Page gutter `16px` mobile / `48px` desktop. Framed panels inset `16px` from viewport edges.
