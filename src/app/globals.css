@@ -4,117 +4,191 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-mono);
-  --font-heading: var(--font-mono);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
-}
-
+/*
+ * Design tokens (DESIGN_SPEC.md §2–3). Raw values live here; components only
+ * ever reference the semantic Tailwind utilities generated below.
+ */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --background: #f2f2f2;
+  --surface: #ffffff;
+  --surface-muted: #fafafa;
+  --surface-inverse: #262626;
+  /* Readable text color on top of --surface-inverse (not in DESIGN_SPEC's table; derived for AA). */
+  --on-inverse: #f2f2f2;
+  --foreground: #2b2b2b;
+  /* DESIGN_SPEC placeholder (#7A7A7A) fails AA (3.84:1 on --background) — darkened, see phase decisions log. */
+  --muted-foreground: #6b6b6b;
+  --subtle-foreground: #b5b5b5;
+  --border: #e4e4e4;
+  --accent: #ff3d71;
+  --accent-soft-1: #ffb3c6;
+  --accent-soft-2: #ffccd9;
+  --accent-soft-3: #ffe3ea;
+  --halftone-dot: rgb(0 0 0 / 0.1);
+  --ring: var(--foreground);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: #0f0f10;
+  --surface: #18181a;
+  --surface-muted: #1f1f22;
+  --surface-inverse: #ededed;
+  --on-inverse: #0f0f10;
+  --foreground: #ededed;
+  --muted-foreground: #9a9a9a;
+  --subtle-foreground: #5c5c5c;
+  --border: #2a2a2d;
+  --accent: #ff5c88;
+  --accent-soft-1: #7a2e3f;
+  --accent-soft-2: #5c2433;
+  --accent-soft-3: #3d1b24;
+  --halftone-dot: rgb(255 255 255 / 0.06);
+  --ring: var(--foreground);
+}
+
+@theme inline {
+  /* Fonts (DESIGN_SPEC §3) */
+  --font-display: var(--font-frama);
+  --font-display--font-feature-settings: "ss01";
+  --font-sans: var(--font-neue-montreal);
+  --font-mono: var(--font-supply-mono);
+  --font-weight-book: 350;
+
+  /* Semantic colors */
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-surface-inverse: var(--surface-inverse);
+  --color-on-inverse: var(--on-inverse);
+  --color-foreground: var(--foreground);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-subtle-foreground: var(--subtle-foreground);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-soft-1: var(--accent-soft-1);
+  --color-accent-soft-2: var(--accent-soft-2);
+  --color-accent-soft-3: var(--accent-soft-3);
+  --color-ring: var(--ring);
+
+  /* shadcn / Base UI interop — kept neutral, no collision with brand --accent */
+  --color-card: var(--surface);
+  --color-card-foreground: var(--foreground);
+  --color-popover: var(--surface);
+  --color-popover-foreground: var(--foreground);
+  --color-primary: var(--surface-inverse);
+  --color-primary-foreground: var(--on-inverse);
+  --color-secondary: var(--surface-muted);
+  --color-secondary-foreground: var(--foreground);
+  --color-muted: var(--surface-muted);
+  --color-border: var(--border);
+  --color-input: var(--border);
+  --color-destructive: oklch(0.577 0.245 27.325);
+
+  /* Radii (DESIGN_SPEC §2) */
+  --radius-input: 0.5rem;
+  --radius-card: 1.75rem;
+  --radius-panel: 2rem;
+}
+
+.dark {
+  --color-destructive: oklch(0.704 0.191 22.216);
+}
+
+/* Type scale (DESIGN_SPEC §3) — each utility sets family, weight, size, line-height and tracking together. */
+@utility text-display-xl {
+  font-family: var(--font-display);
+  font-feature-settings: "ss01";
+  font-weight: 500;
+  font-size: clamp(3.5rem, 11vw, 12.5rem);
+  line-height: 0.86;
+  letter-spacing: -0.055em;
+}
+
+@utility text-display-lg {
+  font-family: var(--font-display);
+  font-feature-settings: "ss01";
+  font-weight: 400;
+  font-size: clamp(3rem, 7vw, 7.5rem);
+  line-height: 0.88;
+  letter-spacing: -0.05em;
+}
+
+@utility text-display-md {
+  font-family: var(--font-display);
+  font-feature-settings: "ss01";
+  font-weight: 400;
+  font-size: clamp(2rem, 5vw, 6rem);
+  line-height: 0.92;
+  letter-spacing: -0.045em;
+}
+
+@utility text-price {
+  font-family: var(--font-display);
+  font-feature-settings: "ss01";
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(2.5rem, 5vw, 5rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+@utility text-heading {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: clamp(1.75rem, 3vw, 3rem);
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+
+@utility text-title {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+}
+
+@utility text-body-lg {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+
+@utility text-body {
+  font-family: var(--font-sans);
+  font-weight: var(--font-weight-book);
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+@utility text-label {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 0.8125rem;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+@utility text-mono-ui {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Motion defaults (DESIGN_SPEC §8) — tokens for CSS hover transitions; GSAP/Motion read these directly in later phases. */
+:root {
+  --ease-entrance: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-ui: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --duration-ui: 250ms;
+  --stagger-sm: 0.06s;
+  --stagger-lg: 0.1s;
 }
 
 @layer base {
@@ -122,9 +196,6 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
-  }
-  html {
-    @apply font-mono;
+    @apply bg-background font-sans text-foreground;
   }
 }
