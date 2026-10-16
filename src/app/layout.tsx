@@ -1,21 +1,10 @@
 import "./globals.css";
 
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google";
 
-import { cn } from "@/lib/utils";
-
-const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { fontVariables } from "@/fonts";
+import { cn } from "@/lib/cn";
+import { Providers } from "@/providers/providers";
 
 export const metadata: Metadata = {
   title: "foroughforoughi.com (scaffold)",
@@ -24,16 +13,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en"
-      className={cn(
-        "h-full font-mono antialiased",
-        geistSans.variable,
-        geistMono.variable,
-        jetbrainsMono.variable,
-      )}
-    >
-      <body className="flex min-h-full flex-col">{children}</body>
+    <html lang="en" suppressHydrationWarning className={cn("h-full antialiased", fontVariables)}>
+      <body className="flex min-h-full flex-col">
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
