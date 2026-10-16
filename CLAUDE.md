@@ -7,7 +7,7 @@
 
 ## 1. Project
 
-A portfolio site for **Foroughozaman (Foro) Foroughi**, a senior product/UX designer. Its job is to *prove* UI/UX craft through design, motion and interaction, and to convert visitors through the **project inquiry modal**.
+A portfolio site for **Foroughozaman (Foro) Foroughi**, a senior product/UX designer. Its job is to _prove_ UI/UX craft through design, motion and interaction, and to convert visitors through the **project inquiry modal**.
 
 - **Routes:** `/` (single page), `/legals`, `/privacy`
 - **Page anatomy:** Header → 6 sections → Footer, plus two modals (Inquiry, Video)
@@ -17,11 +17,12 @@ A portfolio site for **Foroughozaman (Foro) Foroughi**, a senior product/UX desi
 - **Priorities, in order:** visual quality & motion feel → performance → accessibility → code elegance. None of them is optional.
 
 Related docs:
-| File | Purpose |
-|---|---|
-| `docs/ROADMAP.md` | Phases, status, branch names |
-| `docs/phases/NN-*.md` | Spec + acceptance criteria + Claude Code prompt per phase |
-| `docs/DESIGN_SPEC.md` | Tokens, typography, section-by-section visual & motion spec |
+
+| File                     | Purpose                                                         |
+| ------------------------ | --------------------------------------------------------------- |
+| `docs/ROADMAP.md`        | Phases, status, branch names                                    |
+| `docs/phases/NN-*.md`    | Spec + acceptance criteria + Claude Code prompt per phase       |
+| `docs/DESIGN_SPEC.md`    | Tokens, typography, section-by-section visual & motion spec     |
 | `docs/OPEN_QUESTIONS.md` | Unresolved decisions. Check before building anything they touch |
 
 ---
@@ -30,32 +31,95 @@ Related docs:
 
 Install the **latest stable** version of each package at the time of Phase 0 and pin it in `package.json`. Do not downgrade without recording why here.
 
-| Concern | Choice | Notes |
-|---|---|---|
-| Framework | **Next.js** (App Router, RSC by default) + React 19 | Turbopack dev |
-| Language | **TypeScript**, `strict` + `noUncheckedIndexedAccess` + `noImplicitOverride` | No `any` |
-| Styling | **Tailwind CSS v4** (CSS-first `@theme` tokens in `globals.css`) | `cn()` = `clsx` + `tailwind-merge`; variants via `class-variance-authority` |
-| UI primitives | **shadcn/ui** (Radix) | Dialog, Accordion, Tabs, Select, Input, Textarea, Label, Button, Form/Field, Sonner |
-| Fonts | **PP Frama** (display, `ss01`), **PP Neue Montreal** (sans), **PP Supply Mono** (mono) via `next/font/local` | Config in `src/fonts/index.ts`; roles in DESIGN_SPEC §3. ⚠️ Dev files until licensed |
-| Theme | **next-themes** | `class` strategy, default `system`, no flash |
-| Server state | **TanStack Query v5** | Inquiry submit (mutation), pricing estimate, future CMS data |
-| Local state | **Zustand** for cross-tree UI state; **React Context** only for scoped providers | See §6 |
-| Forms | **react-hook-form** + **zod** + `@hookform/resolvers` | Schemas shared client/server in `src/lib/schemas` |
-| Scroll & timeline motion | **GSAP 3** + ScrollTrigger (+ Flip/SplitText when needed) via `@gsap/react` (`useGSAP`) | GSAP and all its plugins are free |
-| Smooth scroll | **Lenis**, driven by the GSAP ticker | One instance, in `SmoothScroll` provider |
-| Component enter/exit | **Motion** (`motion/react`) | Modals, accordion content, tabs, presence |
-| WebGL | **three.js** (vanilla, client-only, dynamically imported) | Ink fluid field |
-| 2D canvas | Native Canvas 2D | Card cascade ("solitaire") |
-| Email | **Resend** (pending, see OPEN_QUESTIONS) | Called from a Route Handler |
-| Icons | lucide-react | |
-| Package manager | **pnpm** | Never commit other lockfiles |
-| Lint/format | ESLint flat config (`next/core-web-vitals` + `next/typescript`, `@tanstack/eslint-plugin-query`, `eslint-plugin-better-tailwindcss`, `simple-import-sort`, `eslint-config-prettier`) + **Prettier** with `prettier-plugin-tailwindcss` | |
-| Git hooks | Husky + lint-staged + commitlint (Conventional Commits) | |
-| Tests | **Vitest** + Testing Library (unit/component), **Playwright** (e2e smoke + screenshots) | |
-| Hosting | Vercel (pending) | |
-| Knowledge graph | **graphify** | See §10 |
+| Concern                  | Choice                                                                                                                                                                                                                                 | Notes                                                                                                                                                                                  |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Framework                | **Next.js** (App Router, RSC by default) + React 19                                                                                                                                                                                    | Turbopack dev                                                                                                                                                                          |
+| Language                 | **TypeScript**, `strict` + `noUncheckedIndexedAccess` + `noImplicitOverride`                                                                                                                                                           | No `any`                                                                                                                                                                               |
+| Styling                  | **Tailwind CSS v4** (CSS-first `@theme` tokens in `globals.css`)                                                                                                                                                                       | `cn()` = `clsx` + `tailwind-merge`; variants via `class-variance-authority`                                                                                                            |
+| UI primitives            | **shadcn/ui** (Base UI)                                                                                                                                                                                                                | Dialog, Accordion, Tabs, Select, Input, Textarea, Label, Button, Form/Field, Sonner. Base UI is Radix's successor and shadcn's current default (Phase 00 decision — see decisions log) |
+| Fonts                    | **PP Frama** (display, `ss01`), **PP Neue Montreal** (sans), **PP Supply Mono** (mono) via `next/font/local`                                                                                                                           | Config in `src/fonts/index.ts`; roles in DESIGN_SPEC §3. ⚠️ Dev files until licensed                                                                                                   |
+| Theme                    | **next-themes**                                                                                                                                                                                                                        | `class` strategy, default `system`, no flash                                                                                                                                           |
+| Server state             | **TanStack Query v5**                                                                                                                                                                                                                  | Inquiry submit (mutation), pricing estimate, future CMS data                                                                                                                           |
+| Local state              | **Zustand** for cross-tree UI state; **React Context** only for scoped providers                                                                                                                                                       | See §6                                                                                                                                                                                 |
+| Forms                    | **react-hook-form** + **zod** + `@hookform/resolvers`                                                                                                                                                                                  | Schemas shared client/server in `src/lib/schemas`                                                                                                                                      |
+| Scroll & timeline motion | **GSAP 3** + ScrollTrigger (+ Flip/SplitText when needed) via `@gsap/react` (`useGSAP`)                                                                                                                                                | GSAP and all its plugins are free                                                                                                                                                      |
+| Smooth scroll            | **Lenis**, driven by the GSAP ticker                                                                                                                                                                                                   | One instance, in `SmoothScroll` provider                                                                                                                                               |
+| Component enter/exit     | **Motion** (`motion/react`)                                                                                                                                                                                                            | Modals, accordion content, tabs, presence                                                                                                                                              |
+| WebGL                    | **three.js** (vanilla, client-only, dynamically imported)                                                                                                                                                                              | Ink fluid field                                                                                                                                                                        |
+| 2D canvas                | Native Canvas 2D                                                                                                                                                                                                                       | Card cascade ("solitaire")                                                                                                                                                             |
+| Email                    | **Resend** (pending, see OPEN_QUESTIONS)                                                                                                                                                                                               | Called from a Route Handler                                                                                                                                                            |
+| Icons                    | **@phosphor-icons/react**                                                                                                                                                                                                              | Ships with shadcn's current `base-lyra` style (Phase 00 decision)                                                                                                                      |
+| Package manager          | **pnpm**                                                                                                                                                                                                                               | Never commit other lockfiles                                                                                                                                                           |
+| Lint/format              | ESLint flat config (`next/core-web-vitals` + `next/typescript`, `@tanstack/eslint-plugin-query`, `eslint-plugin-better-tailwindcss`, `simple-import-sort`, `eslint-config-prettier`) + **Prettier** with `prettier-plugin-tailwindcss` |                                                                                                                                                                                        |
+| Git hooks                | Husky + lint-staged + commitlint (Conventional Commits)                                                                                                                                                                                |                                                                                                                                                                                        |
+| Tests                    | **Vitest** + Testing Library (unit/component), **Playwright** (e2e smoke + screenshots)                                                                                                                                                |                                                                                                                                                                                        |
+| Hosting                  | Vercel (pending)                                                                                                                                                                                                                       |                                                                                                                                                                                        |
+| Knowledge graph          | **graphify**                                                                                                                                                                                                                           | See §10                                                                                                                                                                                |
+
+### Pinned versions (as of Phase 00)
+
+Source of truth is `package.json`; this is a point-in-time mirror for quick reference. Update it whenever a dependency is added, removed or bumped.
+
+| Package                                  | Version  |
+| ---------------------------------------- | -------- |
+| `@base-ui/react`                         | ^1.9.0   |
+| `@gsap/react`                            | ^2.1.2   |
+| `@hookform/resolvers`                    | ^5.9.1   |
+| `@phosphor-icons/react`                  | ^2.1.10  |
+| `@tanstack/react-query`                  | ^5.104.3 |
+| `@tanstack/react-query-devtools`         | ^5.104.3 |
+| `class-variance-authority`               | ^0.7.1   |
+| `clsx`                                   | ^2.1.1   |
+| `date-fns`                               | ^4.4.0   |
+| `gsap`                                   | ^3.15.0  |
+| `lenis`                                  | ^1.3.27  |
+| `motion`                                 | ^14.3.0  |
+| `next`                                   | 16.4.1   |
+| `next-themes`                            | ^0.4.6   |
+| `react`                                  | 19.3.0   |
+| `react-day-picker`                       | ^10.0.2  |
+| `react-dom`                              | 19.3.0   |
+| `react-hook-form`                        | ^7.90.0  |
+| `resend`                                 | ^6.33.0  |
+| `shadcn`                                 | ^4.21.5  |
+| `sonner`                                 | ^2.0.8   |
+| `tailwind-merge`                         | ^3.7.0   |
+| `three`                                  | ^0.186.1 |
+| `tw-animate-css`                         | ^1.4.0   |
+| `zod`                                    | ^4.6.7   |
+| `zustand`                                | ^5.0.15  |
+| `@axe-core/playwright` (dev)             | ^4.14.0  |
+| `@commitlint/cli` (dev)                  | ^21.2.3  |
+| `@commitlint/config-conventional` (dev)  | ^21.2.3  |
+| `@playwright/test` (dev)                 | ^1.64.1  |
+| `@tailwindcss/turbopack` (dev)           | ^4       |
+| `@tanstack/eslint-plugin-query` (dev)    | ^5.104.3 |
+| `@testing-library/dom` (dev)             | ^10.4.2  |
+| `@testing-library/jest-dom` (dev)        | ^7.0.1   |
+| `@testing-library/react` (dev)           | ^16.3.3  |
+| `@testing-library/user-event` (dev)      | ^14.6.8  |
+| `@types/node` (dev)                      | ^20      |
+| `@types/react` (dev)                     | ^19      |
+| `@types/react-dom` (dev)                 | ^19      |
+| `@types/three` (dev)                     | ^0.186.0 |
+| `@vitejs/plugin-react` (dev)             | ^6.1.2   |
+| `eslint` (dev)                           | ^9       |
+| `eslint-config-next` (dev)               | 16.4.1   |
+| `eslint-config-prettier` (dev)           | ^10.1.8  |
+| `eslint-plugin-better-tailwindcss` (dev) | ^4.9.1   |
+| `eslint-plugin-simple-import-sort` (dev) | ^14.0.0  |
+| `husky` (dev)                            | ^9.1.7   |
+| `jsdom` (dev)                            | ^30.1.3  |
+| `lint-staged` (dev)                      | ^17.6.0  |
+| `prettier` (dev)                         | ^3.9.10  |
+| `prettier-plugin-tailwindcss` (dev)      | ^0.8.1   |
+| `tailwindcss` (dev)                      | ^4       |
+| `typescript` (dev)                       | ^5       |
+| `vite-tsconfig-paths` (dev)              | ^6.1.1   |
+| `vitest` (dev)                           | ^5.0.5   |
 
 ### Motion ownership rule (important)
+
 - **GSAP** owns anything scroll-linked, pinned, or timeline-choreographed, plus canvas/WebGL loops via `gsap.ticker`.
 - **Motion** owns React mount/unmount and layout transitions (modals, accordion bodies, tab panels, toasts).
 - **Never animate the same element with both libraries.** CSS transitions are fine for simple hover/focus states.
@@ -137,13 +201,13 @@ docs/                     # reference/, phases/, ROADMAP.md, DESIGN_SPEC.md, OPE
 
 ## 6. State management
 
-| Kind | Tool | Examples |
-|---|---|---|
-| Async / server data | TanStack Query | `useSubmitInquiry` (mutation), `usePriceEstimate` |
+| Kind                | Tool                           | Examples                                                           |
+| ------------------- | ------------------------------ | ------------------------------------------------------------------ |
+| Async / server data | TanStack Query                 | `useSubmitInquiry` (mutation), `usePriceEstimate`                  |
 | Cross-tree UI state | Zustand (`stores/ui-store.ts`) | `inquiryOpen`, `openInquiry(prefill?)`, `videoOpen`, `activeVideo` |
-| Scoped, tree-local | React Context | `MotionPrefsContext`, `SectionRegistryContext` |
-| Form state | react-hook-form | inquiry form, pricing calculator |
-| Theme | next-themes | Don't duplicate in Zustand or localStorage |
+| Scoped, tree-local  | React Context                  | `MotionPrefsContext`, `SectionRegistryContext`                     |
+| Form state          | react-hook-form                | inquiry form, pricing calculator                                   |
+| Theme               | next-themes                    | Don't duplicate in Zustand or localStorage                         |
 
 Rules: never store server data in Zustand. Use selectors (`useUiStore(s => s.inquiryOpen)`), never subscribe to the whole store. No `useEffect` for derived state.
 
@@ -156,13 +220,15 @@ Rules: never store server data in Zustand. Use selectors (`useUiStore(s => s.inq
 - No default `any`, no non-null `!` without a comment explaining why it's safe.
 - No inline `eslint-disable` without a one-line reason.
 - Imports via `@/…`. Sorted by `simple-import-sort`.
-- Comments explain *why*, not *what*. Every effect component gets a short header comment describing the technique.
+- Comments explain _why_, not _what_. Every effect component gets a short header comment describing the technique.
 - Don't add a dependency without adding it to §2 in the same commit.
 
 ### Accessibility (WCAG 2.2 AA)
+
 Semantic landmarks (`header`, `main`, `footer`, `section` + heading), skip link, visible `:focus-visible` ring in both themes, AA contrast in both themes (including muted/disabled text), every interactive element keyboard-operable, dialogs via Radix (focus trap, `Esc`, return focus), decorative canvases `aria-hidden` + `role="presentation"`, the video has captions or a transcript, form errors announced (`aria-describedby`, `aria-invalid`).
 
 ### Performance budgets (mid-tier mobile, production build)
+
 LCP < 2.5s · CLS < 0.05 · INP < 200ms · first-load JS for `/` ≤ ~200 KB gz excluding lazily loaded three.js · WebGL DPR capped at 1.5, render loop paused when off-screen or tab hidden · images via `next/image` (AVIF/WebP, explicit sizes) · video lazy with poster · fonts via `next/font/local` from `src/fonts/` with `display: swap`; only use the six weights listed there, and subset to Latin before launch.
 
 ---
@@ -176,10 +242,11 @@ LCP < 2.5s · CLS < 0.05 · INP < 200ms · first-load JS for `/` ≤ ~200 KB gz 
    - `pnpm check` passes, and `pnpm build` succeeds;
    - each acceptance criterion in the phase doc is checked off;
    - visual phases: run the dev server and compare against the reference screenshots in **light and dark**, at **375 / 768 / 1440 px**, with and without `prefers-reduced-motion`.
-5. **Close the loop:** tick the phase in `ROADMAP.md`, write deviations in the phase doc's *Decisions log*, update this file if any standard changed, refresh the graph (§10).
+5. **Close the loop:** tick the phase in `ROADMAP.md`, write deviations in the phase doc's _Decisions log_, update this file if any standard changed, refresh the graph (§10).
 6. **Stop.** Don't start the next phase until asked.
 
 ### Definition of Done
+
 Acceptance criteria met · `pnpm check` + `pnpm build` green · both themes correct · reduced-motion and touch variants work · no console errors/warnings · no layout shift from the feature · docs updated.
 
 ---
