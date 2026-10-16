@@ -1,0 +1,28 @@
+# Reference screenshots
+
+Captured from incredibles.dev as an **interaction and layout reference only**. Never copy its text, logos, client names or imagery (see CLAUDE.md §9). The type families match the reference and are documented in DESIGN_SPEC §3 and `src/fonts/README.md`.
+
+`DESIGN_SPEC.md` and the phase docs refer to these by number ("ref 05").
+
+| # | File | Shows | Used in phase |
+|---|---|---|---|
+| 01 | `01-modal-inquiry.png` | Inquiry modal: info cards + 4-step form, dimmed inactive steps | 10 |
+| 02 | `02-transition-hero-to-cards.png` | Hero panel scrolling away, section 2 headline beneath | 03, 05 |
+| 03 | `03-legal-page.png` | Legal page layout | 11 |
+| 04 | `04-pricing-single-project.png` | Pricing: segmented control + Single-project step selects | 08 |
+| 05 | `05-hero.png` | Hero: credentials row, display headline, ink with chromatic text | 03, 04 |
+| 06 | `06-cards-flying-in.png` | Card 1 arriving in perspective over the headline | 05 |
+| 07 | `07-pricing-recurring-plans.png` | Recurring plan cards, then FAQ title | 08, 09 |
+| 08 | `08-work-to-interlude.png` | Bottom of Work row → "Let's talk" interlude | 06, 07 |
+| 09 | `09-faq-closed.png` | FAQ accordion, all closed; CTA panel peeking in | 09 |
+| 10 | `10-interlude-to-pricing.png` | Interlude → "Simple pricing", Recurring tab | 07, 08 |
+| 11 | `11-cta-card-cascade.png` | CTA panel: solitaire cascade trails + ink + footer | 09 |
+| 12 | `12-cards-to-work.png` | Last card receding, "See for yourself" + dark quote panel arriving | 05, 06 |
+| 13 | `13-work-image-trail.png` | Image trail following the cursor, quote panel, project row | 06 |
+| 14 | `14-faq-open.png` | FAQ item open (`×` icon, expanded body) | 09 |
+| 15 | `15-work-showreel-projects.png` | Showreel tile, "Latest delivery", project cards with chips | 06, 07 |
+| 16 | `16-cards-stacked.png` | Earlier cards stacked behind, new card arriving from below | 05 |
+| 17 | `17-privacy-page.png` | Privacy policy layout | 11 |
+| 18 | `18-type-specimen.png` | Font roles rendered from `src/fonts/` (Frama with/without `ss01`, Neue Montreal, Supply Mono). Not from the reference site | 01 |
+
+Live site for motion study: https://incredibles.dev/
