@@ -1,0 +1,7 @@
+.next/
+pnpm-lock.yaml
+graphify-out/
+public/
+playwright-report/
+test-results/
+coverage/
