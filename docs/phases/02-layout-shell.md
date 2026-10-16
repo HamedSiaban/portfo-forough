@@ -3,9 +3,11 @@
 **Branch:** `phase/02-layout-shell` · **Spec:** DESIGN_SPEC §4–5 (Header, Footer) · **Refs:** 05, 11, 09
 
 ## Goal
+
 The page skeleton: providers, smooth scroll, header, footer, reorderable section registry with placeholder sections, and UI store, so every later phase just fills a slot.
 
 ## Scope
+
 - `providers/Providers.tsx`: Theme, TanStack Query (`lib/query-client.ts`, devtools in dev only), MotionPrefs context, SmoothScroll.
 - `lib/gsap.ts`: register ScrollTrigger (and later plugins) once; export `gsap`.
 - `SmoothScroll`: one Lenis instance driven by `gsap.ticker`, `ScrollTrigger.update` on scroll, disabled under reduced motion. Expose `scrollTo(target)` via context.
@@ -19,6 +21,7 @@ The page skeleton: providers, smooth scroll, header, footer, reorderable section
 - Hash links work with Lenis (`/#pricing` from `/legals` lands correctly).
 
 ## Acceptance criteria
+
 - [ ] Reordering entries in `config/sections.ts` reorders the page with no other change; anchors still work.
 - [ ] Pricing button smooth-scrolls to `#pricing`; under reduced motion it jumps.
 - [ ] Conversation button opens the placeholder modal from any scroll position; `Esc` closes it and focus returns.
@@ -27,6 +30,7 @@ The page skeleton: providers, smooth scroll, header, footer, reorderable section
 - [ ] `pnpm check` + `pnpm build` green; a Playwright test covers the Pricing scroll and modal open.
 
 ## Prompt
+
 ```
 Phase 02 · Layout shell. Read CLAUDE.md, docs/DESIGN_SPEC.md §4–5 (Header, Footer), docs/phases/02-layout-shell.md,
 and reference images 05, 09, 11. Create branch phase/02-layout-shell, enter plan mode, propose a plan, wait for approval.
@@ -34,4 +38,5 @@ Build, verify in both themes at 375/768/1440 and with reduced motion, follow CLA
 ```
 
 ## Decisions log
+
 -

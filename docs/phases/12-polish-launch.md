@@ -3,9 +3,11 @@
 **Branch:** `phase/12-polish-launch` · **Spec:** CLAUDE.md §7 budgets & a11y
 
 ## Goal
+
 Production-ready: audited, fast, discoverable, tested, deployed.
 
 ## Scope
+
 - **Font licence gate (blocking):** follow `src/fonts/README.md` "Before launch": licensed Pangram Pangram files replace the dev files, stylistic sets re-applied if the look changed, Latin subset, visual diff against the reference screenshots. Remove the ⚠️ notes from CLAUDE.md §2, DESIGN_SPEC §3 and the font README.
 - **Choreography pass:** scroll the whole page top to bottom; tune transitions between sections (refs 02, 12, 08, 10, 07) so hand-offs feel continuous; `ScrollTrigger.refresh()` after fonts/images; test reordering sections.
 - **Accessibility audit:** axe (Playwright `@axe-core/playwright`) on `/`, `/legals`, `/privacy`, each modal open; keyboard-only run; VoiceOver/NVDA spot check; contrast both themes.
@@ -18,6 +20,7 @@ Production-ready: audited, fast, discoverable, tested, deployed.
 - **Deploy:** Vercel project, env vars, domain `foroughforoughi.com`, preview deployments per PR.
 
 ## Acceptance criteria
+
 - [ ] Every file in `src/fonts/` is a licensed Pangram Pangram file (licence receipts noted in the decisions log, not committed). Do not deploy until this is checked.
 - [ ] All Lighthouse targets met on the production URL.
 - [ ] Zero axe violations; full keyboard journey works.
@@ -25,6 +28,7 @@ Production-ready: audited, fast, discoverable, tested, deployed.
 - [ ] README written (what it is, how to run, how to add content, how to reorder sections).
 
 ## Prompt
+
 ```
 Phase 12 · Polish & launch. Read CLAUDE.md and docs/phases/12-polish-launch.md, and re-check every reference image
 in docs/reference/ against the running site. Create branch phase/12-polish-launch, enter plan mode,
@@ -32,4 +36,5 @@ propose a prioritised plan, wait for approval. Work through it, verify, follow C
 ```
 
 ## Decisions log
+
 -

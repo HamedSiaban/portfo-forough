@@ -3,9 +3,11 @@
 **Branch:** `phase/03-ink-field` · **Spec:** DESIGN_SPEC §5 Hero "Effect", §2 tokens · **Refs:** 05, 02, 11, 12
 
 ## Goal
+
 One reusable `<InkField />` that makes pointer movement leave ink-in-water trails rendered as halftone dots, used later by Hero, Quote panel and CTA. **This is the signature effect; iterate on feel until it's right.**
 
 ## Scope
+
 - `components/effects/ink-field/`: client-only, loaded with `next/dynamic({ ssr: false })`; static `Halftone` fallback renders immediately (no CLS).
 - three.js (or raw WebGL2 if leaner, decide in the plan), half/quarter-resolution simulation FBOs:
   - stable fluids: splat (pointer velocity → dye + velocity) → curl → vorticity confinement → divergence → pressure (Jacobi, ~20 iters) → gradient subtract → advection with dissipation.
@@ -19,6 +21,7 @@ One reusable `<InkField />` that makes pointer movement leave ink-in-water trail
 - Dev page `/styleguide/ink` with live controls (leva or simple range inputs, dev-only) to tune parameters; record final defaults in DESIGN_SPEC.
 
 ## Acceptance criteria
+
 - [ ] Ink trail feels fluid (swirls, smooth fade ~1.5–3s), reads as halftone dots, and looks close to refs 05/11.
 - [ ] 60 fps on a mid-range laptop at 1440px; no frame drops while scrolling; loop is paused off-screen (verify in Performance panel).
 - [ ] Three instances on one page don't conflict (or share a single context; justify in the plan).
@@ -27,6 +30,7 @@ One reusable `<InkField />` that makes pointer movement leave ink-in-water trail
 - [ ] three.js isn't in the initial JS bundle (check `next build` output / bundle analyzer).
 
 ## Prompt
+
 ```
 Phase 03 · Ink field engine. Read CLAUDE.md (especially §5 rules 1, 5, 7, 8 and performance budgets),
 docs/DESIGN_SPEC.md §5 Hero "Effect", docs/phases/03-ink-field.md, and study reference images 05, 02, 11, 12 closely.
@@ -36,4 +40,5 @@ show me how to test it, then follow CLAUDE.md §8 and stop.
 ```
 
 ## Decisions log
+
 -
