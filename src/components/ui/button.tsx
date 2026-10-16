@@ -1,3 +1,5 @@
+"use client";
+
 import { Button as ButtonPrimitive } from "@base-ui/react/button";
 import { cva, type VariantProps } from "class-variance-authority";
 
@@ -5,10 +7,11 @@ import { cn } from "@/lib/cn";
 
 const buttonVariants = cva(
   `
-    group/button inline-flex shrink-0 items-center justify-center rounded-none
-    border border-transparent bg-clip-padding text-xs font-medium
-    whitespace-nowrap transition-all outline-none select-none
-    focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring/50
+    group/button inline-flex shrink-0 items-center justify-center
+    border border-transparent bg-clip-padding text-mono-ui whitespace-nowrap
+    transition-all outline-none select-none
+    focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
+    focus-visible:ring-offset-background
     active:not-aria-[haspopup]:translate-y-px
     disabled:pointer-events-none disabled:opacity-50
     aria-invalid:border-destructive aria-invalid:ring-1
@@ -21,16 +24,14 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: `
+        solid: `
           bg-primary text-primary-foreground
-          hover:bg-primary/80
+          hover:bg-primary/85
         `,
         outline: `
-          border-border bg-background
-          hover:bg-muted hover:text-foreground
-          aria-expanded:bg-muted aria-expanded:text-foreground
-          dark:border-input dark:bg-input/30
-          dark:hover:bg-input/50
+          border-foreground/70 bg-background text-foreground
+          hover:bg-muted
+          aria-expanded:bg-muted
         `,
         secondary: `
           bg-secondary text-secondary-foreground
@@ -40,7 +41,6 @@ const buttonVariants = cva(
         ghost: `
           hover:bg-muted hover:text-foreground
           aria-expanded:bg-muted aria-expanded:text-foreground
-          dark:hover:bg-muted/50
         `,
         destructive: `
           bg-destructive/10 text-destructive
@@ -51,59 +51,54 @@ const buttonVariants = cva(
           dark:focus-visible:ring-destructive/40
         `,
         link: `
-          text-primary underline-offset-4
+          text-primary no-underline
           hover:underline
         `,
       },
       size: {
-        default: `
-          h-8 gap-1.5 px-2.5
-          has-data-[icon=inline-end]:pr-2
-          has-data-[icon=inline-start]:pl-2
-        `,
-        xs: `
-          h-6 gap-1 rounded-none px-2 text-xs
-          has-data-[icon=inline-end]:pr-1.5
-          has-data-[icon=inline-start]:pl-1.5
-          [&_svg:not([class*='size-'])]:size-3
-        `,
         sm: `
-          h-7 gap-1 rounded-none px-2.5
+          h-7 gap-1 px-2.5
           has-data-[icon=inline-end]:pr-1.5
           has-data-[icon=inline-start]:pl-1.5
           [&_svg:not([class*='size-'])]:size-3.5
         `,
-        lg: `
-          h-9 gap-1.5 px-2.5
-          has-data-[icon=inline-end]:pr-2
-          has-data-[icon=inline-start]:pl-2
+        md: `
+          h-9 gap-1.5 px-3
+          has-data-[icon=inline-end]:pr-2.5
+          has-data-[icon=inline-start]:pl-2.5
         `,
-        icon: "size-8",
+        icon: "size-9",
         "icon-xs": `
-          size-6 rounded-none
+          size-6
           [&_svg:not([class*='size-'])]:size-3
         `,
-        "icon-sm": "size-7 rounded-none",
+        "icon-sm": "size-7",
         "icon-lg": "size-9",
+      },
+      shape: {
+        default: "rounded-input",
+        pill: "rounded-full",
       },
     },
     defaultVariants: {
-      variant: "default",
-      size: "default",
+      variant: "solid",
+      size: "md",
+      shape: "default",
     },
   },
 );
 
 function Button({
   className,
-  variant = "default",
-  size = "default",
+  variant = "solid",
+  size = "md",
+  shape = "default",
   ...props
 }: ButtonPrimitive.Props & VariantProps<typeof buttonVariants>) {
   return (
     <ButtonPrimitive
       data-slot="button"
-      className={cn(buttonVariants({ variant, size, className }))}
+      className={cn(buttonVariants({ variant, size, shape, className }))}
       {...props}
     />
   );
