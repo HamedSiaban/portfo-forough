@@ -78,5 +78,9 @@
     "vite-tsconfig-paths": "^6.1.1",
     "vitest": "^5.0.5"
   },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,mjs,cjs}": "eslint --fix",
+    "*.{ts,tsx,js,jsx,mjs,cjs,css,md,json}": "prettier --write"
+  },
   "packageManager": "pnpm@11.21.0"
 }
