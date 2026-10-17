@@ -22,12 +22,12 @@ The page skeleton: providers, smooth scroll, header, footer, reorderable section
 
 ## Acceptance criteria
 
-- [ ] Reordering entries in `config/sections.ts` reorders the page with no other change; anchors still work.
-- [ ] Pricing button smooth-scrolls to `#pricing`; under reduced motion it jumps.
-- [ ] Conversation button opens the placeholder modal from any scroll position; `Esc` closes it and focus returns.
-- [ ] Header stays legible over every section in both themes.
-- [ ] Keyboard: skip link → main; tab order header → sections → footer.
-- [ ] `pnpm check` + `pnpm build` green; a Playwright test covers the Pricing scroll and modal open.
+- [x] Reordering entries in `config/sections.ts` reorders the page with no other change; anchors still work.
+- [x] Pricing button smooth-scrolls to `#pricing`; under reduced motion it jumps.
+- [x] Conversation button opens the placeholder modal from any scroll position; `Esc` closes it and focus returns.
+- [x] Header stays legible over every section in both themes.
+- [x] Keyboard: skip link → main; tab order header → sections → footer.
+- [x] `pnpm check` + `pnpm build` green; a Playwright test covers the Pricing scroll and modal open.
 
 ## Prompt
 
@@ -39,4 +39,9 @@ Build, verify in both themes at 375/768/1440 and with reduced motion, follow CLA
 
 ## Decisions log
 
--
+- Added minimal stub pages at `/legals` and `/privacy` (heading + "coming in Phase 11", wrapped in `<main id="main-content">`) ahead of schedule. The "hash links work with Lenis (`/#pricing` from `/legals` lands correctly)" acceptance criterion is untestable without a routable `/legals` page, and the folders already existed as reserved routes (CLAUDE.md §1) with only `.gitkeep`. Phase 11 replaces the content; the routes themselves don't need to change.
+- Kept Interlude as its own section/placeholder rather than folding it into Pricing, per the phase Scope's explicit component list. DESIGN_SPEC §5 floats the merge as an option — left as an open call for Phase 08/09.
+- `data-header-theme="dark"` + per-element `ScrollTrigger`s are wired into `Header` exactly as scoped, but no placeholder section sets the attribute yet (none are dark/inverse in Phase 02), so the mechanism is unexercised until Phase 03 (Quote panel) or Phase 09 (CTA) add a real dark panel.
+- Header's 375px collapse uses `flex-wrap` (Logo pinned top-left; Pricing/Start a conversation/ThemeToggle wrap onto a second line, right-aligned) rather than shrinking button text size. At 375px the full-text buttons ("PRICING" + "START A CONVERSATION" + theme toggle) need roughly 420px at any legible mono-ui size — shrinking text enough to fit in one row would drop below a readable/tappable size. Wrapping keeps both buttons at full size and legible, with no hamburger, which better matches the acceptance criterion's actual goal ("collapses gracefully... no hamburger") than the literal "buttons shrink" wording.
+- `SmoothScrollProvider.scrollTo` calls `lenis.resize()` immediately before `lenis.scrollTo()`. Discovered via manual testing: Lenis caches the scrollable-height limit and doesn't recompute it synchronously after a client-side route change, so a `scrollTo` fired right after navigating from a short page (e.g. `/legals`) to `/#pricing` was silently clamped to the old, shorter page's scroll limit. `resize()` forces a resync first.
+- The cross-page hash-landing effect (in `SmoothScrollProvider`) polls for the target element across animation frames (up to 60) instead of a single `requestAnimationFrame`, since the target section isn't guaranteed to exist in the DOM on the very first frame after a route change.

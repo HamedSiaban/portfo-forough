@@ -7,7 +7,7 @@ To start a phase in Claude Code, paste the **Prompt** block from its phase doc.
 | --- | --------------------------------------------------------------------- | -------------------------- | ---------- | ------ |
 | 00  | Scaffold & tooling                                                    | `phase/00-scaffold`        | —          | ☑      |
 | 01  | Design system: tokens, fonts, theme, primitives                       | `phase/01-design-system`   | 00         | ☑      |
-| 02  | Layout shell: header, footer, section registry, smooth scroll, stores | `phase/02-layout-shell`    | 01         | ☐      |
+| 02  | Layout shell: header, footer, section registry, smooth scroll, stores | `phase/02-layout-shell`    | 01         | ☑      |
 | 03  | Ink field engine (WebGL fluid + halftone)                             | `phase/03-ink-field`       | 02         | ☐      |
 | 04  | Section 1 · Hero                                                      | `phase/04-hero`            | 03         | ☐      |
 | 05  | Section 2 · Value cards (3D fly-in stack)                             | `phase/05-value-cards`     | 02         | ☐      |
