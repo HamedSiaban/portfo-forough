@@ -97,8 +97,10 @@ Logo tile (left, links to site URL `/`) · `Pricing` (smooth-scrolls to `#pricin
 
 Framed panel. Mono credentials row with accent dot separators → `display-xl` headline (centred, ~6 lines on desktop) → `body-lg` subline → "trusted by" mono label + client logo row.
 **Effect: ink in water.** Pointer movement injects accent ink into a GPU fluid simulation (stable fluids: advection + curl/vorticity + dissipation). Output is rendered through a **halftone dot shader**, so the ink reads as a field of dots that fades to soft blur at the edges. Where ink passes over the headline, the letters turn accent-coloured with a slight **RGB/chromatic offset** (cyan fringe).
-Suggested technique: dark DOM text + canvas above it with `mix-blend-mode: lighten`. Pink over near-black text gives pink; the light-grey background stays unchanged. Chromatic offset is done in the shader. Verify in dark mode, where a different blend (e.g. `screen`/`difference`) may be needed.
+Technique (built in Phase 03, `<InkField />`): dark DOM text, canvas above it with `mix-blend-mode: lighten` in light mode / `screen` in dark mode (plain Tailwind classes, swaps instantly on theme toggle). Pink over near-black text gives pink; the light-grey background stays unchanged. Chromatic offset is done in the shader.
 **Scroll out:** the panel scrolls up and away, uncovering section 2's headline beneath it (ref 02).
+
+**`<InkField />` tuned defaults** (`src/components/effects/ink-field/fluid-simulation.ts`, tune further at `/styleguide/ink`): `simResolution` 128px · `dyeResolution` 512px · `pressureIterations` 20 · `intensity` 1 · `dissipation` 0.15 (fraction of dye remaining after 1s — fades in ~2s) · `dotSize` 6px · `halftone`/`chromatic` on by default · DPR capped 1.5.
 
 ### 2 · Value cards — `#approach` · refs 06, 16, 12
 

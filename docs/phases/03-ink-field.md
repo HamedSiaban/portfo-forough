@@ -41,4 +41,31 @@ show me how to test it, then follow CLAUDE.md §8 and stop.
 
 ## Decisions log
 
--
+- **three.js, hand-rolled FBO ping-pong** (not `GPUComputationRenderer`): dye runs at a
+  different resolution than velocity/pressure, and pressure needs ~20 self-iterations per
+  frame without recomputing the other fields — both awkward fits for that addon's
+  one-resolution-per-instance, advance-everything-together model.
+- **Dark-mode blend**: `mix-blend-mode: screen` (vs. `lighten` in light mode), both as plain
+  Tailwind classes (`mix-blend-lighten dark:mix-blend-screen`) so the swap is instant on
+  theme toggle with no remount. Confirmed necessary — `lighten` alone reads correctly over
+  dark text in light mode but washes out over the dark/inverse surface.
+- **Multi-instance**: each `<InkField>` owns its own WebGL context (no shared-renderer
+  architecture); independently paused via IntersectionObserver + `document.hidden`. Sim
+  resolution is capped low (~128px) specifically so 2–3 concurrent instances stay cheap.
+- **Dissipation is time-based, not frame-based**: applied as `pow(dissipationPerSecond, dt)`
+  using the real `gsap.ticker` delta, so the ~1.5–3s fade holds regardless of frame rate.
+- **`forceContextLoss()` on dispose**: `renderer.dispose()` alone doesn't free the browser's
+  WebGL context slot. Without it, repeated mount/unmount (including React StrictMode's
+  dev-only double-invoke) can exhaust the per-origin context budget. Paired with a single
+  short-delay retry in `ink-field-canvas.tsx` so a transient creation failure right after a
+  forced loss on the same `<canvas>` node doesn't permanently lock the instance into the
+  static fallback.
+- **Testing caveat**: this phase's own verification ran into a WebGL-context-creation
+  reliability issue specific to the sandboxed, software-rendered (SwiftShader) browser used
+  for automated screenshots — concurrent `<InkField>` instances became flaky in that one
+  browser session even though a fresh/isolated context reliably succeeded, and the engine's
+  try/catch → static-`<Halftone/>` fallback degraded gracefully every time rather than
+  crashing. The core pipeline (splat/curl/vorticity/pressure/advection + halftone +
+  chromatic + idle drift) was visually confirmed working correctly before that sandbox
+  degraded. **Needs a real-browser pass** (`pnpm dev` → `/styleguide/ink`, hardware-
+  accelerated GPU) to confirm the "three instances don't conflict" criterion end-to-end.
