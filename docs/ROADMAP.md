@@ -10,7 +10,7 @@ To start a phase in Claude Code, paste the **Prompt** block from its phase doc.
 | 02  | Layout shell: header, footer, section registry, smooth scroll, stores | `phase/02-layout-shell`    | 01         | ☑      |
 | 03  | Wave field engine (WebGL pointer glow + halftone)                     | `phase/03-wave-field`      | 02         | ☑      |
 | 04  | Section 1 · Hero                                                      | `phase/04-hero`            | 03         | ☐      |
-| 05  | Section 2 · Value cards (3D fly-in stack)                             | `phase/05-value-cards`     | 02         | ☐      |
+| 05  | Section 2 · Value cards (3D fly-in stack)                             | `phase/05-value-cards`     | 02         | ☑      |
 | 06  | Section 3 · Work (image trail, quote, projects row)                   | `phase/06-work`            | 03         | ☐      |
 | 07  | Video modal (shared-element expand) + interlude                       | `phase/07-video-interlude` | 06         | ☐      |
 | 08  | Section 4 · Pricing                                                   | `phase/08-pricing`         | 02         | ☐      |
