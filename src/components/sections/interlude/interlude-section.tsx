@@ -1,15 +1,27 @@
+import { interlude } from "@/content/interlude";
+
+import { InterludeReveal } from "./interlude-reveal";
+
 /**
- * Placeholder — "Let's talk about your project." reveal lands in Phase 07.
- * Kept as its own section for now; DESIGN_SPEC allows folding it into Pricing
- * later (see Phase 02 decisions log).
+ * Interlude (DESIGN_SPEC §5, refs 08/10): a centred `display-xl` statement with generous air.
+ * Self-contained — it carries its own vertical padding and references no neighbour.
  */
 function InterludeSection() {
   return (
     <section
       id="interlude"
-      className="flex min-h-screen items-center justify-center border-b border-border"
+      aria-labelledby="interlude-heading"
+      className="flex min-h-svh items-center justify-center px-4 py-32 md:px-12"
     >
-      <h2 className="text-heading">Interlude</h2>
+      <InterludeReveal className="text-center text-display-xl text-foreground">
+        {interlude.lines.map((line) => (
+          <span key={line} className="block overflow-hidden px-[0.06em] pb-[0.14em]">
+            <span data-interlude-line className="block">
+              {line}
+            </span>
+          </span>
+        ))}
+      </InterludeReveal>
     </section>
   );
 }
