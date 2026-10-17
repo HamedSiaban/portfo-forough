@@ -48,7 +48,9 @@ function CardCascade({ className }: { className?: string }) {
     () => {
       const maybeCanvas = canvasRef.current;
       const maybeCtx = maybeCanvas?.getContext("2d");
-      const maybePanel = maybeCanvas?.parentElement;
+      // The framed panel is the replay target and the size reference; fall back to the direct parent.
+      const maybePanel =
+        maybeCanvas?.closest<HTMLElement>("[data-slot=panel]") ?? maybeCanvas?.parentElement;
       if (!maybeCanvas || !maybeCtx || !maybePanel) return;
       // Re-bound so the narrowed (non-null) types reach the hoisted helpers below.
       const canvas: HTMLCanvasElement = maybeCanvas;
@@ -83,7 +85,7 @@ function CardCascade({ className }: { className?: string }) {
         if (!sprites) return;
         const staticRng = createRng(20250);
         for (let index = 0; index < config.staticTrails; index += 1) {
-          const startX = world.width * (0.04 + index * 0.1);
+          const startX = world.width * (0.04 + index * 0.13);
           const sprite = index % sprites.canvases.length;
           for (const point of sampleTrail(staticRng, world, startX)) stamp({ ...point, sprite });
         }

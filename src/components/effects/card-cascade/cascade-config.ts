@@ -44,9 +44,10 @@ const cascadeConfig = {
   fadeInterval: 4 / 60,
   /** Cards stamp only after travelling this fraction of their size — the chunky stepped trail. */
   stampDistance: 0.12,
-  /** Reduced motion: how many static trails, and the step spacing of their samples. */
-  staticTrails: 4,
-  staticSampleEvery: 5,
+  /** Reduced motion: how many static trails, and the longest path simulated for each. */
+  staticTrails: 3,
+  /** Stamp spacing (fraction of card size) for the static trails — wider than `stampDistance`. */
+  staticSpacing: 0.55,
   staticMaxSteps: 600,
   dprCap: 1.5,
 } as const;

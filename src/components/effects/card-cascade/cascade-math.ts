@@ -103,8 +103,9 @@ function fadeFor(dt: number): number {
 }
 
 /**
- * One full ballistic path sampled every few steps — the reduced-motion composition draws a
- * sprite at each point to freeze a trail exactly as the live cascade would have left it.
+ * One full ballistic path sampled at a wider spacing than the live cascade — the reduced-motion
+ * composition draws a sprite at each point, so the frozen trails stay lighter and never bury
+ * the heading.
  */
 function sampleTrail(rng: Rng, world: World, startX: number): Pick<Card, "x" | "y" | "angle">[] {
   const card = spawnCard(rng, world, 1, startX);
@@ -113,7 +114,9 @@ function sampleTrail(rng: Rng, world: World, startX: number): Pick<Card, "x" | "
   const points: Pick<Card, "x" | "y" | "angle">[] = [];
   for (let step = 0; step < config.staticMaxSteps; step += 1) {
     if (!stepCard(card, world)) break;
-    if (step % config.staticSampleEvery === 0) {
+    if (needsStamp(card, world, config.staticSpacing)) {
+      card.stampX = card.x;
+      card.stampY = card.y;
       points.push({ x: card.x, y: card.y, angle: card.angle });
     }
   }
@@ -121,10 +124,8 @@ function sampleTrail(rng: Rng, world: World, startX: number): Pick<Card, "x" | "
 }
 
 /** True when the card has moved far enough since its last stamp to leave the next step. */
-function needsStamp(card: Card, world: World): boolean {
-  return (
-    Math.hypot(card.x - card.stampX, card.y - card.stampY) >= world.size * config.stampDistance
-  );
+function needsStamp(card: Card, world: World, spacing: number = config.stampDistance): boolean {
+  return Math.hypot(card.x - card.stampX, card.y - card.stampY) >= world.size * spacing;
 }
 
 export {
