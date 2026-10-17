@@ -45,10 +45,9 @@ show me how to test it, then follow CLAUDE.md §8 and stop.
   different resolution than velocity/pressure, and pressure needs ~20 self-iterations per
   frame without recomputing the other fields — both awkward fits for that addon's
   one-resolution-per-instance, advance-everything-together model.
-- **Dark-mode blend**: `mix-blend-mode: screen` (vs. `lighten` in light mode), both as plain
-  Tailwind classes (`mix-blend-lighten dark:mix-blend-screen`) so the swap is instant on
-  theme toggle with no remount. Confirmed necessary — `lighten` alone reads correctly over
-  dark text in light mode but washes out over the dark/inverse surface.
+- **Superseded**: originally used `mix-blend-mode: lighten`/`screen` (light/dark theme) for
+  compositing. Replaced with normal alpha compositing later in the phase — see the entry below
+  on why `lighten` was the wrong technique, not just a tuning issue.
 - **Multi-instance**: each `<InkField>` owns its own WebGL context (no shared-renderer
   architecture); independently paused via IntersectionObserver + `document.hidden`. Sim
   resolution is capped low (~128px) specifically so 2–3 concurrent instances stay cheap.
@@ -78,10 +77,25 @@ show me how to test it, then follow CLAUDE.md §8 and stop.
   dye splatting to `max()` blending (velocity stays additive) and clamp the dye sample before
   use in the display shader. Confirmed visually on the dark/inverse panel: bold pink comet
   with a dense near-solid head tapering to a sparse dot tail, close match to ref 19.
-- The "ink recoloring dark text" interaction (light-panel case) is real but visually subtle
-  in a frozen screenshot — `mix-blend-mode: lighten` over a near-white background has very
-  little headroom by construction (per DESIGN_SPEC, that's intentional: "the light-grey
-  background stays unchanged"), and the halftone dot lattice only partially overlaps thin
-  glyph strokes at any given instant. Reads far better live (continuous pointer motion) than
-  in a single captured frame — worth a human eyeball pass in the browser, not just automated
-  screenshots.
+- **Superseded the above paragraph**: user feedback (real screenshots, their own browser) said
+  the ink was genuinely invisible on the light background, not just subtle — and separately,
+  that it felt like "blown away by wind" instead of staying anchored and shrinking in place.
+  Both were real bugs, not screenshot artifacts:
+  - **Invisible on light background**: `mix-blend-mode: lighten` over near-white has almost no
+    headroom by construction (`lighten(src, dst) = max` per channel — a backdrop already near
+    255 on every channel barely moves). Re-examining ref 19 frame-by-frame showed the real
+    effect reads as vivid pink over the plain grey background too, not just over dark text — so
+    `lighten`/`screen` was the wrong technique entirely, not a tuning issue. Switched to normal
+    alpha compositing (no blend mode). That required normalizing the display shader's color to
+    always be full-saturation hue with density driving only alpha — the dye buffer stores
+    density-weighted color (dims at low density, not just lower alpha), which blend modes had
+    been masking but normal compositing exposed as dark muddy specks at the trail's sparse tail.
+  - **"Blown by wind"**: residual velocity (slow dissipation + vorticity confinement
+    re-injecting energy) kept advecting the dye after the pointer stopped, so it visibly drifted
+    instead of sitting still. Dropped velocity dissipation so it settles in well under a second
+    once no new velocity is injected (the active comet trail is unaffected — fresh velocity is
+    injected every splat while moving) and reduced curl strength.
+    Verified: ink now stays anchored at the last pointer position and shrinks in place over
+    roughly 1–2s (screenshotted at t = 0 / 0.5 / 1.5 / 3s with the pointer untouched in between),
+    and reads as a clearly visible saturated-pink comet on both the light and dark tuning-page
+    panels.
