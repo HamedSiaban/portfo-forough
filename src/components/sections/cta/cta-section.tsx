@@ -1,8 +1,23 @@
-/** Placeholder — the framed Wave field panel + solitaire card cascade lands in Phase 09. */
+import { cta } from "@/content/cta";
+
+import { CtaPanel } from "./cta-panel";
+
+/**
+ * CTA (DESIGN_SPEC §5 "6 · CTA", ref 11): framed panel with the solitaire card cascade and the
+ * wave glow. The heading is server-rendered; the effects live in <CtaPanel />.
+ */
 function CtaSection() {
   return (
-    <section id="contact" className="flex min-h-screen items-center justify-center">
-      <h2 className="text-heading">CTA</h2>
+    <section id="contact" aria-labelledby="contact-heading" className="py-4">
+      <CtaPanel>
+        <h2 id="contact-heading" className="relative text-display-xl text-foreground">
+          {cta.heading.map((line) => (
+            <span key={line} className="mb-[-0.24em] block pb-[0.24em]">
+              {line}
+            </span>
+          ))}
+        </h2>
+      </CtaPanel>
     </section>
   );
 }
