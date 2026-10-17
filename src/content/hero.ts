@@ -25,8 +25,14 @@ const hero: HeroContent = {
   subline:
     "Senior product and UX designer shaping clear, considered interfaces for teams that care about craft.",
   logosLabel: "Trusted by teams behind",
-  // Q5: empty until Foro confirms which logos may be shown; the row is hidden when empty.
-  logos: [],
+  // Q5: SAMPLE wordmarks (fictional names) so the row stays visible during development.
+  // Replace with approved client logos; an empty list hides the row.
+  logos: [
+    { name: "Northwind", src: "/media/logos/sample-1.svg", width: 120, height: 28 },
+    { name: "Alder & Co", src: "/media/logos/sample-2.svg", width: 130, height: 28 },
+    { name: "Lumen", src: "/media/logos/sample-3.svg", width: 90, height: 28 },
+    { name: "Fieldnote", src: "/media/logos/sample-4.svg", width: 120, height: 28 },
+  ],
 };
 
 export { hero };

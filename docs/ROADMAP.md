@@ -20,3 +20,7 @@ To start a phase in Claude Code, paste the **Prompt** block from its phase doc.
 | 12  | Polish: a11y audit, perf budget, SEO/OG, e2e, deploy                  | `phase/12-polish-launch`   | all        | ☐      |
 
 Every phase doc has: Goal · Scope · Out of scope · References · Acceptance criteria · Prompt · Decisions log.
+
+## Known issues
+
+- **Header wraps at narrow widths (≤ ~420px).** The fixed header's Pricing / Start a conversation / theme toggle don't fit on one row at 375px and wrap to two, overlapping the top of the hero panel. Found in Phase 04, belongs to the Phase 02 layout shell. Fix before Phase 12 (e.g. icon-only or hidden Pricing button on mobile, or a compact CTA label).

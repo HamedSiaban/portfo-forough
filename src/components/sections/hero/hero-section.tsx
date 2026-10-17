@@ -53,7 +53,13 @@ function HeroSection() {
             <ul className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
               {logos.map((logo) => (
                 <li key={logo.name}>
-                  <Image src={logo.src} alt={logo.name} width={logo.width} height={logo.height} />
+                  <Image
+                    className="dark:invert"
+                    src={logo.src}
+                    alt={logo.name}
+                    width={logo.width}
+                    height={logo.height}
+                  />
                 </li>
               ))}
             </ul>
