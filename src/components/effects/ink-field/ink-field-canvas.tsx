@@ -69,133 +69,102 @@ function InkFieldCanvas({
     const canvas = canvasRef.current;
     if (!container || !canvas) return;
 
-    let cancelled = false;
-    let retryTimer: ReturnType<typeof setTimeout> | undefined;
-    let teardown: (() => void) | undefined;
-
-    const createSim = (): FluidSimulation | null => {
-      const rect = container.getBoundingClientRect();
-      const dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
-      try {
-        return new FluidSimulation({
-          canvas,
-          width: Math.max(1, rect.width),
-          height: Math.max(1, rect.height),
-          dpr,
-          tint: resolveTint(palette, container),
-        });
-      } catch {
-        return null;
-      }
-    };
-
-    const wire = (sim: FluidSimulation): void => {
-      simRef.current = sim;
-
-      const resizeObserver = new ResizeObserver((entries) => {
-        const entry = entries[0];
-        if (!entry) return;
-        const { width, height } = entry.contentRect;
-        const nextDpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
-        sim.resize(Math.max(1, width), Math.max(1, height), nextDpr);
+    const rect = container.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
+    let sim: FluidSimulation;
+    try {
+      sim = new FluidSimulation({
+        canvas,
+        width: Math.max(1, rect.width),
+        height: Math.max(1, rect.height),
+        dpr,
+        tint: resolveTint(palette, container),
       });
-      resizeObserver.observe(container);
-
-      const themeObserver = new MutationObserver(() => {
-        sim.setOptions({ tint: resolveTint(palette, container) });
-      });
-      themeObserver.observe(document.documentElement, {
-        attributes: true,
-        attributeFilter: ["class"],
-      });
-
-      const getUv = (clientX: number, clientY: number): { x: number; y: number } => {
-        const r = container.getBoundingClientRect();
-        return { x: (clientX - r.left) / r.width, y: (clientY - r.top) / r.height };
-      };
-
-      const handlePointerMove = (event: PointerEvent): void => {
-        lastRealInput.current = elapsed.current;
-        const { x, y } = getUv(event.clientX, event.clientY);
-        const now = performance.now();
-        const prev = lastPointer.current;
-        lastPointer.current = { x, y, t: now };
-        if (!prev) return;
-        const dt = Math.max((now - prev.t) / 1000, 1 / 120);
-        let dx = (x - prev.x) / dt;
-        let dy = (y - prev.y) / dt;
-        const speed = Math.hypot(dx, dy);
-        if (speed > POINTER_VELOCITY_CAP) {
-          const scale = POINTER_VELOCITY_CAP / speed;
-          dx *= scale;
-          dy *= scale;
-        }
-        sim.splat(x, y, dx, dy);
-      };
-
-      const handlePointerLeave = (): void => {
-        lastPointer.current = null;
-      };
-
-      container.addEventListener("pointermove", handlePointerMove);
-      container.addEventListener("pointerdown", handlePointerMove);
-      container.addEventListener("pointerleave", handlePointerLeave);
-
-      const tick = (_time: number, deltaTimeMs: number): void => {
-        const dt = Math.min(deltaTimeMs / 1000, 1 / 30);
-        elapsed.current += dt;
-        if (!activeRef.current || document.hidden) return;
-
-        if (idleDrift && elapsed.current - lastRealInput.current > IDLE_DELAY_MS / 1000) {
-          const t = elapsed.current;
-          const next = { x: 0.5 + 0.26 * Math.sin(t * 0.6), y: 0.5 + 0.2 * Math.cos(t * 0.45) };
-          const prev = syntheticPos.current;
-          const sdx = (next.x - prev.x) / dt;
-          const sdy = (next.y - prev.y) / dt;
-          syntheticPos.current = next;
-          sim.splat(next.x, next.y, sdx * 0.4, sdy * 0.4);
-        } else {
-          syntheticPos.current = { x: 0.5, y: 0.5 };
-        }
-
-        sim.step(dt);
-      };
-      gsap.ticker.add(tick);
-
-      teardown = () => {
-        gsap.ticker.remove(tick);
-        container.removeEventListener("pointermove", handlePointerMove);
-        container.removeEventListener("pointerdown", handlePointerMove);
-        container.removeEventListener("pointerleave", handlePointerLeave);
-        resizeObserver.disconnect();
-        themeObserver.disconnect();
-        sim.dispose();
-        simRef.current = null;
-      };
-    };
-
-    const sim = createSim();
-    if (sim) {
-      wire(sim);
-    } else {
-      // A fresh canvas can transiently fail to yield a context right after a prior one was
-      // force-lost on the same node (e.g. React StrictMode's dev-only double-invoke) — one
-      // short retry clears this without weakening the forceContextLoss() disposal above.
-      retryTimer = setTimeout(() => {
-        if (cancelled) return;
-        const retried = createSim();
-        if (retried) {
-          wire(retried);
-        } else {
-          onError?.();
-        }
-      }, 60);
+    } catch {
+      onError?.();
+      return;
     }
+    simRef.current = sim;
+
+    const resizeObserver = new ResizeObserver((entries) => {
+      const entry = entries[0];
+      if (!entry) return;
+      const { width, height } = entry.contentRect;
+      const nextDpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
+      sim.resize(Math.max(1, width), Math.max(1, height), nextDpr);
+    });
+    resizeObserver.observe(container);
+
+    const themeObserver = new MutationObserver(() => {
+      sim.setOptions({ tint: resolveTint(palette, container) });
+    });
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+
+    const getUv = (clientX: number, clientY: number): { x: number; y: number } => {
+      const r = container.getBoundingClientRect();
+      return { x: (clientX - r.left) / r.width, y: (clientY - r.top) / r.height };
+    };
+
+    const handlePointerMove = (event: PointerEvent): void => {
+      lastRealInput.current = elapsed.current;
+      const { x, y } = getUv(event.clientX, event.clientY);
+      const now = performance.now();
+      const prev = lastPointer.current;
+      lastPointer.current = { x, y, t: now };
+      if (!prev) return;
+      const dt = Math.max((now - prev.t) / 1000, 1 / 120);
+      let dx = (x - prev.x) / dt;
+      let dy = (y - prev.y) / dt;
+      const speed = Math.hypot(dx, dy);
+      if (speed > POINTER_VELOCITY_CAP) {
+        const scale = POINTER_VELOCITY_CAP / speed;
+        dx *= scale;
+        dy *= scale;
+      }
+      sim.splat(x, y, dx, dy);
+    };
+
+    const handlePointerLeave = (): void => {
+      lastPointer.current = null;
+    };
+
+    container.addEventListener("pointermove", handlePointerMove);
+    container.addEventListener("pointerdown", handlePointerMove);
+    container.addEventListener("pointerleave", handlePointerLeave);
+
+    const tick = (_time: number, deltaTimeMs: number): void => {
+      const dt = Math.min(deltaTimeMs / 1000, 1 / 30);
+      elapsed.current += dt;
+      if (!activeRef.current || document.hidden) return;
+
+      if (idleDrift && elapsed.current - lastRealInput.current > IDLE_DELAY_MS / 1000) {
+        const t = elapsed.current;
+        const next = { x: 0.5 + 0.26 * Math.sin(t * 0.6), y: 0.5 + 0.2 * Math.cos(t * 0.45) };
+        const prev = syntheticPos.current;
+        const sdx = (next.x - prev.x) / dt;
+        const sdy = (next.y - prev.y) / dt;
+        syntheticPos.current = next;
+        sim.splat(next.x, next.y, sdx * 0.4, sdy * 0.4);
+      } else {
+        syntheticPos.current = { x: 0.5, y: 0.5 };
+      }
+
+      sim.step(dt);
+    };
+    gsap.ticker.add(tick);
 
     return () => {
-      cancelled = true;
-      if (retryTimer) clearTimeout(retryTimer);
-      teardown?.();
+      gsap.ticker.remove(tick);
+      container.removeEventListener("pointermove", handlePointerMove);
+      container.removeEventListener("pointerdown", handlePointerMove);
+      container.removeEventListener("pointerleave", handlePointerLeave);
+      resizeObserver.disconnect();
+      themeObserver.disconnect();
+      sim.dispose();
+      simRef.current = null;
     };
     // Engine is created once per mount; prop changes are synced imperatively below.
     // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional, see comment above

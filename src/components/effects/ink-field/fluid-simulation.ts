@@ -424,10 +424,6 @@ class FluidSimulation {
     this.quad.geometry.dispose();
     for (const material of Object.values(this.materials)) material.dispose();
     this.renderer.dispose();
-    // renderer.dispose() alone doesn't free the underlying WebGL context slot — without
-    // this, repeated mount/unmount (React StrictMode's dev double-invoke, or real usage)
-    // can silently exhaust the browser's per-origin context limit.
-    this.renderer.forceContextLoss();
   }
 
   private renderPass(material: THREE.ShaderMaterial, target: THREE.WebGLRenderTarget | null): void {
