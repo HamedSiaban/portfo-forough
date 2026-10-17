@@ -189,6 +189,14 @@
   --duration-ui: 250ms;
   --stagger-sm: 0.06s;
   --stagger-lg: 0.1s;
+  /* Value-cards stack (Phase 05): tighter on narrow screens so the trapezoid stays pronounced. */
+  --perspective-stack: 900px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --perspective-stack: 1200px;
+  }
 }
 
 @layer base {
