@@ -54,18 +54,18 @@ show me how to test it, then follow CLAUDE.md §8 and stop.
   resolution is capped low (~128px) specifically so 2–3 concurrent instances stay cheap.
 - **Dissipation is time-based, not frame-based**: applied as `pow(dissipationPerSecond, dt)`
   using the real `gsap.ticker` delta, so the ~1.5–3s fade holds regardless of frame rate.
-- **`forceContextLoss()` on dispose**: `renderer.dispose()` alone doesn't free the browser's
-  WebGL context slot. Without it, repeated mount/unmount (including React StrictMode's
-  dev-only double-invoke) can exhaust the per-origin context budget. Paired with a single
-  short-delay retry in `ink-field-canvas.tsx` so a transient creation failure right after a
-  forced loss on the same `<canvas>` node doesn't permanently lock the instance into the
-  static fallback.
-- **Testing caveat**: this phase's own verification ran into a WebGL-context-creation
-  reliability issue specific to the sandboxed, software-rendered (SwiftShader) browser used
-  for automated screenshots — concurrent `<InkField>` instances became flaky in that one
-  browser session even though a fresh/isolated context reliably succeeded, and the engine's
-  try/catch → static-`<Halftone/>` fallback degraded gracefully every time rather than
-  crashing. The core pipeline (splat/curl/vorticity/pressure/advection + halftone +
-  chromatic + idle drift) was visually confirmed working correctly before that sandbox
-  degraded. **Needs a real-browser pass** (`pnpm dev` → `/styleguide/ink`, hardware-
-  accelerated GPU) to confirm the "three instances don't conflict" criterion end-to-end.
+- **No `forceContextLoss()` on dispose** (tried it, reverted it): a `<canvas>` caches its
+  WebGL context per type for its whole lifetime. React StrictMode's dev-only double-invoke
+  (mount → cleanup → mount, synchronously, same DOM node) means `dispose()` force-losing the
+  context runs immediately before the very next mount tries to create a new one _on that same
+  canvas_. The browser hands back the same (now-lost) context instead of a fresh one until it
+  asynchronously restores, so `getShaderPrecisionFormat()` returns `null` and three's
+  `WebGLRenderer` constructor throws reading `.precision` off it — deterministically, on every
+  dev page load (console: `Cannot read properties of null (reading 'precision')`, engine never
+  renders). Plain `renderer.dispose()` — no forced context loss — is the standard, correct
+  disposal (same approach react-three-fiber uses, for this exact reason).
+- Verified end-to-end after the fix: `pnpm dev` → `/styleguide/ink`, zero console errors on
+  fresh load, all three simultaneous instances (primary, light, inverse) construct and render
+  — confirmed visually via the dark/inverse panel's idle-drift trail (swirling halftone dots,
+  correct chromatic fringe) and via a direct dye-buffer readback showing real accumulated
+  density that decays on the expected ~1–2s timescale.
