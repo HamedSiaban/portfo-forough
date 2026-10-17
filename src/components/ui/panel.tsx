@@ -8,7 +8,14 @@ import { cn } from "@/lib/cn";
  * Insets 16px from the viewport edge, holds a halftone + gradient backdrop,
  * and a slot for a background effect (WaveField lands in Phase 03).
  */
-function Panel({ className, children, ...props }: React.ComponentProps<"section">) {
+type PanelProps = React.ComponentProps<"section"> & {
+  /** Rendered above the content, non-interactive — for effects that must tint the text (Hero wave glow). */
+  overlay?: React.ReactNode;
+  /** Classes for the inner content wrapper (layout of the panel's children). */
+  contentClassName?: string;
+};
+
+function Panel({ className, contentClassName, children, overlay, ...props }: PanelProps) {
   return (
     <section
       data-slot="panel"
@@ -19,7 +26,8 @@ function Panel({ className, children, ...props }: React.ComponentProps<"section"
       {...props}
     >
       <Halftone />
-      <div className="relative">{children}</div>
+      <div className={cn("relative", contentClassName)}>{children}</div>
+      {overlay && <div className="pointer-events-none absolute inset-0">{overlay}</div>}
     </section>
   );
 }
