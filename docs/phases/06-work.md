@@ -17,10 +17,10 @@ Bento section: image-trail panel, quote panel with dark wave glow, showreel tile
 
 ## Acceptance criteria
 
-- [ ] Trail feels like ref 13 (images keep spawning along the path, fade cleanly, never pile up indefinitely).
-- [ ] Layout matches refs 12/15 at 1440; stacks into a single column at 375.
-- [ ] Preview video doesn't load until near the viewport; the row is fully keyboard accessible.
-- [ ] Reduced-motion and touch variants for the trail and wave glow.
+- [x] Trail feels like ref 13 (images keep spawning along the path, fade cleanly, never pile up indefinitely).
+- [x] Layout matches refs 12/15 at 1440; stacks into a single column at 375.
+- [x] Preview video doesn't load until near the viewport; the row is fully keyboard accessible.
+- [x] Reduced-motion and touch variants for the trail and wave glow.
 
 ## Prompt
 
@@ -32,4 +32,10 @@ Build, verify in both themes at 375/768/1440 with reduced motion and touch emula
 
 ## Decisions log
 
--
+- Open-question defaults used: Q6 trail = generated PatternArt tiles in `.invisible` pool slots (swap `content/work.ts` images for real WebP later); Q7 no reel, so the tile shows art + "Reel coming soon" and the `<video>` path (lazy `src`, play only in viewport, poster-only under reduced motion) is wired but unexercised; Q8 four placeholder projects; Q4 placeholder quote.
+- Trail pool = 10 recycled slots; verified ≤4 visible at once during a fast sweep. Tiles live in an `isolate` layer so their rising z-index never covers the accent dot.
+- Reduced-motion trail collage is a static three-tile composition; touch autoplays a Lissajous path on the GSAP ticker, only while in viewport.
+- Quote panel reuses `<Panel>` with inverse overrides; in dark theme the inverse surface is light (token behaviour), and the dark-palette glow is not yet tuned for it.
+- Added `hooks/use-in-viewport.ts` (listed in CLAUDE.md §4 but missing).
+- `PatternArt` inside a client component hydrated with different jitter values, so server-rendered art is passed as a prop (`fallback`) instead.
+- Showreel tile id `showreel-tile` is the Phase 07 shared-element anchor; the button calls `openVideo("showreel")`.
