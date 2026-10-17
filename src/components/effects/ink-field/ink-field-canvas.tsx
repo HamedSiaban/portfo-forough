@@ -194,10 +194,7 @@ function InkFieldCanvas({
       aria-hidden
       role="presentation"
     >
-      <canvas
-        ref={canvasRef}
-        className="pointer-events-none absolute inset-0 size-full mix-blend-lighten dark:mix-blend-screen"
-      />
+      <canvas ref={canvasRef} className="pointer-events-none absolute inset-0 size-full" />
     </div>
   );
 }

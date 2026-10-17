@@ -139,8 +139,10 @@ const advectionFragmentShader = /* glsl */ `
   }
 `;
 
-// Dye already stores tinted color (not a bare density channel), so the chromatic offset
-// samples the dye's own R/B channels at a small UV shift for the cyan/red fringe.
+// Dye stores density-weighted tint (color scales down with density, not just alpha), which
+// is harmless under screen/lighten blending but renders as dark muddy specks under normal
+// alpha compositing — so here color is normalized back to full-saturation hue and density
+// drives only the alpha (opacity), independent of how "thin" the ink is at that pixel.
 const displayFragmentShader = /* glsl */ `
   varying vec2 vUv;
   uniform sampler2D uDye;
@@ -153,18 +155,20 @@ const displayFragmentShader = /* glsl */ `
   void main() {
     // Dye accumulates well past 1.0 near a splat's center (repeated overlapping injections) —
     // clamp before use so the hue stays accent-pink instead of blowing out to white once every
-    // channel independently exceeds 1 under the lighten/screen blend.
-    vec3 center = clamp(texture2D(uDye, vUv).rgb, 0.0, 1.0);
-    vec3 color = center;
+    // channel independently exceeds 1.
+    vec3 raw = clamp(texture2D(uDye, vUv).rgb, 0.0, 1.0);
+    float density = max(raw.r, max(raw.g, raw.b));
+    vec3 color = density > 0.001 ? raw / density : raw;
 
     if (chromaticEnabled) {
       vec2 off = vec2(chromaticOffset, 0.0);
       float r = clamp(texture2D(uDye, vUv + off).r, 0.0, 1.0);
       float b = clamp(texture2D(uDye, vUv - off).b, 0.0, 1.0);
-      color = vec3(r, center.g, b);
+      vec3 fringe = vec3(r, raw.g, b);
+      float fringeDensity = max(fringe.r, max(fringe.g, fringe.b));
+      color = fringeDensity > 0.001 ? fringe / fringeDensity : color;
     }
 
-    float density = max(center.r, max(center.g, center.b));
     float alpha = clamp(density, 0.0, 1.0);
 
     if (halftoneEnabled) {

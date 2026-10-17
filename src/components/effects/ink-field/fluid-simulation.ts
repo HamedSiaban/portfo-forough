@@ -44,8 +44,12 @@ type FluidSimulationTunables = Required<
   >
 >;
 
-const CURL_STRENGTH = 24;
-const VELOCITY_DISSIPATION = 0.35;
+const CURL_STRENGTH = 14;
+// Velocity settles almost immediately once the pointer stops — the ink should stay anchored
+// where it was dropped and shrink in place, not keep drifting like smoke in the wind. While
+// the pointer IS moving, fresh velocity is injected every splat regardless of this decay, so
+// the comet trail while active isn't affected — this only governs how fast it stops.
+const VELOCITY_DISSIPATION = 0.02;
 // Reference: docs/reference/19-ink-hover-effect.mp4 — a large, bold comet-shaped splash
 // (dense near-solid head tapering to a sparse dot tail), not a small tight dot.
 const SPLAT_RADIUS = 0.007;
