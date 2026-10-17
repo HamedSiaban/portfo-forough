@@ -67,6 +67,7 @@ Wiring in `globals.css` (Tailwind v4):
 | `display-xl` (hero, interlude, CTA)                        | Frama 500                 | `clamp(3.5rem, 11vw, 12.5rem)` | 0.86        | -0.055em | centred or left                 |
 | `display-lg` (section titles: "Simple pricing", FAQ title) | Frama 400                 | `clamp(3rem, 7vw, 7.5rem)`     | 0.88        | -0.05em  |                                 |
 | `display-md` (quote, legal page titles)                    | Frama 400                 | `clamp(2rem, 5vw, 6rem)`       | 0.92        | -0.045em | quote is on the inverse surface |
+| `display-sm` (FAQ title, matches ref 09 scale)             | Frama 400                 | `clamp(2rem, 3.4vw, 3.5rem)`   | 1           | -0.045em | added in Phase 09               |
 | `price` ("€4,999")                                         | Frama 500, `tabular-nums` | `clamp(2.5rem, 5vw, 5rem)`     | 1           | -0.04em  |                                 |
 | `heading` ("Start to Finish", "Single Project", legal h2)  | Neue Montreal 500         | `clamp(1.75rem, 3vw, 3rem)`    | 1.0         | -0.035em |                                 |
 | `title` (project card titles, FAQ questions)               | Neue Montreal 400         | 1.5rem                         | 1.25        | -0.015em |                                 |

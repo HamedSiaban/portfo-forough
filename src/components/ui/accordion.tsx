@@ -2,7 +2,9 @@
 
 import { Accordion as AccordionPrimitive } from "@base-ui/react/accordion";
 import { PlusIcon } from "@phosphor-icons/react";
+import { motion } from "motion/react";
 
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cn } from "@/lib/cn";
 
 function Accordion({ className, ...props }: AccordionPrimitive.Root.Props) {
@@ -47,16 +49,45 @@ function AccordionTrigger({ className, children, ...props }: AccordionPrimitive.
   );
 }
 
+/**
+ * Body height/opacity is animated by Motion (CLAUDE.md motion ownership rule), not Base UI's
+ * CSS-animation detection, which can't see JS-driven tweens and would hide the panel before the
+ * exit finishes. The panel stays mounted; Base UI's own `hidden` is dropped and replaced by
+ * `visibility: hidden` once collapsed, which also removes the content from the tab order and the
+ * accessibility tree.
+ */
 function AccordionContent({ className, children, ...props }: AccordionPrimitive.Panel.Props) {
+  const reducedMotion = useReducedMotion();
+
   return (
     <AccordionPrimitive.Panel
       data-slot="accordion-content"
-      className="overflow-hidden text-body text-muted-foreground data-open:animate-accordion-down data-closed:animate-accordion-up"
+      keepMounted
+      className="text-body text-muted-foreground"
+      render={(panelProps, state) => {
+        // Base UI's `hidden`/`style` would fight the Motion tween; the rest (ref, aria, data-*) stays.
+        const rest: Record<string, unknown> = { ...panelProps };
+        delete rest.hidden;
+        delete rest.style;
+        return (
+          <motion.div
+            {...rest}
+            initial={false}
+            animate={
+              state.open
+                ? { height: "auto", opacity: 1, visibility: "visible" }
+                : { height: 0, opacity: 0, transitionEnd: { visibility: "hidden" } }
+            }
+            transition={{ duration: reducedMotion ? 0 : 0.35, ease: [0.16, 1, 0.3, 1] }}
+            style={{ overflow: "hidden" }}
+          />
+        );
+      }}
       {...props}
     >
       <div
         className={cn(
-          "h-(--accordion-panel-height) max-w-prose pt-0 pb-5 data-ending-style:h-0 data-starting-style:h-0 [&_a]:underline [&_a]:underline-offset-3 [&_a]:hover:text-foreground [&_p:not(:last-child)]:mb-4",
+          "max-w-prose pt-0 pb-5 [&_a]:underline [&_a]:underline-offset-3 [&_a]:hover:text-foreground [&_p:not(:last-child)]:mb-4",
           className,
         )}
       >
