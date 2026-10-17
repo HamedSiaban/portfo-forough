@@ -3,8 +3,8 @@
 import * as React from "react";
 
 import { Halftone } from "@/components/effects/halftone";
-import type { InkFieldPalette } from "@/components/effects/ink-field";
-import { InkField } from "@/components/effects/ink-field";
+import type { WaveFieldPalette } from "@/components/effects/wave-field";
+import { WaveField } from "@/components/effects/wave-field";
 import { Button } from "@/components/ui/button";
 
 function useFps(): number {
@@ -89,7 +89,7 @@ function ToggleField({
   );
 }
 
-function InkStage({ title, children }: { title: string; children: React.ReactNode }) {
+function WaveStage({ title, children }: { title: string; children: React.ReactNode }) {
   const fps = useFps();
   return (
     <div className="space-y-2">
@@ -104,15 +104,13 @@ function InkStage({ title, children }: { title: string; children: React.ReactNod
   );
 }
 
-export function InkTuning() {
+export function WaveTuning() {
   const [intensity, setIntensity] = React.useState(1);
-  const [dissipation, setDissipation] = React.useState(0.22);
   const [dotSize, setDotSize] = React.useState(11);
-  const [pressureIterations, setPressureIterations] = React.useState(20);
   const [halftone, setHalftone] = React.useState(true);
   const [chromatic, setChromatic] = React.useState(true);
   const [idleDrift, setIdleDrift] = React.useState(false);
-  const [palette, setPalette] = React.useState<InkFieldPalette>("accent");
+  const [palette, setPalette] = React.useState<WaveFieldPalette>("accent");
   const [reducedMotionPreview, setReducedMotionPreview] = React.useState(false);
   const [mounted, setMounted] = React.useState(true);
   const [mountKey, setMountKey] = React.useState(0);
@@ -133,8 +131,8 @@ export function InkTuning() {
     <div className="space-y-12 py-12">
       <section className="space-y-6">
         <h2 className="text-heading">Primary — live controls</h2>
-        <InkStage title={`Primary instance (mounts: ${mountCount})`}>
-          {/* Text renders first so the ink canvas paints above it — mix-blend-mode needs
+        <WaveStage title={`Primary instance (mounts: ${mountCount})`}>
+          {/* Text renders first so the glow canvas paints above it — mix-blend-mode needs
               the text as backdrop to recolor it (DESIGN_SPEC §5 Hero). */}
           <p className="pointer-events-none absolute inset-x-0 bottom-0 p-4 text-display-md">
             Creative development
@@ -142,14 +140,12 @@ export function InkTuning() {
           {reducedMotionPreview ? (
             <Halftone />
           ) : mounted ? (
-            <InkField
+            <WaveField
               key={mountKey}
               className="size-full"
               palette={palette}
               intensity={intensity}
-              dissipation={dissipation}
               dotSize={dotSize}
-              pressureIterations={pressureIterations}
               halftone={halftone}
               chromatic={chromatic}
               idleDrift={idleDrift}
@@ -159,11 +155,11 @@ export function InkTuning() {
               Unmounted
             </div>
           )}
-        </InkStage>
+        </WaveStage>
 
         <div className="grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2">
           <SliderField
-            label="Intensity"
+            label="Size"
             value={intensity}
             onChange={setIntensity}
             min={0.2}
@@ -171,27 +167,11 @@ export function InkTuning() {
             step={0.1}
           />
           <SliderField
-            label="Dissipation (lower = fades faster)"
-            value={dissipation}
-            onChange={setDissipation}
-            min={0.03}
-            max={0.4}
-            step={0.01}
-          />
-          <SliderField
             label="Dot size (px)"
             value={dotSize}
             onChange={setDotSize}
             min={2}
             max={16}
-            step={1}
-          />
-          <SliderField
-            label="Pressure iterations"
-            value={pressureIterations}
-            onChange={setPressureIterations}
-            min={4}
-            max={40}
             step={1}
           />
         </div>
@@ -212,7 +192,7 @@ export function InkTuning() {
             Palette
             <select
               value={typeof palette === "string" ? palette : "accent"}
-              onChange={(event) => setPalette(event.target.value as InkFieldPalette)}
+              onChange={(event) => setPalette(event.target.value as WaveFieldPalette)}
               className="rounded-input border border-border bg-background px-2 py-1 text-foreground"
             >
               <option value="accent">accent</option>
@@ -236,14 +216,14 @@ export function InkTuning() {
           proves instances don&rsquo;t conflict without a shared-context architecture.
         </p>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-          <InkStage title="Light panel (accent)">
-            <InkField className="size-full" palette="accent" idleDrift />
-          </InkStage>
-          <InkStage title="Inverse panel (dark)">
+          <WaveStage title="Light panel (accent)">
+            <WaveField className="size-full" palette="accent" idleDrift />
+          </WaveStage>
+          <WaveStage title="Inverse panel (dark)">
             <div className="absolute inset-0 bg-surface-inverse">
-              <InkField className="size-full" palette="dark" idleDrift />
+              <WaveField className="size-full" palette="dark" idleDrift />
             </div>
-          </InkStage>
+          </WaveStage>
         </div>
       </section>
     </div>

@@ -45,7 +45,7 @@ Install the **latest stable** version of each package at the time of Phase 0 and
 | Scroll & timeline motion | **GSAP 3** + ScrollTrigger (+ Flip/SplitText when needed) via `@gsap/react` (`useGSAP`)                                                                                                                                                | GSAP and all its plugins are free                                                                                                                                                      |
 | Smooth scroll            | **Lenis**, driven by the GSAP ticker                                                                                                                                                                                                   | One instance, in `SmoothScroll` provider                                                                                                                                               |
 | Component enter/exit     | **Motion** (`motion/react`)                                                                                                                                                                                                            | Modals, accordion content, tabs, presence                                                                                                                                              |
-| WebGL                    | **three.js** (vanilla, client-only, dynamically imported)                                                                                                                                                                              | Ink fluid field                                                                                                                                                                        |
+| WebGL                    | **three.js** (vanilla, client-only, dynamically imported)                                                                                                                                                                              | Wave glow field                                                                                                                                                                        |
 | 2D canvas                | Native Canvas 2D                                                                                                                                                                                                                       | Card cascade ("solitaire")                                                                                                                                                             |
 | Email                    | **Resend** (pending, see OPEN_QUESTIONS)                                                                                                                                                                                               | Called from a Route Handler                                                                                                                                                            |
 | Icons                    | **@phosphor-icons/react**                                                                                                                                                                                                              | Ships with shadcn's current `base-lyra` style (Phase 00 decision)                                                                                                                      |
@@ -161,7 +161,7 @@ src/
     layout/               # Header, Footer, ThemeToggle, Logo
     sections/             # hero/ value-cards/ work/ pricing/ faq/ cta/  (one folder each)
     modals/               # InquiryModal, VideoModal
-    effects/              # InkField (WebGL), Halftone, ImageTrail, CardCascade, PatternArt
+    effects/              # WaveField (WebGL), Halftone, ImageTrail, CardCascade, PatternArt
     motion/               # SmoothScroll, Reveal primitives
   fonts/                  # woff2 files + index.ts (next/font/local) + README.md (licence status)
   config/
@@ -192,10 +192,10 @@ docs/                     # reference/, phases/, ROADMAP.md, DESIGN_SPEC.md, OPE
    - must look correct in any position in the list.
 3. **Content is never hard-coded in components.** It lives in `src/content/` with exported types.
 4. **Design tokens only.** No raw hex/px values in components. Use Tailwind theme tokens backed by CSS variables (see DESIGN_SPEC §2). Dynamic values go through CSS custom properties, not inline style objects.
-5. **One shared ink engine.** Hero, quote panel and CTA panel all use `<InkField />` with props (palette, intensity, halftone). Never fork it per section.
+5. **One shared wave engine.** Hero, quote panel and CTA panel all use `<WaveField />` with props (palette, intensity, halftone). Never fork it per section.
 6. **GSAP hygiene:** register plugins once in `lib/gsap.ts`; always `useGSAP({ scope })` so contexts revert on unmount; animate `transform`/`opacity` only; call `ScrollTrigger.refresh()` after fonts load and after section order changes; no scroll listeners outside Lenis/ScrollTrigger.
-7. **Reduced motion is a first-class mode**, not an afterthought. `useReducedMotion()` gates every effect: static halftone instead of fluid, no image trail, cards appear without 3D flight, cascade replaced by a static composition, Lenis disabled.
-8. **Touch devices get designed alternatives**, not broken hover effects: ink reacts to touch and drifts on its own; the image trail auto-plays a slow sequence; the card stack still works with native scroll.
+7. **Reduced motion is a first-class mode**, not an afterthought. `useReducedMotion()` gates every effect: static halftone instead of the moving glow, no image trail, cards appear without 3D flight, cascade replaced by a static composition, Lenis disabled.
+8. **Touch devices get designed alternatives**, not broken hover effects: the wave glow follows touch and drifts on its own; the image trail auto-plays a slow sequence; the card stack still works with native scroll.
 
 ---
 
@@ -235,9 +235,9 @@ LCP < 2.5s · CLS < 0.05 · INP < 200ms · first-load JS for `/` ≤ ~200 KB gz 
 
 ## 8. Workflow protocol (every phase)
 
-1. **One phase = one branch = one PR.** Branch name from `docs/ROADMAP.md` (e.g. `phase/03-ink-field`).
+1. **One phase = one branch = one PR.** Branch name from `docs/ROADMAP.md` (e.g. `phase/03-wave-field`).
 2. **Plan first.** Enter plan mode. Read this file, the phase doc, the relevant DESIGN_SPEC section and every reference image the phase lists. Propose a plan (files to add/change, techniques, risks). Wait for approval.
-3. **Build in small Conventional Commits** (`feat:`, `fix:`, `refactor:`, `perf:`, `style:`, `test:`, `docs:`, `chore:`), scoped by area, e.g. `feat(hero): add ink field`.
+3. **Build in small Conventional Commits** (`feat:`, `fix:`, `refactor:`, `perf:`, `style:`, `test:`, `docs:`, `chore:`), scoped by area, e.g. `feat(hero): add wave field`.
 4. **Verify before saying done:**
    - `pnpm check` passes, and `pnpm build` succeeds;
    - each acceptance criterion in the phase doc is checked off;

@@ -1,4 +1,4 @@
-/** Placeholder — the framed Ink field panel lands in Phase 04. */
+/** Placeholder — the framed Wave field panel lands in Phase 04. */
 function HeroSection() {
   return (
     <section

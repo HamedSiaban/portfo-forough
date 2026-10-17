@@ -4,7 +4,7 @@
 
 ## Goal
 
-An elegant accordion FAQ, and a closing CTA panel with the Solitaire-victory card cascade over the ink field.
+An elegant accordion FAQ, and a closing CTA panel with the Solitaire-victory card cascade over the wave field.
 
 ## Scope
 
@@ -17,13 +17,13 @@ An elegant accordion FAQ, and a closing CTA panel with the Solitaire-victory car
 
 ### CTA
 
-- `Panel` with halftone + `<InkField>`; `display-xl` left-aligned heading + pill `Start a conversation` (→ `openInquiry()`).
+- `Panel` with halftone + `<WaveField>`; `display-xl` left-aligned heading + pill `Start a conversation` (→ `openInquiry()`).
 - **CardCascade** (`effects/card-cascade`, Canvas 2D):
   - card sprites pre-rendered once to offscreen canvases from PatternArt palette (several pink tints, rounded rects with halftone).
   - spawn one card every ~250–400ms from the top-left region; random vx (left or right), small angle; gravity; bounce on panel floor with damping (~0.7) and friction; remove when off-canvas.
   - **No clear between frames**: every frame draws all cards at their new position, producing stepped trails; trails fade via a low-alpha background fill (or offscreen buffer decay) so they don't saturate.
   - Runs on `gsap.ticker`; starts when the panel enters the viewport; pauses off-screen; click on panel replays; respects DPR ≤ 1.5; resizes cleanly.
-  - Layer order: halftone → ink → cascade → text (text stays readable; add a soft gradient behind it if needed).
+  - Layer order: halftone → wave → cascade → text (text stays readable; add a soft gradient behind it if needed).
 - Reduced motion: static pre-rendered composition of 3–4 trails.
 
 ## Acceptance criteria

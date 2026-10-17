@@ -7,22 +7,23 @@ import { Halftone } from "@/components/effects/halftone";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cn } from "@/lib/cn";
 
-import type { InkFieldProps } from "./types";
+import type { WaveFieldProps } from "./types";
 
-const InkFieldCanvas = dynamic(
-  () => import("./ink-field-canvas").then((mod) => mod.InkFieldCanvas),
+const WaveFieldCanvas = dynamic(
+  () => import("./wave-field-canvas").then((mod) => mod.WaveFieldCanvas),
   {
     ssr: false,
   },
 );
 
 /**
- * Pointer-reactive GPU ink-in-water field, displayed as halftone dots (DESIGN_SPEC §5
- * Hero). Reduced motion gets the static `<Halftone />` only — no WebGL context is ever
- * created. The canvas engine is lazy-mounted on first intersection and then only paused
- * (not torn down) when off-screen, so scrolling doesn't thrash WebGL context creation.
+ * Pointer-following glow rendered as halftone dots (DESIGN_SPEC §5 Hero). The glow is always
+ * centred on the pointer and grows with pointer speed. Reduced motion gets the static
+ * `<Halftone />` only — no WebGL context is ever created. The canvas engine is lazy-mounted on
+ * first intersection and then only paused (not torn down) when off-screen, so scrolling doesn't
+ * thrash WebGL context creation.
  */
-function InkField(props: InkFieldProps) {
+function WaveField(props: WaveFieldProps) {
   const hostRef = React.useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotion();
   const [hasBeenVisible, setHasBeenVisible] = React.useState(false);
@@ -60,7 +61,7 @@ function InkField(props: InkFieldProps) {
     <div ref={hostRef} className={cn("relative overflow-hidden", props.className)}>
       <Halftone />
       {showCanvas && (
-        <InkFieldCanvas
+        <WaveFieldCanvas
           {...props}
           className={undefined}
           active={isIntersecting && !isHidden}
@@ -71,4 +72,4 @@ function InkField(props: InkFieldProps) {
   );
 }
 
-export { InkField };
+export { WaveField };

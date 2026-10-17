@@ -25,7 +25,7 @@ Defined as CSS variables in `globals.css`, exposed through Tailwind v4 `@theme`.
 | `--muted-foreground`  | `#6B6B6B` (was `#7A7A7A` — failed AA, see Phase 01 decisions log) | `#9A9A9A`                                           | body secondary                    |
 | `--subtle-foreground` | `#B5B5B5`                                                         | `#5C5C5C`                                           | disabled steps, placeholders      |
 | `--border`            | `#E4E4E4`                                                         | `#2A2A2D`                                           | hairlines, accordion rules        |
-| `--accent`            | `#FF3D71` **(placeholder)**                                       | `#FF5C88` **(placeholder)**                         | ink core, dots, highlights        |
+| `--accent`            | `#FF3D71` **(placeholder)**                                       | `#FF5C88` **(placeholder)**                         | wave core, dots, highlights       |
 | `--accent-soft-1..3`  | `#FFB3C6` / `#FFCCD9` / `#FFE3EA` **(placeholder)**               | `#7A2E3F` / `#5C2433` / `#3D1B24` **(placeholder)** | pattern art, trails               |
 | `--halftone-dot`      | `rgb(0 0 0 / .10)`                                                | `rgb(255 255 255 / .06)`                            | static halftone                   |
 | `--ring`              | `--foreground`                                                    | `--foreground`                                      | focus                             |
@@ -80,7 +80,7 @@ Wiring in `globals.css` (Tailwind v4):
 ## 4. Shared components
 
 - **Header buttons:** `Pricing` = outline mono button; `Start a conversation` = solid inverse mono button; theme toggle = small segmented pill (sun / moon), replacing FR/EN.
-- **Framed panel:** full-bleed minus 16px inset, `2rem` radius, grey gradient + halftone + `<InkField>`. Used by Hero, CTA and, in a dark variant, the Quote panel.
+- **Framed panel:** full-bleed minus 16px inset, `2rem` radius, grey gradient + halftone + `<WaveField>`. Used by Hero, CTA and, in a dark variant, the Quote panel.
 - **Numbered step row:** small rounded number badge · hairline that fills the width · uppercase label on the right. Inactive steps are dimmed to `--subtle-foreground` until the previous step is valid (used in pricing and the inquiry form).
 - **Chips:** pill, `--surface-muted`, mono or sans small.
 - **PatternArt:** generative pink compositions on halftone (diagonal stepped squares, a row of overlapping circles, concentric diamonds, a snake of stacked squares). Built as SVG or canvas from tokens. No raster files.
@@ -96,11 +96,11 @@ Logo tile (left, links to site URL `/`) · `Pricing` (smooth-scrolls to `#pricin
 ### 1 · Hero — `#hero` · refs 05, 02
 
 Framed panel. Mono credentials row with accent dot separators → `display-xl` headline (centred, ~6 lines on desktop) → `body-lg` subline → "trusted by" mono label + client logo row.
-**Effect: ink in water.** Pointer movement injects accent ink into a GPU fluid simulation (stable fluids: advection + curl/vorticity + dissipation). Output is rendered through a **halftone dot shader**, so the ink reads as a field of dots that fades to soft blur at the edges. Where ink passes over the headline, the letters turn accent-coloured with a slight **RGB/chromatic offset** (cyan fringe).
-Technique (built in Phase 03, `<InkField />`): dark DOM text, canvas above it with **normal alpha compositing** (no `mix-blend-mode` — an earlier `lighten`/`screen` pass left the ink nearly invisible over the light-grey background, since `lighten` has almost no headroom against a near-white backdrop; ref 19 confirmed the real effect reads as vivid pink over _both_ the background and dark text, not just the text). The dye shader always outputs full-saturation accent color with density driving alpha only, so low-density dots fade out as pale translucent pink rather than scaling down to a dark muddy color. Chromatic offset is done in the shader.
+**Effect: wave glow (comet).** A shiny accent glow whose bright, narrow head stays exactly on the pointer. Moving it drags a wider, dimmer body of light behind the head, like a comet or a flame, so the back is larger than the front. The head has **momentum** (a damped spring): it eases into motion, lagging the pointer briefly before catching up, and when the pointer stops it carries a little past it, then settles back onto it (~0.5s) while the tail collapses. The glow is always pulled back to the pointer, so it never lives independently of it. Size follows pointer speed (faster = bigger and longer tail, slower = smaller, relaxing to a small round resting glow), and it fades out in place when the pointer leaves. Output is rendered through a **halftone dot shader**, so the glow reads as a field of dots that fades to a soft halo at the edges. Where the glow passes over the headline, the letters turn accent-coloured with a slight **RGB/chromatic offset** (cyan fringe).
+Technique (built in Phase 03, `<WaveField />`): dark DOM text, canvas above it with **normal alpha compositing** (no `mix-blend-mode` — `lighten`/`screen` has almost no headroom against a near-white backdrop; ref 19 confirmed the real effect reads as vivid pink over _both_ the background and dark text). The shader outputs full-saturation accent color with falloff driving alpha only, so low-density dots fade out as translucent pink rather than a dark muddy color. Chromatic offset is done in the shader.
 **Scroll out:** the panel scrolls up and away, uncovering section 2's headline beneath it (ref 02).
 
-**`<InkField />` tuned defaults** (`src/components/effects/ink-field/fluid-simulation.ts`, tune further at `/styleguide/ink`): `simResolution` 128px · `dyeResolution` 512px · `pressureIterations` 20 · `intensity` 1 · `dissipation` 0.22 (fraction of dye remaining after 1s — fades in ~2s) · `dotSize` 11px · `halftone`/`chromatic` on by default · DPR capped 1.5. Retuned against ref 19 for a bold comet-shaped splash (bigger splat radius, higher color-saturation floor, soft glow halo under the halftone dots) rather than a small faint dot.
+**`<WaveField />` tuned defaults** (`src/components/effects/wave-field/`, tune further at `/styleguide/wave`): rest radius 34px · full-speed radius 120px (reached at ≥ 2200 px/s) · head spring (stiffness 225, damping 12 → ~25% overshoot, settles in ~0.5s) · 16-point comet tail chasing the head at 40/s, head narrowed and tail end widened by up to 70% at full speed, brightness falling ~3%/point · `intensity` 1 (size multiplier) · grow rate 14/s, shrink rate 3.5/s · `dotSize` 11px · `halftone`/`chromatic` on by default · DPR capped 1.5.
 
 ### 2 · Value cards — `#approach` · refs 06, 16, 12
 
@@ -111,7 +111,7 @@ Centred sticky `display-xl` headline + short paragraph. On scroll, **4 cards fly
 Bento grid:
 
 - **Left (large, surface):** "See for yourself" heading. **Image trail:** pointer movement spawns design images at the cursor from a pool. Each new image appears on top, follows the travel direction, and fades/scales out after ~0.8–1.2s. Spawn by distance travelled, not by time. An accent dot follows the cursor.
-- **Right (inverse surface):** huge testimonial quote + attribution, dark halftone + subtle `<InkField>` in a dark palette.
+- **Right (inverse surface):** huge testimonial quote + attribution, dark halftone + subtle `<WaveField>` in a dark palette.
 - **Bottom row:** **Showreel tile** (dark, muted looping preview + `SHOWREEL` button). On click it opens the **Video modal** with a shared-element transition: the tile expands into the full-screen player (GSAP Flip or Motion `layoutId`), and closing reverses it. Then "Latest delivery" intro (title, "projects typically start within…", `Request a quote` → Inquiry modal) and a horizontal row of project cards (title, region chip, duration chip, link icon or "NDA"). Horizontally scrollable with drag on desktop and native swipe on touch.
 
 ### Interlude — "Let's talk about your project." · refs 08, 10
@@ -132,7 +132,7 @@ Title + "Need more information? Feel free to reach out." (link opens the Inquiry
 
 ### 6 · CTA — `#contact` · ref 11
 
-Framed panel with halftone + `<InkField>`. Left-aligned `display-xl` "Build your next project with us" + pill CTA (→ Inquiry modal).
+Framed panel with halftone + `<WaveField>`. Left-aligned `display-xl` "Build your next project with us" + pill CTA (→ Inquiry modal).
 **Effect: solitaire victory cascade.** Pink cards (using the PatternArt palette) launch one at a time from the top-left area with random horizontal velocity and slight angle. Gravity pulls them down, they bounce off the panel floor with damping, and **the canvas is not cleared between frames**, so each card leaves a stepped "waterfall" trail like the Windows Solitaire win screen. Trails slowly fade (draw a low-alpha background rect each frame, or decay on an offscreen buffer). Starts when the panel enters the viewport, pauses when it leaves, and the user can replay it (click the panel). Reduced motion: a static composition of a few trails.
 
 ### Footer
