@@ -39,3 +39,5 @@ Build, verify in both themes at 375/768/1440 with reduced motion and touch emula
 - Added `hooks/use-in-viewport.ts` (listed in CLAUDE.md §4 but missing).
 - `PatternArt` inside a client component hydrated with different jitter values, so server-rendered art is passed as a prop (`fallback`) instead.
 - Showreel tile id `showreel-tile` is the Phase 07 shared-element anchor; the button calls `openVideo("showreel")`.
+- Bug found after first review: the trail never started on a fresh page load. A child's layout effect runs before the parent's ref is attached, so a parent-owned `targetRef` was still `null`; it only worked after hot reloads. `ImageTrail` now uses its own layer's `parentElement` as the pointer target. Lesson: never pass a parent ref into a child's mount effect.
+- Tiles got a faint ring so they stay visible in dark theme.

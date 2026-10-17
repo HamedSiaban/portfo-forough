@@ -15,8 +15,6 @@ import { createTrailSpawner, tiltFromAngle, type TrailSpawn } from "./trail-math
 type ImageTrailProps = {
   /** Tiles to cycle through. Any node works (next/image, PatternArt, ...); they are cosmetic. */
   images: React.ReactNode[];
-  /** Element whose pointer movement drives the trail (the panel); the layer itself is inert. */
-  targetRef: React.RefObject<HTMLElement | null>;
   className?: string;
 };
 
@@ -31,7 +29,7 @@ function Tile({ children, className, ...props }: React.ComponentProps<"div">) {
     <div
       {...props}
       className={cn(
-        "w-32 overflow-hidden rounded-card bg-surface-muted p-3 shadow-lg md:w-44",
+        "w-32 overflow-hidden rounded-card bg-surface-muted p-3 shadow-lg ring-1 ring-foreground/10 md:w-44",
         className,
       )}
     >
@@ -49,7 +47,7 @@ function Tile({ children, className, ...props }: React.ComponentProps<"div">) {
  * a slow scripted path on the GSAP ticker, only while on screen. Reduced motion: a static
  * three-tile collage, no listeners.
  */
-function ImageTrail({ images, targetRef, className }: ImageTrailProps) {
+function ImageTrail({ images, className }: ImageTrailProps) {
   const layerRef = React.useRef<HTMLDivElement>(null);
   const dotRef = React.useRef<HTMLSpanElement>(null);
   const slotRefs = React.useRef<(HTMLDivElement | null)[]>([]);
@@ -64,7 +62,9 @@ function ImageTrail({ images, targetRef, className }: ImageTrailProps) {
 
   useGSAP(
     () => {
-      const target = targetRef.current;
+      // The layer's parent (the panel) is the pointer target. Resolved from the layer rather than
+      // a parent-owned ref: a child's layout effect runs before the parent's ref is attached.
+      const target = layerRef.current?.parentElement;
       const dot = dotRef.current;
       const slots = slotRefs.current.filter((slot): slot is HTMLDivElement => slot !== null);
       if (!target || !dot || reducedMotion || slots.length === 0) return;
