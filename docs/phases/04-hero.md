@@ -17,11 +17,11 @@ The first screen: framed panel, credentials row, giant headline, subline, logo r
 
 ## Acceptance criteria
 
-- [ ] Matches ref 05 layout at 1440; headline scales smoothly down to 375 without overflow.
-- [ ] Pointer over headline produces accent letters with a subtle chromatic fringe; looks right in dark mode.
-- [ ] LCP < 2.5s on throttled mobile (Lighthouse), CLS ≈ 0.
-- [ ] Reduced motion: no entrance animation, static halftone, no scrub.
-- [ ] Section still looks correct when moved to another position in `config/sections.ts`.
+- [x] Matches ref 05 layout at 1440; headline scales smoothly down to 375 without overflow.
+- [x] Pointer over headline produces accent letters with a subtle chromatic fringe; looks right in dark mode.
+- [ ] LCP < 2.5s on throttled mobile (Lighthouse), CLS ≈ 0. **Partial:** CLS 0.001 ✓; LCP 2.8s with devtools throttling (observed unthrottled 0.14–0.19s; h1 is the LCP element). See decisions log.
+- [x] Reduced motion: no entrance animation, static halftone, no scrub.
+- [x] Section still looks correct when moved to another position in `config/sections.ts`.
 
 ## Prompt
 
@@ -33,4 +33,9 @@ Build, verify at 375/768/1440 in both themes and reduced motion, run a Lighthous
 
 ## Decisions log
 
--
+- **Glow colours text via an overlay canvas, not a blend mode.** `Panel` got an `overlay` slot (above the text, `pointer-events-none`); `<WaveField>` gained `pointerTarget` (the panel receives pointer events) and `backdrop` (skip its own static halftone when the panel already draws one). Normal alpha compositing: pink over `#2B2B2B` text in light, over `#EDEDED` in dark. Verified in both themes; no dark-mode tweak was needed.
+- **Entrance is CSS, not GSAP** (deviation from the phase scope): keyframes keep the h1 in the first paint so LCP never waits on JS; disabled under `prefers-reduced-motion`. GSAP only does the scroll-out scrub, so no element is animated by two libraries.
+- **Scroll-out**: panel `yPercent -8` + `scale .95` (origin bottom) scrubbed over the hero's own scroll range; the section's `-mb-[10svh]` lets the next section sit beneath it. Skipped under reduced motion. Descenders: line masks use `pb/-mb 0.24em`.
+- **Placeholder copy** in `content/hero.ts` (Q4); `logos: []` hides the row (Q5).
+- **Lighthouse (mobile, production build, headless Chromium without GPU):** simulated throttling reports LCP 4.4s, but observed LCP is 138ms; with `--throttling-method=devtools` FCP = LCP = 2.8s, CLS 0.001, TBT ~300ms. Headless software WebGL inflates TBT enormously (143s) unless `--disable-3d-apis`, so WebGL runs were excluded from the numbers. The delay is the ~285KB of preloaded font files (six faces) competing with CSS on slow 4G. Tried `preload: false` on PP Frama: worse (LCP 4.4s, h1 waits for the swap), reverted. Planned fix is the Latin subsetting already required before launch (Phase 12 / CLAUDE.md §7); re-measure then.
+- Pre-existing, not touched: at 375px the fixed header wraps onto two rows.
