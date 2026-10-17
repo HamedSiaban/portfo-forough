@@ -20,6 +20,21 @@ type Project = {
   nda?: boolean;
 };
 
+/** Accessible names for the showreel player's chrome. */
+type PlayerLabels = {
+  title: string;
+  description: string;
+  play: string;
+  pause: string;
+  mute: string;
+  unmute: string;
+  captionsOn: string;
+  captionsOff: string;
+  captionsUnavailable: string;
+  scrub: string;
+  close: string;
+};
+
 type WorkContent = {
   heading: string[];
   trail: { images: TrailImage[] };
@@ -32,6 +47,7 @@ type WorkContent = {
     videoSrc?: string;
     captions?: string;
     comingSoon: string;
+    player: PlayerLabels;
   };
   delivery: { title: string; note: string; cta: string; projectsLabel: string };
   projects: Project[];
@@ -60,6 +76,20 @@ const work: WorkContent = {
   showreel: {
     label: "Showreel",
     comingSoon: "Reel coming soon",
+    player: {
+      title: "Showreel",
+      description:
+        "Showreel player. Space plays or pauses, arrows seek, M mutes, C toggles captions, Escape closes.",
+      play: "Play",
+      pause: "Pause",
+      mute: "Mute",
+      unmute: "Unmute",
+      captionsOn: "Hide captions",
+      captionsOff: "Show captions",
+      captionsUnavailable: "Captions unavailable",
+      scrub: "Seek",
+      close: "Close showreel",
+    },
   },
   delivery: {
     title: "Latest delivery",
@@ -96,4 +126,4 @@ const work: WorkContent = {
 };
 
 export { work };
-export type { Project, TrailImage, WorkContent };
+export type { PlayerLabels, Project, TrailImage, WorkContent };

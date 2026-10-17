@@ -19,8 +19,8 @@ type ShowreelTileProps = {
 /**
  * Dark showreel tile. The muted preview loop only gets a `src` once the tile is within 200px of
  * the viewport and plays only while visible; reduced motion keeps the poster. With no reel yet
- * (OPEN_QUESTIONS Q7) it shows generated art and a "coming soon" note. The stable id is the
- * shared-element anchor for the Phase 07 video modal.
+ * (OPEN_QUESTIONS Q7) it shows generated art and a "coming soon" note. The tile element is
+ * handed to the video modal as the shared-element origin.
  */
 function ShowreelTile({ label, comingSoon, poster, previewSrc, fallback }: ShowreelTileProps) {
   const openVideo = useUiStore((state) => state.openVideo);
@@ -66,7 +66,7 @@ function ShowreelTile({ label, comingSoon, poster, previewSrc, fallback }: Showr
           variant="outline"
           size="md"
           className="border-on-inverse/70 bg-transparent text-on-inverse uppercase hover:bg-on-inverse/10"
-          onClick={() => openVideo("showreel")}
+          onClick={() => openVideo("showreel", tileRef.current)}
         >
           {label}
         </Button>
