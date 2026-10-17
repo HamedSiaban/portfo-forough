@@ -46,16 +46,18 @@ type FluidSimulationTunables = Required<
 
 const CURL_STRENGTH = 24;
 const VELOCITY_DISSIPATION = 0.35;
-const SPLAT_RADIUS = 0.0025;
-const CHROMATIC_OFFSET = 0.0015;
+// Reference: docs/reference/19-ink-hover-effect.mp4 — a large, bold comet-shaped splash
+// (dense near-solid head tapering to a sparse dot tail), not a small tight dot.
+const SPLAT_RADIUS = 0.007;
+const CHROMATIC_OFFSET = 0.0025;
 
 const DEFAULTS: FluidSimulationTunables = {
   simResolution: 128,
   dyeResolution: 512,
   pressureIterations: 20,
   intensity: 1,
-  dissipation: 0.15,
-  dotSize: 6,
+  dissipation: 0.22,
+  dotSize: 11,
   halftone: true,
   chromatic: true,
   tint: [1, 0.24, 0.44],
@@ -87,6 +89,7 @@ type SplatUniforms = {
   color: { value: THREE.Vector3 };
   point: { value: THREE.Vector2 };
   radius: { value: number };
+  additive: { value: boolean };
 };
 type CurlUniforms = {
   uVelocity: { value: THREE.Texture | null };
@@ -252,6 +255,7 @@ class FluidSimulation {
         color: { value: new THREE.Vector3() },
         point: { value: new THREE.Vector2() },
         radius: { value: SPLAT_RADIUS },
+        additive: { value: true },
       }),
       curl: createMaterial<CurlUniforms>(curlFragmentShader, {
         uVelocity: { value: null },
@@ -333,6 +337,7 @@ class FluidSimulation {
 
     mat.uniforms.uTarget.value = this.velocity.read.texture;
     mat.uniforms.radius.value = SPLAT_RADIUS * this.options.intensity;
+    mat.uniforms.additive.value = true;
     mat.uniforms.color.value.set(
       dxNorm * this.options.intensity,
       dyNorm * this.options.intensity,
@@ -342,9 +347,12 @@ class FluidSimulation {
     this.velocity.swap();
 
     const [r, g, b] = this.options.tint;
-    const speed = Math.min(Math.hypot(dxNorm, dyNorm) * 3 + 0.08, 1);
+    // Floor kept high so ink reaches full saturation almost immediately, not just at speed —
+    // the reference shows vivid, fully-opaque pink even from modest pointer movement.
+    const speed = Math.min(Math.hypot(dxNorm, dyNorm) * 2 + 0.45, 1);
     mat.uniforms.uTarget.value = this.dye.read.texture;
     mat.uniforms.radius.value = SPLAT_RADIUS * 3 * this.options.intensity;
+    mat.uniforms.additive.value = false;
     mat.uniforms.color.value.set(r * speed, g * speed, b * speed);
     this.renderPass(mat, this.dye.write);
     this.dye.swap();

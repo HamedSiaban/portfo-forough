@@ -106,8 +106,8 @@ function InkStage({ title, children }: { title: string; children: React.ReactNod
 
 export function InkTuning() {
   const [intensity, setIntensity] = React.useState(1);
-  const [dissipation, setDissipation] = React.useState(0.15);
-  const [dotSize, setDotSize] = React.useState(6);
+  const [dissipation, setDissipation] = React.useState(0.22);
+  const [dotSize, setDotSize] = React.useState(11);
   const [pressureIterations, setPressureIterations] = React.useState(20);
   const [halftone, setHalftone] = React.useState(true);
   const [chromatic, setChromatic] = React.useState(true);

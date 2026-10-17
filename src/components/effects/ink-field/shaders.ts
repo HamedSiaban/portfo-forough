@@ -23,13 +23,18 @@ const splatFragmentShader = /* glsl */ `
   uniform vec3 color;
   uniform vec2 point;
   uniform float radius;
+  // Velocity accumulates additively (physically correct — overlapping impulses add momentum).
+  // Dye uses max() instead: repeated splats in the same spot would otherwise pile up well past
+  // 1.0 on every channel, washing the hue out to white once each channel independently clamps.
+  uniform bool additive;
 
   void main() {
     vec2 p = vUv - point;
     p.x *= aspectRatio;
     vec3 splat = exp(-dot(p, p) / radius) * color;
     vec3 base = texture2D(uTarget, vUv).xyz;
-    gl_FragColor = vec4(base + splat, 1.0);
+    vec3 result = additive ? base + splat : max(base, splat);
+    gl_FragColor = vec4(result, 1.0);
   }
 `;
 
@@ -146,13 +151,16 @@ const displayFragmentShader = /* glsl */ `
   uniform float chromaticOffset;
 
   void main() {
-    vec3 center = texture2D(uDye, vUv).rgb;
+    // Dye accumulates well past 1.0 near a splat's center (repeated overlapping injections) —
+    // clamp before use so the hue stays accent-pink instead of blowing out to white once every
+    // channel independently exceeds 1 under the lighten/screen blend.
+    vec3 center = clamp(texture2D(uDye, vUv).rgb, 0.0, 1.0);
     vec3 color = center;
 
     if (chromaticEnabled) {
       vec2 off = vec2(chromaticOffset, 0.0);
-      float r = texture2D(uDye, vUv + off).r;
-      float b = texture2D(uDye, vUv - off).b;
+      float r = clamp(texture2D(uDye, vUv + off).r, 0.0, 1.0);
+      float b = clamp(texture2D(uDye, vUv - off).b, 0.0, 1.0);
       color = vec3(r, center.g, b);
     }
 
@@ -164,7 +172,11 @@ const displayFragmentShader = /* glsl */ `
       vec2 cell = mod(px, dotSize) - dotSize * 0.5;
       float cellDist = length(cell);
       float dotRadius = alpha * dotSize * 0.5;
-      alpha = 1.0 - smoothstep(dotRadius - 1.0, dotRadius + 1.0, cellDist);
+      float dotAlpha = 1.0 - smoothstep(dotRadius - 1.0, dotRadius + 1.0, cellDist);
+      // Soft diffuse halo beneath the hard dot grid, so the dots read as sitting inside a
+      // glow rather than floating on bare background (reference: docs/reference/19).
+      float glow = alpha * alpha * 0.4;
+      alpha = max(dotAlpha, glow);
     }
 
     gl_FragColor = vec4(color, alpha);
