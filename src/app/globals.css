@@ -15,6 +15,9 @@
   --surface-inverse: #262626;
   /* Readable text color on top of --surface-inverse (not in DESIGN_SPEC's table; derived for AA). */
   --on-inverse: #f2f2f2;
+  /* Video player is always dark (like a cinema), in both themes. */
+  --player: #0d0d0d;
+  --on-player: #f5f5f5;
   --foreground: #2b2b2b;
   /* DESIGN_SPEC placeholder (#7A7A7A) fails AA (3.84:1 on --background) — darkened, see phase decisions log. */
   --muted-foreground: #6b6b6b;
@@ -60,6 +63,8 @@
   --color-surface-muted: var(--surface-muted);
   --color-surface-inverse: var(--surface-inverse);
   --color-on-inverse: var(--on-inverse);
+  --color-player: var(--player);
+  --color-on-player: var(--on-player);
   --color-foreground: var(--foreground);
   --color-muted-foreground: var(--muted-foreground);
   --color-subtle-foreground: var(--subtle-foreground);

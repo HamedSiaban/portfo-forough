@@ -12,6 +12,8 @@ type ScrollTarget = string | number | HTMLElement;
 
 type SmoothScrollContextValue = {
   scrollTo: (target: ScrollTarget, options?: { offset?: number }) => void;
+  /** Freeze/resume smooth scrolling (modals). No-op when Lenis is disabled. */
+  setPaused: (paused: boolean) => void;
 };
 
 const SmoothScrollContext = React.createContext<SmoothScrollContextValue | null>(null);
@@ -58,6 +60,11 @@ function SmoothScrollProvider({ children }: { children: React.ReactNode }) {
     element?.scrollIntoView({ behavior: "auto" });
   }, []);
 
+  const setPaused = React.useCallback((paused: boolean) => {
+    if (paused) lenisRef.current?.stop();
+    else lenisRef.current?.start();
+  }, []);
+
   // SmoothScrollProvider lives in the root layout and never remounts on client-side
   // navigation, so a mount-only effect would miss a hash that appears after an
   // in-app nav (e.g. a Pricing link clicked from /legals). Re-check on pathname change.
@@ -84,7 +91,7 @@ function SmoothScrollProvider({ children }: { children: React.ReactNode }) {
     return () => cancelAnimationFrame(frame);
   }, [pathname, scrollTo]);
 
-  const value = React.useMemo(() => ({ scrollTo }), [scrollTo]);
+  const value = React.useMemo(() => ({ scrollTo, setPaused }), [scrollTo, setPaused]);
 
   return <SmoothScrollContext.Provider value={value}>{children}</SmoothScrollContext.Provider>;
 }

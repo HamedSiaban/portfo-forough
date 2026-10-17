@@ -10,7 +10,9 @@ type UiStore = {
   closeInquiry: () => void;
   videoOpen: boolean;
   activeVideo: string | null;
-  openVideo: (id: string) => void;
+  /** Element the player expands from and returns to (the showreel tile). */
+  videoOrigin: HTMLElement | null;
+  openVideo: (id: string, origin: HTMLElement | null) => void;
   closeVideo: () => void;
 };
 
@@ -25,6 +27,7 @@ export const useUiStore = create<UiStore>((set) => ({
   closeInquiry: () => set({ inquiryOpen: false }),
   videoOpen: false,
   activeVideo: null,
-  openVideo: (id) => set({ videoOpen: true, activeVideo: id }),
+  videoOrigin: null,
+  openVideo: (id, origin) => set({ videoOpen: true, activeVideo: id, videoOrigin: origin }),
   closeVideo: () => set({ videoOpen: false }),
 }));
