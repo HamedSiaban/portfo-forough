@@ -75,6 +75,7 @@ function WaveFieldCanvas({
   halftone,
   chromatic,
   idleDrift = false,
+  pointerTarget,
   active,
   className,
   onError,
@@ -176,9 +177,11 @@ function WaveFieldCanvas({
       pointer.inside = false;
     };
 
-    container.addEventListener("pointermove", handlePointerMove);
-    container.addEventListener("pointerdown", handlePointerMove);
-    container.addEventListener("pointerleave", handlePointerLeave);
+    // Coordinates stay relative to the field's own rect; the target only decides who listens.
+    const target = pointerTarget?.current ?? container;
+    target.addEventListener("pointermove", handlePointerMove);
+    target.addEventListener("pointerdown", handlePointerMove);
+    target.addEventListener("pointerleave", handlePointerLeave);
 
     const tick = (_time: number, deltaTimeMs: number): void => {
       const dt = Math.min(deltaTimeMs / 1000, 1 / 20);
@@ -255,9 +258,9 @@ function WaveFieldCanvas({
 
     return () => {
       gsap.ticker.remove(tick);
-      container.removeEventListener("pointermove", handlePointerMove);
-      container.removeEventListener("pointerdown", handlePointerMove);
-      container.removeEventListener("pointerleave", handlePointerLeave);
+      target.removeEventListener("pointermove", handlePointerMove);
+      target.removeEventListener("pointerdown", handlePointerMove);
+      target.removeEventListener("pointerleave", handlePointerLeave);
       resizeObserver.disconnect();
       themeObserver.disconnect();
       renderer.dispose();

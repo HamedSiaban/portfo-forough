@@ -1,3 +1,5 @@
+import type { RefObject } from "react";
+
 type WaveFieldPalette = "accent" | "dark" | { core: string; soft: [string, string, string] };
 
 type WaveFieldProps = {
@@ -11,6 +13,16 @@ type WaveFieldProps = {
   chromatic?: boolean;
   /** Slow autonomous glow that runs when there's no real pointer input (touch, first paint). */
   idleDrift?: boolean;
+  /**
+   * Render the built-in static halftone behind the canvas. Turn off when a parent already
+   * draws one (e.g. `<Panel />`) so the dots aren't doubled.
+   */
+  backdrop?: boolean;
+  /**
+   * Element that receives pointer events instead of the field itself — needed when the field
+   * is stacked above content with `pointer-events: none`.
+   */
+  pointerTarget?: RefObject<HTMLElement | null>;
   className?: string;
 };
 

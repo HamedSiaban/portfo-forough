@@ -23,7 +23,7 @@ const WaveFieldCanvas = dynamic(
  * first intersection and then only paused (not torn down) when off-screen, so scrolling doesn't
  * thrash WebGL context creation.
  */
-function WaveField(props: WaveFieldProps) {
+function WaveField({ backdrop = true, ...props }: WaveFieldProps) {
   const hostRef = React.useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotion();
   const [hasBeenVisible, setHasBeenVisible] = React.useState(false);
@@ -59,7 +59,7 @@ function WaveField(props: WaveFieldProps) {
 
   return (
     <div ref={hostRef} className={cn("relative overflow-hidden", props.className)}>
-      <Halftone />
+      {backdrop && <Halftone />}
       {showCanvas && (
         <WaveFieldCanvas
           {...props}
