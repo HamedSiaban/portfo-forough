@@ -1,6 +1,6 @@
 # Phase 03 · Ink field engine
 
-**Branch:** `phase/03-ink-field` · **Spec:** DESIGN_SPEC §5 Hero "Effect", §2 tokens · **Refs:** 05, 02, 11, 12
+**Branch:** `phase/03-ink-field` · **Spec:** DESIGN_SPEC §5 Hero "Effect", §2 tokens · **Refs:** 05, 02, 11, 12, 19
 
 ## Goal
 
@@ -69,3 +69,19 @@ show me how to test it, then follow CLAUDE.md §8 and stop.
   — confirmed visually via the dark/inverse panel's idle-drift trail (swirling halftone dots,
   correct chromatic fringe) and via a direct dye-buffer readback showing real accumulated
   density that decays on the expected ~1–2s timescale.
+- **Retuned against ref 19** (user-provided screencast of the real hover feel) after the
+  first pass read as a small, faint dot instead of a bold comet-shaped splash: bigger splat
+  radius and chromatic offset, a higher color-saturation floor so ink reaches full opacity
+  from modest pointer speed, and a soft glow term under the halftone dots. Also found and
+  fixed that overlapping dye splats were accumulating additively past 1.0 on every channel,
+  blowing the comet's head out to white once each channel independently clamped — switched
+  dye splatting to `max()` blending (velocity stays additive) and clamp the dye sample before
+  use in the display shader. Confirmed visually on the dark/inverse panel: bold pink comet
+  with a dense near-solid head tapering to a sparse dot tail, close match to ref 19.
+- The "ink recoloring dark text" interaction (light-panel case) is real but visually subtle
+  in a frozen screenshot — `mix-blend-mode: lighten` over a near-white background has very
+  little headroom by construction (per DESIGN_SPEC, that's intentional: "the light-grey
+  background stays unchanged"), and the halftone dot lattice only partially overlaps thin
+  glyph strokes at any given instant. Reads far better live (continuous pointer motion) than
+  in a single captured frame — worth a human eyeball pass in the browser, not just automated
+  screenshots.

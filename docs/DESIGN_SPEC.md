@@ -100,7 +100,7 @@ Framed panel. Mono credentials row with accent dot separators → `display-xl` h
 Technique (built in Phase 03, `<InkField />`): dark DOM text, canvas above it with `mix-blend-mode: lighten` in light mode / `screen` in dark mode (plain Tailwind classes, swaps instantly on theme toggle). Pink over near-black text gives pink; the light-grey background stays unchanged. Chromatic offset is done in the shader.
 **Scroll out:** the panel scrolls up and away, uncovering section 2's headline beneath it (ref 02).
 
-**`<InkField />` tuned defaults** (`src/components/effects/ink-field/fluid-simulation.ts`, tune further at `/styleguide/ink`): `simResolution` 128px · `dyeResolution` 512px · `pressureIterations` 20 · `intensity` 1 · `dissipation` 0.15 (fraction of dye remaining after 1s — fades in ~2s) · `dotSize` 6px · `halftone`/`chromatic` on by default · DPR capped 1.5.
+**`<InkField />` tuned defaults** (`src/components/effects/ink-field/fluid-simulation.ts`, tune further at `/styleguide/ink`): `simResolution` 128px · `dyeResolution` 512px · `pressureIterations` 20 · `intensity` 1 · `dissipation` 0.22 (fraction of dye remaining after 1s — fades in ~2s) · `dotSize` 11px · `halftone`/`chromatic` on by default · DPR capped 1.5. Retuned against ref 19 for a bold comet-shaped splash (bigger splat radius, higher color-saturation floor, soft glow halo under the halftone dots) rather than a small faint dot.
 
 ### 2 · Value cards — `#approach` · refs 06, 16, 12
 
