@@ -8,6 +8,7 @@ import * as React from "react";
 import { useSmoothScroll } from "@/components/motion/smooth-scroll";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { HEADER_OFFSET_PX } from "@/config/site";
+import { pricing } from "@/content/pricing";
 import { cn } from "@/lib/cn";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { useUiStore } from "@/stores/ui-store";
@@ -59,14 +60,18 @@ function Header() {
     >
       <Logo className="pointer-events-auto shrink-0" />
       <div className="pointer-events-auto flex min-w-0 flex-1 flex-wrap items-center justify-end gap-1 sm:gap-2">
-        <Link
-          href="/#pricing"
-          scroll={false}
-          onClick={handlePricingClick}
-          className={cn(buttonVariants({ variant: isDark ? "secondary" : "outline", size: "sm" }))}
-        >
-          Pricing
-        </Link>
+        {pricing.enabled ? (
+          <Link
+            href="/#pricing"
+            scroll={false}
+            onClick={handlePricingClick}
+            className={cn(
+              buttonVariants({ variant: isDark ? "secondary" : "outline", size: "sm" }),
+            )}
+          >
+            Pricing
+          </Link>
+        ) : null}
         <Button variant="solid" size="sm" onClick={() => openInquiry()}>
           Start a conversation
         </Button>
