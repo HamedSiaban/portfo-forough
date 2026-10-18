@@ -97,3 +97,17 @@ test("mobile: single-column full-height sheet", async ({ page }) => {
   expect(box?.width).toBe(375);
   expect(box?.height).toBe(800);
 });
+
+test("privacy link opens in a new tab and keeps the draft", async ({ page, context }) => {
+  await page.goto("/");
+  await page.getByRole("banner").getByRole("button", { name: "Start a conversation" }).click();
+  await page.getByRole("textbox", { name: "Name*" }).fill("Ada");
+  const [popup] = await Promise.all([
+    context.waitForEvent("page"),
+    page.getByRole("link", { name: /privacy policy/ }).click(),
+  ]);
+  await popup.waitForLoadState();
+  expect(popup.url()).toContain("/privacy");
+  await expect(page.getByRole("dialog", { name: "Project enquiry" })).toBeVisible();
+  await expect(page.getByRole("textbox", { name: "Name*" })).toHaveValue("Ada");
+});

@@ -247,8 +247,16 @@ function InquiryForm({ form, onSubmit, pending, error }: InquiryFormProps) {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-xs text-muted-foreground">
           {inquiry.consent.before}{" "}
-          <Link href="/privacy" className="underline underline-offset-2 hover:text-foreground">
+          {/* New tab: the modal lives in the root layout and survives client navigation, and a
+              same-tab visit would also discard the draft. */}
+          <Link
+            href="/privacy"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline underline-offset-2 hover:text-foreground"
+          >
             {inquiry.consent.link}
+            <span className="sr-only"> (opens in a new tab)</span>
           </Link>
           .
         </p>
