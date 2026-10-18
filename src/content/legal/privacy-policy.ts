@@ -8,7 +8,7 @@ const label = (value: string): string => value.replace(/\*$/, "");
 
 /**
  * Must match what the site actually does: the inquiry form fields (content/inquiry.ts), Resend
- * (lib/email.ts), in-memory rate limiting (lib/rate-limit.ts), Vercel Analytics (Q12 default).
+ * (lib/email.ts), in-memory rate limiting (lib/rate-limit.ts), Umami and Microsoft Clarity analytics, Netlify hosting (Q12).
  * ⚠️ TODO markers = OPEN_QUESTIONS Q11/Q12.
  */
 const privacyPolicy: LegalDocument = {
@@ -53,7 +53,7 @@ const privacyPolicy: LegalDocument = {
         },
         {
           type: "p",
-          text: "Your theme preference (light or dark) is saved in your browser's local storage. It never leaves your device. This site sets no tracking or advertising cookies.",
+          text: "Your theme preference (light or dark) is saved in your browser's local storage. It never leaves your device. This site sets no advertising cookies. Microsoft Clarity may set first-party cookies to recognise a returning browser (see section 4).",
         },
       ],
     },
@@ -75,7 +75,9 @@ const privacyPolicy: LegalDocument = {
           type: "list",
           items: [
             "Resend: delivers the enquiry to my inbox by email.",
-            "Vercel: hosts the website and provides privacy-friendly, cookieless aggregate analytics (page views, referrers, country). TODO: confirm analytics choice (OPEN_QUESTIONS Q12).",
+            "Netlify: hosts the website.",
+            "Umami: cookieless aggregate analytics (page views, referrers, country, device type). It honours your browser's Do Not Track setting.",
+            "Microsoft Clarity: records anonymised usage, such as clicks, scrolling and session replays, and produces heatmaps so I can improve the design. It may set cookies. Form fields are masked and not recorded. See Microsoft's privacy statement at privacy.microsoft.com.",
           ],
         },
         {

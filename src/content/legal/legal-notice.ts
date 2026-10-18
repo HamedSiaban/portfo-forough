@@ -32,7 +32,7 @@ const legalNotice: LegalDocument = {
       blocks: [
         {
           type: "p",
-          text: "The website is hosted by Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, USA. TODO: confirm hosting provider and region (OPEN_QUESTIONS Q11/Q12).",
+          text: "The website is hosted by Netlify, Inc., 512 2nd Street, Suite 200, San Francisco, CA 94107, USA. TODO: confirm hosting region (OPEN_QUESTIONS Q11).",
         },
       ],
     },

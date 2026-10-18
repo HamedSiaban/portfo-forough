@@ -1,0 +1,3 @@
+# Netlify auto-detects Next.js (OpenNext adapter); this only pins the build.
+[build]
+  command = "pnpm build"

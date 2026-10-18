@@ -40,6 +40,8 @@ describe("privacy content", () => {
 
   it("names the processors", () => {
     expect(text).toContain("resend");
-    expect(text).toContain("vercel");
+    expect(text).toContain("netlify");
+    expect(text).toContain("umami");
+    expect(text).toContain("clarity");
   });
 });

@@ -14,14 +14,13 @@ Production-ready: audited, fast, discoverable, tested, deployed.
 - **Performance:** Lighthouse mobile ≥ 90 perf / 100 a11y / 100 best practices / 100 SEO; bundle analyzer; verify budgets in CLAUDE.md §7; image/video weights; preload hero font.
 - **SEO/meta:** `metadata` (title template, description), `opengraph-image.tsx` (generated in brand style), `sitemap.ts`, `robots.ts`, Person JSON-LD, favicon/app icons from the logo.
 - **Error pages:** `not-found.tsx`, `error.tsx` in brand style.
-- **Analytics** per OPEN_QUESTIONS Q12 (privacy-friendly, matches privacy policy).
+- **Analytics:** `components/analytics.tsx` is built (Umami + Microsoft Clarity, env-gated, production only). Remaining: create the Umami site and Clarity project, set the three `NEXT_PUBLIC_*` vars in Netlify, decide the Clarity consent question (decisions below).
 - **E2E:** Playwright smoke on chromium/webkit/mobile: load, theme toggle persists, pricing scroll, modals open/close, form happy path (mocked); visual screenshots at 375/1440 both themes.
 - **CI:** GitHub Actions running `pnpm check`, `pnpm build`, Playwright.
-- **Deploy:** Vercel project, env vars, domain `foroughforoughi.com`, preview deployments per PR.
+- **Deploy:** Netlify site (`netlify.toml`), env vars (`RESEND_*`, `INQUIRY_*`, analytics), domain `foroughforoughi.com`, preview deployments per PR.
 
 ## Acceptance criteria
 
-- [ ] Every file in `src/fonts/` is a licensed Pangram Pangram file (licence receipts noted in the decisions log, not committed). Do not deploy until this is checked.
 - [ ] All Lighthouse targets met on the production URL.
 - [ ] Zero axe violations; full keyboard journey works.
 - [ ] CI green on main; production deployed on the custom domain.

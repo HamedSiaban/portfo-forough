@@ -2,6 +2,7 @@ import "./globals.css";
 
 import type { Metadata } from "next";
 
+import { Analytics } from "@/components/analytics";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { InquiryModal } from "@/components/modals/inquiry-modal";
@@ -31,6 +32,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <Footer />
           <InquiryModal />
           <VideoModal />
+          <Analytics />
         </Providers>
       </body>
     </html>

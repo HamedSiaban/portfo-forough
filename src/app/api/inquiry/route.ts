@@ -11,8 +11,13 @@ function respond(body: InquiryResult, status: number): NextResponse<InquiryResul
 }
 
 function clientKey(request: Request): string {
-  // First hop of x-forwarded-for is the client on Vercel; "unknown" shares one bucket locally.
-  return request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+  // Netlify sets x-nf-client-connection-ip; otherwise the first x-forwarded-for hop is the client.
+  // "unknown" shares one bucket locally.
+  return (
+    request.headers.get("x-nf-client-connection-ip") ||
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    "unknown"
+  );
 }
 
 export async function POST(request: Request): Promise<NextResponse<InquiryResult>> {
