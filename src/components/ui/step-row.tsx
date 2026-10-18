@@ -7,6 +7,8 @@ type StepRowProps = React.ComponentProps<"div"> & {
   label: string;
   active?: boolean;
   disabled?: boolean;
+  /** Visually dim without blocking input, so keyboard users are never trapped behind an earlier step. */
+  dimmed?: boolean;
 };
 
 /**
@@ -19,6 +21,7 @@ function StepRow({
   label,
   active = true,
   disabled = false,
+  dimmed = false,
   className,
   ...props
 }: StepRowProps) {
@@ -28,6 +31,7 @@ function StepRow({
       className={cn(
         "flex items-center gap-4 transition-opacity",
         disabled && "pointer-events-none opacity-50",
+        dimmed && "opacity-50",
         className,
       )}
       {...props}

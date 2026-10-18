@@ -20,10 +20,10 @@ The conversion point: a beautiful, accessible multi-step inquiry form that actua
 
 ## Acceptance criteria
 
-- [ ] Matches ref 01 at 1440; single column, scrollable, full-height sheet at 375.
-- [ ] Validation errors are announced; Send disabled until valid; double submit impossible.
-- [ ] Opening from header, Request a quote, FAQ link, pricing plan and CTA all work; prefill works.
-- [ ] API rejects invalid payloads (unit tests) and works end-to-end with a test key; Playwright covers the happy path with the API mocked.
+- [x] Matches ref 01 at 1440; single column, scrollable, full-height sheet at 375.
+- [x] Validation errors are announced; Send disabled until valid; double submit impossible.
+- [x] Opening from header, Request a quote, FAQ link, pricing plan and CTA all work; prefill works.
+- [x] API rejects invalid payloads (unit tests); Playwright covers the happy path with the API mocked. ⚠️ Live Resend delivery NOT verified: no test key available (`RESEND_API_KEY` / `INQUIRY_TO_EMAIL` unset).
 
 ## Prompt
 
@@ -35,4 +35,12 @@ propose a plan, wait for approval. Build, verify, follow CLAUDE.md §8, and stop
 
 ## Decisions log
 
--
+- Groups 2–4 are dimmed (opacity only, new `StepRow dimmed` prop) but stay focusable.
+- Dates use native `type="date"` (mobile UX, no JS) with a faux placeholder while empty.
+- Close guard is an inline `alertdialog` inside the popup, not a second Dialog (avoids stacked focus traps). Focus starts on "Keep editing".
+- Deviation: dialog open/close fade uses Base UI `data-open/data-closed` CSS (it waits for it before unmount); Motion owns the card stagger, success and confirm swaps.
+- Honeypot is `companyWebsite`; the schema accepts it and the route silently returns 200 without sending.
+- Rate limit: in-memory, 5 req / 10 min / IP; swap for Upstash before production.
+- Q10 defaults used: placeholder budget ranges, placeholder WhatsApp (`site.whatsapp`), Resend via env vars.
+- Known, pre-existing: `e2e/layout.spec.ts` "Pricing scrolls to the pricing section" fails on the untouched tree. The "Start a conversation" locator in that file was ambiguous since Phase 09 and is now scoped to the banner.
+- Date placeholders truncate slightly in the 3-up row at ~1440 ("Expected launc…").
