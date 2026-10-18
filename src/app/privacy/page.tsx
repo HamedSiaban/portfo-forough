@@ -1,8 +1,13 @@
-/** Minimal stub so /#pricing hash navigation from here is testable (Phase 02). Full content: Phase 11. */
+import type { Metadata } from "next";
+
+import { LegalLayout } from "@/components/legal/legal-layout";
+import { privacyPolicy } from "@/content/legal";
+
+export const metadata: Metadata = {
+  title: privacyPolicy.title,
+  description: privacyPolicy.description,
+};
+
 export default function PrivacyPage() {
-  return (
-    <main id="main-content" className="flex min-h-screen items-center justify-center">
-      <h1 className="text-heading">Privacy policy — coming in Phase 11.</h1>
-    </main>
-  );
+  return <LegalLayout doc={privacyPolicy} />;
 }

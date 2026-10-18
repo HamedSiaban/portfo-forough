@@ -1,8 +1,13 @@
-/** Minimal stub so /#pricing hash navigation from here is testable (Phase 02). Full content: Phase 11. */
+import type { Metadata } from "next";
+
+import { LegalLayout } from "@/components/legal/legal-layout";
+import { legalNotice } from "@/content/legal";
+
+export const metadata: Metadata = {
+  title: legalNotice.title,
+  description: legalNotice.description,
+};
+
 export default function LegalsPage() {
-  return (
-    <main id="main-content" className="flex min-h-screen items-center justify-center">
-      <h1 className="text-heading">Legal notice — coming in Phase 11.</h1>
-    </main>
-  );
+  return <LegalLayout doc={legalNotice} />;
 }
