@@ -3,6 +3,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 
 import { Analytics } from "@/components/analytics";
+import { CookieBanner } from "@/components/consent/cookie-banner";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { InquiryModal } from "@/components/modals/inquiry-modal";
@@ -33,6 +34,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <InquiryModal />
           <VideoModal />
           <Analytics />
+          <CookieBanner />
         </Providers>
       </body>
     </html>

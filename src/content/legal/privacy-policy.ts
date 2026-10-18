@@ -53,7 +53,7 @@ const privacyPolicy: LegalDocument = {
         },
         {
           type: "p",
-          text: "Your theme preference (light or dark) is saved in your browser's local storage. It never leaves your device. This site sets no advertising cookies. Microsoft Clarity may set first-party cookies to recognise a returning browser (see section 4).",
+          text: "Your theme preference (light or dark) is saved in your browser's local storage. It never leaves your device. This site sets no advertising cookies. Microsoft Clarity sets cookies, but only if you accept them in the cookie banner. You can change your choice at any time with “Cookie settings” in the footer.",
         },
       ],
     },
@@ -77,7 +77,7 @@ const privacyPolicy: LegalDocument = {
             "Resend: delivers the enquiry to my inbox by email.",
             "Netlify: hosts the website.",
             "Umami: cookieless aggregate analytics (page views, referrers, country, device type). It honours your browser's Do Not Track setting.",
-            "Microsoft Clarity: records anonymised usage, such as clicks, scrolling and session replays, and produces heatmaps so I can improve the design. It may set cookies. Form fields are masked and not recorded. See Microsoft's privacy statement at privacy.microsoft.com.",
+            "Microsoft Clarity: records anonymised usage, such as clicks, scrolling and session replays, and produces heatmaps so I can improve the design. It only runs if you accept cookies. Form fields are masked and not recorded. See Microsoft's privacy statement at privacy.microsoft.com.",
           ],
         },
         {

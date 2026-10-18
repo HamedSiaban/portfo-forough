@@ -5,7 +5,7 @@
 export const site = {
   name: "Foroughozaman Foroughi",
   shortName: "Foro",
-  url: "https://foroughforoughi.com",
+  url: "https://foroforoughi.netlify.app", // Netlify default domain; swap for the custom domain later
   email: "hello@foroughforoughi.com", // placeholder — OPEN_QUESTIONS Q10
   whatsapp: "https://wa.me/37400000000", // placeholder — OPEN_QUESTIONS Q10
   linkedin: "https://www.linkedin.com/in/foroughforoughi", // placeholder — OPEN_QUESTIONS Q10

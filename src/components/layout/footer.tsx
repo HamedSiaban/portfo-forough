@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { CookieSettingsButton } from "@/components/consent/cookie-settings-button";
 import { site } from "@/config/site";
 
 function Footer() {
@@ -12,6 +13,7 @@ function Footer() {
         <Link href="/privacy" className="hover:text-foreground">
           Privacy
         </Link>
+        <CookieSettingsButton />
       </nav>
       <a href={`mailto:${site.email}`} className="justify-self-center hover:text-foreground">
         {site.email}
