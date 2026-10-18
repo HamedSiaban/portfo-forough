@@ -1,6 +1,5 @@
 /**
- * Hero copy. PLACEHOLDER — OPEN_QUESTIONS Q4 (copy) and Q5 (logos) are unresolved. Replace
- * with Foro's own words before launch; never reuse the reference site's text.
+ * Hero copy. Logos are still SAMPLE placeholders (OPEN_QUESTIONS Q5).
  */
 type HeroLogo = {
   name: string;
@@ -20,10 +19,10 @@ type HeroContent = {
 };
 
 const hero: HeroContent = {
-  credentials: ["10+ years", "Product design", "UX research", "Design systems"],
-  headline: ["Product design", "that makes", "complex things", "feel simple"],
+  credentials: ["Founding product designer", "0-to-1 systems", "AI design-to-code pipeline"],
+  headline: ["Founding Product", "Designer crafting", "0-to-1 products", "from vision to code"],
   subline:
-    "Senior product and UX designer shaping clear, considered interfaces for teams that care about craft.",
+    "Specialized in 0-to-1 product architecture and design systems, leveraging advanced AI workflows to bridge high-end UX craft with production-ready code.",
   logosLabel: "Trusted by teams behind",
   // Q5: SAMPLE wordmarks (fictional names) so the row stays visible during development.
   // Replace with approved client logos; an empty list hides the row.

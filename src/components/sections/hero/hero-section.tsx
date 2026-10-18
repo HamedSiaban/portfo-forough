@@ -26,7 +26,7 @@ function HeroSection() {
           ))}
         </ul>
 
-        <h1 className="mt-10 max-w-[14ch] text-display-xl text-foreground md:mt-14 md:max-w-[12ch]">
+        <h1 className="mt-10 text-display-lg text-foreground md:mt-14">
           {headline.map((line, index) => (
             // pb keeps descenders inside the reveal mask; negative margin restores line spacing.
             <span key={line} className="mb-[-0.24em] block overflow-hidden pb-[0.24em]">
@@ -38,7 +38,7 @@ function HeroSection() {
         </h1>
 
         <p
-          className="mt-10 max-w-[34ch] animate-hero-fade text-body-lg text-muted-foreground md:mt-14"
+          className="mt-10 max-w-[48ch] animate-hero-fade text-body-lg text-muted-foreground md:mt-14"
           style={delay(0.6)}
         >
           {subline}
