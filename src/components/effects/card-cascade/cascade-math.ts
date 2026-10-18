@@ -97,9 +97,10 @@ function stepCard(card: Card, world: World, dt: number = config.step): boolean {
   return card.x > -world.size && card.x < world.width + world.size;
 }
 
-/** Alpha for a destination-out fade pass so decay speed doesn't depend on frame rate. */
-function fadeFor(dt: number): number {
-  return 1 - Math.pow(1 - config.fadePerFrame, dt / config.step);
+/** Trail opacity for a stamp of the given age (seconds): eased fade from `trailAlpha` to 0. */
+function trailAlpha(age: number): number {
+  const t = Math.min(Math.max(age / config.trailLife, 0), 1);
+  return config.trailAlpha * (1 - t) * (1 - t);
 }
 
 /**
@@ -131,11 +132,11 @@ function needsStamp(card: Card, world: World, spacing: number = config.stampDist
 export {
   cardSize,
   createRng,
-  fadeFor,
   needsStamp,
   nextSpawnDelay,
   sampleTrail,
   spawnCard,
   stepCard,
+  trailAlpha,
 };
 export type { Card, Rng, World };

@@ -13,26 +13,25 @@ import {
   type Card,
   cardSize,
   createRng,
-  fadeFor,
   needsStamp,
   nextSpawnDelay,
   sampleTrail,
   spawnCard,
   stepCard,
+  trailAlpha,
   type World,
 } from "./cascade-math";
 import { buildSprites, type Sprites } from "./cascade-sprites";
 
 /**
- * Solitaire-victory cascade (DESIGN_SPEC §5 "6 · CTA", ref 11). Pink cards launch one at a time
- * from the top-left, fall under gravity and bounce off the panel floor. The canvas is never
- * cleared between frames — every frame stamps all live cards at their new position, which leaves
- * the stepped waterfall trail. Trails fade by punching a low-alpha `destination-out` rect through
- * the same transparent canvas (so the panel's halftone/gradient shows through in both themes,
- * with no background colour to match), applied in coarser, rarer passes so 8-bit alpha rounding
- * can't leave ghost silhouettes. Cards stamp every few px of travel for the chunky stepped trail. Physics is a fixed-step sim in `cascade-math`.
- * Runs on `gsap.ticker`; idle while off-screen or the tab is hidden. Clicking the panel replays.
- * Reduced motion: one static composition of a few trails, no ticker. Touch uses the same loop.
+ * Solitaire-victory cascade (DESIGN_SPEC §5 "6 · CTA", ref 11), kept deliberately calm: a few
+ * pink cards launch one at a time from the top-left, fall under gravity and bounce off the panel
+ * floor, leaving a short stepped trail. Each trail stamp remembers when it was drawn; every
+ * frame the canvas is cleared and the stamps are redrawn with alpha falling by age — this
+ * replaced an accumulate-and-`destination-out` fade that pulsed and left 8-bit alpha residue.
+ * Physics is a fixed-step sim in `cascade-math`. Runs on `gsap.ticker`; idle while off-screen or
+ * the tab is hidden. Clicking the panel replays. Reduced motion: one static composition, no
+ * ticker. Touch uses the same loop.
  */
 function CardCascade({ className }: { className?: string }) {
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
@@ -64,7 +63,9 @@ function CardCascade({ className }: { className?: string }) {
       let rng = createRng(Math.floor(Math.random() * 2 ** 31));
       let spawnTimer = 0;
       let accumulator = 0;
-      let fadeClock = 0;
+      let clock = 0;
+      // Chronological, so expired stamps are always at the front.
+      let stamps: { x: number; y: number; angle: number; sprite: number; born: number }[] = [];
 
       function clear(): void {
         ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -104,6 +105,7 @@ function CardCascade({ className }: { className?: string }) {
         canvas.width = Math.round(rect.width * dpr);
         canvas.height = Math.round(rect.height * dpr);
         cards = [];
+        stamps = [];
         spawnTimer = 0;
         rebuildSprites();
       }
@@ -111,20 +113,10 @@ function CardCascade({ className }: { className?: string }) {
       function replay(): void {
         clear();
         cards = [];
+        stamps = [];
         spawnTimer = 0;
         accumulator = 0;
         rng = createRng(Math.floor(Math.random() * 2 ** 31));
-      }
-
-      function fade(dt: number): void {
-        fadeClock += dt;
-        if (fadeClock < config.fadeInterval) return;
-        ctx.setTransform(1, 0, 0, 1, 0, 0);
-        ctx.globalCompositeOperation = "destination-out";
-        ctx.fillStyle = `rgb(0 0 0 / ${fadeFor(fadeClock)})`;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.globalCompositeOperation = "source-over";
-        fadeClock = 0;
       }
 
       function tick(_time: number, deltaMs: number): void {
@@ -145,13 +137,29 @@ function CardCascade({ className }: { className?: string }) {
           cards = cards.filter((card) => stepCard(card, world));
         }
 
-        fade(dt);
+        clock += dt;
         for (const card of cards) {
           if (!needsStamp(card, world)) continue;
           card.stampX = card.x;
           card.stampY = card.y;
-          stamp(card);
+          stamps.push({
+            x: card.x,
+            y: card.y,
+            angle: card.angle,
+            sprite: card.sprite,
+            born: clock,
+          });
         }
+        while (stamps[0] && clock - stamps[0].born > config.trailLife) stamps.shift();
+
+        // Redrawn from scratch each frame: smooth fade, no residue, no flicker.
+        clear();
+        for (const item of stamps) {
+          ctx.globalAlpha = trailAlpha(clock - item.born);
+          stamp(item);
+        }
+        ctx.globalAlpha = 1;
+        for (const card of cards) stamp(card);
       }
 
       const resizeObserver = new ResizeObserver(resize);

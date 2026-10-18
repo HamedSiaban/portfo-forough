@@ -4,11 +4,11 @@ import { cascadeConfig as config } from "./cascade-config";
 import {
   cardSize,
   createRng,
-  fadeFor,
   nextSpawnDelay,
   sampleTrail,
   spawnCard,
   stepCard,
+  trailAlpha,
 } from "./cascade-math";
 
 const world = { width: 1440, height: 800, size: 120 };
@@ -28,12 +28,12 @@ describe("cascade math", () => {
     }
   });
 
-  it("spawn delay stays within 250–400ms", () => {
+  it("spawn delay stays within the configured interval", () => {
     const rng = createRng(3);
     for (let index = 0; index < 100; index += 1) {
       const delay = nextSpawnDelay(rng);
-      expect(delay).toBeGreaterThanOrEqual(0.25);
-      expect(delay).toBeLessThanOrEqual(0.4);
+      expect(delay).toBeGreaterThanOrEqual(config.spawnInterval.min);
+      expect(delay).toBeLessThanOrEqual(config.spawnInterval.max);
     }
   });
 
@@ -72,10 +72,11 @@ describe("cascade math", () => {
     expect(stepCard(card, world)).toBe(false);
   });
 
-  it("fade is frame-rate independent", () => {
-    const sixty = 1 - fadeFor(1 / 60);
-    const hundredTwenty = Math.pow(1 - fadeFor(1 / 120), 2);
-    expect(hundredTwenty).toBeCloseTo(sixty, 6);
+  it("trail alpha fades monotonically from trailAlpha to zero", () => {
+    expect(trailAlpha(0)).toBeCloseTo(config.trailAlpha);
+    expect(trailAlpha(config.trailLife / 2)).toBeLessThan(trailAlpha(0));
+    expect(trailAlpha(config.trailLife)).toBe(0);
+    expect(trailAlpha(config.trailLife * 3)).toBe(0);
   });
 
   it("builds deterministic static trails", () => {
