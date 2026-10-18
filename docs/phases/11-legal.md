@@ -15,9 +15,9 @@
 
 ## Acceptance criteria
 
-- [ ] Matches refs 03/17 layout; readable at 375.
-- [ ] Privacy policy lists exactly the data the inquiry form collects and the processors used.
-- [ ] Footer links and the inquiry form's privacy link point here.
+- [x] Matches refs 03/17 layout; readable at 375.
+- [x] Privacy policy lists exactly the data the inquiry form collects and the processors used.
+- [x] Footer links and the inquiry form's privacy link point here.
 
 ## Prompt
 
@@ -29,4 +29,8 @@ Build, verify, follow CLAUDE.md §8, and stop.
 
 ## Decisions log
 
--
+- Content is typed TS (`src/content/legal/`), not MDX: no new dependency, consistent with the other content files. Inline tokens `{email}`, `{privacy}`, `{legals}` become links in `LegalLayout`.
+- Q11 is unanswered, so registration details, hosting region and retention period are visible `TODO` markers. Vercel + Vercel Analytics are the Q12 defaults and also flagged `TODO`. All must be resolved before the Phase 12 launch gate.
+- The privacy field list is derived from `content/inquiry.ts`, and a test fails if a form field is missing from the policy.
+- Entrance reuses the CSS-only `animate-hero-fade` utility (off under reduced motion); no JS animation.
+- Observed, not changed: at 375px the header wraps onto two rows (Phase 02 layout). Left for Phase 12 polish.

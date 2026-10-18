@@ -16,7 +16,7 @@ To start a phase in Claude Code, paste the **Prompt** block from its phase doc.
 | 08  | Section 4 · Pricing                                                   | `phase/08-pricing`         | 02         | ☑      |
 | 09  | Section 5 · FAQ + Section 6 · CTA (card cascade)                      | `phase/09-faq-cta`         | 03         | ☑      |
 | 10  | Inquiry modal + API route + email                                     | `phase/10-inquiry`         | 02         | ☑      |
-| 11  | Legal & privacy pages                                                 | `phase/11-legal`           | 02         | ☐      |
+| 11  | Legal & privacy pages                                                 | `phase/11-legal`           | 02         | ☑      |
 | 12  | Polish: a11y audit, perf budget, SEO/OG, e2e, deploy                  | `phase/12-polish-launch`   | all        | ☐      |
 
 Every phase doc has: Goal · Scope · Out of scope · References · Acceptance criteria · Prompt · Decisions log.
