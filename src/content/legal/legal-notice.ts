@@ -1,6 +1,6 @@
 import type { LegalDocument } from "./types";
 
-/** ⚠️ TODO markers = OPEN_QUESTIONS Q11 (business registration, hosting). Fill before launch (Phase 12 gate). */
+/** Personal portfolio of an individual, so no company registration details are listed. */
 const legalNotice: LegalDocument = {
   title: "Legal notice",
   description:
@@ -17,7 +17,7 @@ const legalNotice: LegalDocument = {
         },
         {
           type: "p",
-          text: "TODO: legal status, state registration number, tax ID and registered address (OPEN_QUESTIONS Q11).",
+          text: "This is a personal portfolio, published by an individual and not by a registered company.",
         },
       ],
     },
@@ -32,7 +32,7 @@ const legalNotice: LegalDocument = {
       blocks: [
         {
           type: "p",
-          text: "The website is hosted by Netlify, Inc., 512 2nd Street, Suite 200, San Francisco, CA 94107, USA. TODO: confirm hosting region (OPEN_QUESTIONS Q11).",
+          text: "The website is hosted by Netlify, Inc., 512 2nd Street, Suite 200, San Francisco, CA 94107, USA. Pages are served from Netlify's global network; the enquiry form runs on servers that may be located in the United States.",
         },
       ],
     },

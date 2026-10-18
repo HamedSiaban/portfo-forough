@@ -9,7 +9,6 @@ const label = (value: string): string => value.replace(/\*$/, "");
 /**
  * Must match what the site actually does: the inquiry form fields (content/inquiry.ts), Resend
  * (lib/email.ts), in-memory rate limiting (lib/rate-limit.ts), Umami and Microsoft Clarity analytics, Netlify hosting (Q12).
- * ⚠️ TODO markers = OPEN_QUESTIONS Q11/Q12.
  */
 const privacyPolicy: LegalDocument = {
   title: "Privacy policy",
@@ -92,7 +91,7 @@ const privacyPolicy: LegalDocument = {
       blocks: [
         {
           type: "p",
-          text: "TODO: retention period (OPEN_QUESTIONS Q11). Enquiries that don't lead to a project are deleted after the retention period; project correspondence is kept as long as the legal obligations of the engagement require.",
+          text: "Enquiries that don't lead to a project are deleted after 12 months; project correspondence is kept as long as the legal obligations of the engagement require.",
         },
       ],
     },
@@ -112,7 +111,7 @@ const privacyPolicy: LegalDocument = {
       blocks: [
         {
           type: "p",
-          text: "If this policy changes materially, the updated version will be posted here. TODO: add a last-updated date at launch.",
+          text: "If this policy changes materially, the updated version will be posted here. Last updated: 18 October 2026.",
         },
       ],
     },
