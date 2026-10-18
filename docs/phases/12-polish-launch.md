@@ -8,7 +8,7 @@ Production-ready: audited, fast, discoverable, tested, deployed.
 
 ## Scope
 
-- **Font licence gate (blocking):** follow `src/fonts/README.md` "Before launch": licensed Pangram Pangram files replace the dev files, stylistic sets re-applied if the look changed, Latin subset, visual diff against the reference screenshots. Remove the ⚠️ notes from CLAUDE.md §2, DESIGN_SPEC §3 and the font README.
+- **Fonts:** Latin subset the six files if size matters. Licensing is handled by the owner outside this repo (decision: no gate).
 - **Choreography pass:** scroll the whole page top to bottom; tune transitions between sections (refs 02, 12, 08, 10, 07) so hand-offs feel continuous; `ScrollTrigger.refresh()` after fonts/images; test reordering sections.
 - **Accessibility audit:** axe (Playwright `@axe-core/playwright`) on `/`, `/legals`, `/privacy`, each modal open; keyboard-only run; VoiceOver/NVDA spot check; contrast both themes.
 - **Performance:** Lighthouse mobile ≥ 90 perf / 100 a11y / 100 best practices / 100 SEO; bundle analyzer; verify budgets in CLAUDE.md §7; image/video weights; preload hero font.

@@ -38,7 +38,7 @@ Defined as CSS variables in `globals.css`, exposed through Tailwind v4 `@theme`.
 
 ## 3. Typography
 
-Three **Pangram Pangram** families, self-hosted from `src/fonts/` via `next/font/local` (config in `src/fonts/index.ts`). ⚠️ Development files only until web licences are bought (see `src/fonts/README.md`, Phase 12 gate).
+Three **Pangram Pangram** families, self-hosted from `src/fonts/` via `next/font/local` (config in `src/fonts/index.ts`).
 
 | Token            | Family                                         | Weights (CSS)        | Role                                |
 | ---------------- | ---------------------------------------------- | -------------------- | ----------------------------------- |

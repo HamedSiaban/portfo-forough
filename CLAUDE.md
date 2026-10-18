@@ -13,7 +13,7 @@ A portfolio site for **Foroughozaman (Foro) Foroughi**, a senior product/UX desi
 - **Page anatomy:** Header → 6 sections → Footer, plus two modals (Inquiry, Video)
 - **Interaction reference:** incredibles.dev. Screenshots live in `docs/reference/` (index in `docs/reference/README.md`).
   We reproduce **patterns and feel only**. We never copy its copy, logos, imagery or client names. All content is Foro's own.
-  We do use the same type families (PP Frama, PP Neue Montreal, PP Supply Mono). They must be properly licensed before production (§9, `src/fonts/README.md`).
+  We do use the same type families (PP Frama, PP Neue Montreal, PP Supply Mono).
 - **Priorities, in order:** visual quality & motion feel → performance → accessibility → code elegance. None of them is optional.
 
 Related docs:
@@ -163,7 +163,7 @@ src/
     modals/               # InquiryModal, VideoModal
     effects/              # WaveField (WebGL), Halftone, ImageTrail, CardCascade, PatternArt
     motion/               # SmoothScroll, Reveal primitives
-  fonts/                  # woff2 files + index.ts (next/font/local) + README.md (licence status)
+  fonts/                  # woff2 files + index.ts (next/font/local) + README.md
   config/
     sections.ts           # ordered section registry. Reorder sections HERE ONLY
     site.ts               # name, url, email, socials, timezone
@@ -254,7 +254,6 @@ Acceptance criteria met · `pnpm check` + `pnpm build` green · both themes corr
 ## 9. Never
 
 - Copy text, images, logos or client names from the reference site.
-- Deploy to production with the current font files in `src/fonts/`. They're the reference site's builds, for development only. Replace them with licensed Pangram Pangram files first (`src/fonts/README.md`).
 - Load fonts any other way (Google Fonts, `<link>`, CSS `@import`) or add font weights beyond those in `src/fonts/index.ts`.
 - Hard-code copy in components, or raw colors/sizes outside the token layer.
 - Animate an element with both GSAP and Motion.

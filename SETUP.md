@@ -75,5 +75,3 @@ After each phase (if the hook hasn't already done it):
 In Claude Code, paste the **Prompt** block from `docs/phases/00-scaffold.md`. Approve the plan, review, merge, then move to the next phase in `docs/ROADMAP.md`.
 
 Before Phase 01, answer what you can in `docs/OPEN_QUESTIONS.md` (accent colour, dark-theme mood and copy matter most).
-
-> ⚠️ The fonts in `src/fonts/` are for development only. Buy the Pangram Pangram web licences before you deploy (`src/fonts/README.md`).

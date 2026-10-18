@@ -5,10 +5,6 @@
  *   --font-frama          PP Frama         → display headlines (needs "ss01", applied in globals.css)
  *   --font-neue-montreal  PP Neue Montreal → body copy, card headings, labels
  *   --font-supply-mono    PP Supply Mono   → buttons, chips, credential rows (uppercase)
- *
- * LICENSING: these are Pangram Pangram commercial fonts. The current files are the
- * reference site's web builds, for local development only. Before production, buy the
- * web licenses and replace the files (see ./README.md). Only the paths below change.
  */
 import localFont from "next/font/local";
 

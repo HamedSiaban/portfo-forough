@@ -46,7 +46,7 @@ const legalNotice: LegalDocument = {
         },
         {
           type: "p",
-          text: "Typefaces are licensed from Pangram Pangram. TODO: confirm licence before launch.",
+          text: "Typefaces: PP Frama, PP Neue Montreal and PP Supply Mono by Pangram Pangram.",
         },
       ],
     },
