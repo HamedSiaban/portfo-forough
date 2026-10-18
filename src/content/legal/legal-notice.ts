@@ -4,13 +4,13 @@ import type { LegalDocument } from "./types";
 const legalNotice: LegalDocument = {
   title: "Legal notice",
   description:
-    "Who publishes foroughforoughi.com, where it is hosted and how to reach the publisher.",
+    "Who publishes foroforoughi.netlify.app, where it is hosted and how to reach the publisher.",
   sections: [
     {
       id: "website-publisher",
       heading: "Website publisher",
       blocks: [
-        { type: "p", text: "This website, foroughforoughi.com, is published by:" },
+        { type: "p", text: "This website, foroforoughi.netlify.app, is published by:" },
         {
           type: "p",
           text: "Foroughozaman Foroughi, independent product and UX designer based in Yerevan, Armenia.",
