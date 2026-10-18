@@ -13,7 +13,7 @@ type StepRowProps = React.ComponentProps<"div"> & {
 
 /**
  * Numbered step row (DESIGN_SPEC §4): badge · hairline · uppercase label.
- * Used by pricing and the inquiry form. Disabled steps dim until the
+ * Used by the inquiry form. Disabled steps dim until the
  * previous step is valid.
  */
 function StepRow({

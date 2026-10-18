@@ -30,7 +30,7 @@ const privacyPolicy: LegalDocument = {
       blocks: [
         {
           type: "p",
-          text: "Only what you send me through the project enquiry form:",
+          text: "Only what you send me through the hiring enquiry form:",
         },
         {
           type: "list",
@@ -39,16 +39,16 @@ const privacyPolicy: LegalDocument = {
             label(f.email),
             label(f.company),
             label(f.website),
-            label(f.budget),
+            label(f.role),
+            label(f.employmentType),
+            label(f.workSetup),
             label(f.startDate),
-            label(f.launchDate),
             "Your message",
-            "The plan you were looking at, if you opened the form from a pricing plan",
           ],
         },
         {
           type: "p",
-          text: "Name, email and budget range are required; everything else is optional. To limit abuse, the form is rate-limited by IP address; this is kept briefly in server memory and not stored with your enquiry.",
+          text: "Name and email are required; everything else is optional. To limit abuse, the form is rate-limited by IP address; this is kept briefly in server memory and not stored with your enquiry.",
         },
         {
           type: "p",
@@ -62,7 +62,7 @@ const privacyPolicy: LegalDocument = {
       blocks: [
         {
           type: "p",
-          text: "I use your enquiry data solely to reply to you and to prepare a proposal. The basis is your request to be contacted (pre-contractual steps) and my legitimate interest in answering enquiries. I never sell your data or use it for marketing without your consent.",
+          text: "I use your enquiry data solely to reply to you and to discuss the opportunity. The basis is your request to be contacted (pre-contractual steps) and my legitimate interest in answering enquiries. I never sell your data or use it for marketing without your consent.",
         },
       ],
     },
@@ -91,7 +91,7 @@ const privacyPolicy: LegalDocument = {
       blocks: [
         {
           type: "p",
-          text: "Enquiries that don't lead to a project are deleted after 12 months; project correspondence is kept as long as the legal obligations of the engagement require.",
+          text: "Enquiries are deleted after 12 months unless we are in an ongoing conversation or working relationship.",
         },
       ],
     },

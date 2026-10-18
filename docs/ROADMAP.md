@@ -13,7 +13,7 @@ To start a phase in Claude Code, paste the **Prompt** block from its phase doc.
 | 05  | Section 2 · Value cards (3D fly-in stack)                             | `phase/05-value-cards`     | 02         | ☑      |
 | 06  | Section 3 · Work (image trail, quote, projects row)                   | `phase/06-work`            | 03         | ☑      |
 | 07  | Video modal (shared-element expand) + interlude                       | `phase/07-video-interlude` | 06         | ☑      |
-| 08  | Section 4 · Pricing                                                   | `phase/08-pricing`         | 02         | ☑      |
+| 08  | Section 4 · Pricing (built, then removed: hiring portfolio)           | `phase/08-pricing`         | 02         | ☑      |
 | 09  | Section 5 · FAQ + Section 6 · CTA (card cascade)                      | `phase/09-faq-cta`         | 03         | ☑      |
 | 10  | Inquiry modal + API route + email                                     | `phase/10-inquiry`         | 02         | ☑      |
 | 11  | Legal & privacy pages                                                 | `phase/11-legal`           | 02         | ☑      |
@@ -23,4 +23,4 @@ Every phase doc has: Goal · Scope · Out of scope · References · Acceptance c
 
 ## Known issues
 
-- **Header wraps at narrow widths (≤ ~420px).** The fixed header's Pricing / Start a conversation / theme toggle don't fit on one row at 375px and wrap to two, overlapping the top of the hero panel. Found in Phase 04, belongs to the Phase 02 layout shell. Fix before Phase 12 (e.g. icon-only or hidden Pricing button on mobile, or a compact CTA label).
+- **Header wraps at narrow widths (≤ ~420px).** The fixed header's Start a conversation / theme toggle don't fit on one row at 375px and wrap to two, overlapping the top of the hero panel. Found in Phase 04, belongs to the Phase 02 layout shell. Fix before Phase 12 (e.g. icon-only or hidden Pricing button on mobile, or a compact CTA label).

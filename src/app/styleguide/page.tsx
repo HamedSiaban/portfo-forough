@@ -55,9 +55,8 @@ const COLOR_TOKENS = [
 
 const TYPE_SPECIMENS = [
   { name: "display-xl", className: "text-display-xl", sample: "Creative type" },
-  { name: "display-lg", className: "text-display-lg", sample: "Simple pricing" },
+  { name: "display-lg", className: "text-display-lg", sample: "Selected work" },
   { name: "display-md", className: "text-display-md", sample: "Clean, well finished" },
-  { name: "price", className: "text-price", sample: "€4,999" },
   { name: "heading", className: "text-heading", sample: "Start to finish" },
   { name: "title", className: "text-title", sample: "How do you work with agencies?" },
   {
@@ -161,7 +160,7 @@ export default function StyleguidePage() {
               <p className="text-label text-muted-foreground">{variant}</p>
               <div className="flex flex-wrap items-center gap-3">
                 <Button variant={variant} size="sm">
-                  Pricing
+                  Work
                 </Button>
                 <Button variant={variant} size="md">
                   Start a conversation
@@ -250,7 +249,7 @@ export default function StyleguidePage() {
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Project enquiry</DialogTitle>
+                <DialogTitle>Let&rsquo;s talk</DialogTitle>
                 <DialogDescription>
                   Share your project details and timeline, and we&rsquo;ll get back to you shortly.
                 </DialogDescription>

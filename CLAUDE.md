@@ -39,7 +39,7 @@ Install the **latest stable** version of each package at the time of Phase 0 and
 | UI primitives            | **shadcn/ui** (Base UI)                                                                                                                                                                                                                | Dialog, Accordion, Tabs, Select, Input, Textarea, Label, Button, Form/Field, Sonner. Base UI is Radix's successor and shadcn's current default (Phase 00 decision — see decisions log) |
 | Fonts                    | **PP Frama** (display, `ss01`), **PP Neue Montreal** (sans), **PP Supply Mono** (mono) via `next/font/local`                                                                                                                           | Config in `src/fonts/index.ts`; roles in DESIGN_SPEC §3. ⚠️ Dev files until licensed                                                                                                   |
 | Theme                    | **next-themes**                                                                                                                                                                                                                        | `class` strategy, default `system`, no flash                                                                                                                                           |
-| Server state             | **TanStack Query v5**                                                                                                                                                                                                                  | Inquiry submit (mutation), pricing estimate, future CMS data                                                                                                                           |
+| Server state             | **TanStack Query v5**                                                                                                                                                                                                                  | Inquiry submit (mutation), future CMS data                                                                                                                                             |
 | Local state              | **Zustand** for cross-tree UI state; **React Context** only for scoped providers                                                                                                                                                       | See §6                                                                                                                                                                                 |
 | Forms                    | **react-hook-form** + **zod** + `@hookform/resolvers`                                                                                                                                                                                  | Schemas shared client/server in `src/lib/schemas`                                                                                                                                      |
 | Scroll & timeline motion | **GSAP 3** + ScrollTrigger (+ Flip/SplitText when needed) via `@gsap/react` (`useGSAP`)                                                                                                                                                | GSAP and all its plugins are free                                                                                                                                                      |
@@ -160,7 +160,7 @@ src/
   components/
     ui/                   # shadcn-generated. Change via variants, not ad-hoc edits
     layout/               # Header, Footer, ThemeToggle, Logo
-    sections/             # hero/ value-cards/ work/ pricing/ faq/ cta/  (one folder each)
+    sections/             # hero/ value-cards/ work/ faq/ cta/  (one folder each)
     modals/               # InquiryModal, VideoModal
     effects/              # WaveField (WebGL), Halftone, ImageTrail, CardCascade, PatternArt
     motion/               # SmoothScroll, Reveal primitives
@@ -168,7 +168,7 @@ src/
   config/
     sections.ts           # ordered section registry. Reorder sections HERE ONLY
     site.ts               # name, url, email, socials, timezone
-  content/                # all copy & data, typed (hero.ts, cards.ts, projects.ts, faq.ts, pricing.ts, legal/*.mdx|ts)
+  content/                # all copy & data, typed (hero.ts, cards.ts, projects.ts, faq.ts, legal/*.mdx|ts)
   hooks/                  # useReducedMotion, usePointer, useMediaQuery, useIsTouch, useInViewport
   lib/                    # cn.ts, gsap.ts (plugin registration, once), query-client.ts, schemas/, email.ts
   providers/              # Providers.tsx (Theme, Query, MotionPrefs, SmoothScroll)
@@ -189,7 +189,7 @@ docs/                     # reference/, phases/, ROADMAP.md, DESIGN_SPEC.md, OPE
 2. **Sections are self-contained and reorderable.** `page.tsx` maps over `config/sections.ts` (`{ id, label, Component }`). A section:
    - owns its own animations and cleans them up;
    - never measures or references a neighbouring section, and never hard-codes scroll offsets;
-   - exposes its anchor via `id` (e.g. `#pricing`);
+   - exposes its anchor via `id` (e.g. `#work`);
    - must look correct in any position in the list.
 3. **Content is never hard-coded in components.** It lives in `src/content/` with exported types.
 4. **Design tokens only.** No raw hex/px values in components. Use Tailwind theme tokens backed by CSS variables (see DESIGN_SPEC §2). Dynamic values go through CSS custom properties, not inline style objects.
@@ -202,13 +202,13 @@ docs/                     # reference/, phases/, ROADMAP.md, DESIGN_SPEC.md, OPE
 
 ## 6. State management
 
-| Kind                | Tool                           | Examples                                                           |
-| ------------------- | ------------------------------ | ------------------------------------------------------------------ |
-| Async / server data | TanStack Query                 | `useSubmitInquiry` (mutation), `usePriceEstimate`                  |
-| Cross-tree UI state | Zustand (`stores/ui-store.ts`) | `inquiryOpen`, `openInquiry(prefill?)`, `videoOpen`, `activeVideo` |
-| Scoped, tree-local  | React Context                  | `MotionPrefsContext`, `SectionRegistryContext`                     |
-| Form state          | react-hook-form                | inquiry form, pricing calculator                                   |
-| Theme               | next-themes                    | Don't duplicate in Zustand or localStorage                         |
+| Kind                | Tool                           | Examples                                                   |
+| ------------------- | ------------------------------ | ---------------------------------------------------------- |
+| Async / server data | TanStack Query                 | `useSubmitInquiry` (mutation)                              |
+| Cross-tree UI state | Zustand (`stores/ui-store.ts`) | `inquiryOpen`, `openInquiry()`, `videoOpen`, `activeVideo` |
+| Scoped, tree-local  | React Context                  | `MotionPrefsContext`, `SectionRegistryContext`             |
+| Form state          | react-hook-form                | inquiry form                                               |
+| Theme               | next-themes                    | Don't duplicate in Zustand or localStorage                 |
 
 Rules: never store server data in Zustand. Use selectors (`useUiStore(s => s.inquiryOpen)`), never subscribe to the whole store. No `useEffect` for derived state.
 

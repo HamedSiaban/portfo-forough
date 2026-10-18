@@ -15,7 +15,7 @@ Production-ready: audited, fast, discoverable, tested, deployed.
 - **SEO/meta:** `metadata` (title template, description), `opengraph-image.tsx` (generated in brand style), `sitemap.ts`, `robots.ts`, Person JSON-LD, favicon/app icons from the logo.
 - **Error pages:** `not-found.tsx`, `error.tsx` in brand style.
 - **Analytics:** `components/analytics.tsx` is built (Umami + Microsoft Clarity, env-gated, production only). Remaining: create the Umami site and Clarity project, set the three `NEXT_PUBLIC_*` vars in Netlify, Clarity consent banner is built (`components/consent/`): Clarity loads only after Accept; footer "Cookie settings" re-opens it.
-- **E2E:** Playwright smoke on chromium/webkit/mobile: load, theme toggle persists, pricing scroll, modals open/close, form happy path (mocked); visual screenshots at 375/1440 both themes.
+- **E2E:** Playwright smoke on chromium/webkit/mobile: load, theme toggle persists, modals open/close, form happy path (mocked); visual screenshots at 375/1440 both themes.
 - **CI:** GitHub Actions running `pnpm check`, `pnpm build`, Playwright.
 - **Deploy:** Netlify site (`netlify.toml`), env vars (`RESEND_*`, `INQUIRY_*`, analytics), domain `foroughforoughi.com`, preview deployments per PR.
 

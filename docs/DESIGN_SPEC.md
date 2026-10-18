@@ -42,7 +42,7 @@ Three **Pangram Pangram** families, self-hosted from `src/fonts/` via `next/font
 
 | Token            | Family                                         | Weights (CSS)        | Role                                |
 | ---------------- | ---------------------------------------------- | -------------------- | ----------------------------------- |
-| `--font-display` | **PP Frama** + `font-feature-settings: "ss01"` | 400, 500             | all `display-*` styles, prices      |
+| `--font-display` | **PP Frama** + `font-feature-settings: "ss01"` | 400, 500             | all `display-*` styles              |
 | `--font-sans`    | **PP Neue Montreal**                           | 350 (Book), 400, 500 | body, headings, labels, form fields |
 | `--font-mono`    | **PP Supply Mono**                             | 500                  | buttons, chips, credentials row     |
 
@@ -62,25 +62,24 @@ Wiring in `globals.css` (Tailwind v4):
 
 `next/font` variables go on `<html>` (`className={fontVariables}`). Call `ScrollTrigger.refresh()` after `document.fonts.ready`, because the big display sizes change section heights.
 
-| Style                                                      | Family · weight           | Size                           | Line height | Tracking | Notes                           |
-| ---------------------------------------------------------- | ------------------------- | ------------------------------ | ----------- | -------- | ------------------------------- |
-| `display-xl` (hero, interlude, CTA)                        | Frama 500                 | `clamp(3.5rem, 11vw, 12.5rem)` | 0.86        | -0.055em | centred or left                 |
-| `display-lg` (section titles: "Simple pricing", FAQ title) | Frama 400                 | `clamp(3rem, 7vw, 7.5rem)`     | 0.88        | -0.05em  |                                 |
-| `display-md` (quote, legal page titles)                    | Frama 400                 | `clamp(2rem, 5vw, 6rem)`       | 0.92        | -0.045em | quote is on the inverse surface |
-| `display-sm` (FAQ title, matches ref 09 scale)             | Frama 400                 | `clamp(2rem, 3.4vw, 3.5rem)`   | 1           | -0.045em | added in Phase 09               |
-| `price` ("€4,999")                                         | Frama 500, `tabular-nums` | `clamp(2.5rem, 5vw, 5rem)`     | 1           | -0.04em  |                                 |
-| `heading` ("Start to Finish", "Single Project", legal h2)  | Neue Montreal 500         | `clamp(1.75rem, 3vw, 3rem)`    | 1.0         | -0.035em |                                 |
-| `title` (project card titles, FAQ questions)               | Neue Montreal 400         | 1.5rem                         | 1.25        | -0.015em |                                 |
-| `body-lg`                                                  | Neue Montreal 400         | 1.25rem                        | 1.35        | -0.01em  |                                 |
-| `body`                                                     | Neue Montreal 350 (Book)  | 1rem                           | 1.5         | 0        | FAQ answers, legal prose        |
-| `label` (step names "YOUR PROJECT", "STANDARD")            | Neue Montreal 400         | 0.8125rem                      | 1           | 0.02em   | uppercase                       |
-| `mono-ui` (buttons, chips, credentials row)                | Supply Mono 500           | 0.875rem                       | 1           | 0.04em   | uppercase                       |
+| Style                                                     | Family · weight          | Size                           | Line height | Tracking | Notes                           |
+| --------------------------------------------------------- | ------------------------ | ------------------------------ | ----------- | -------- | ------------------------------- |
+| `display-xl` (hero, interlude, CTA)                       | Frama 500                | `clamp(3.5rem, 11vw, 12.5rem)` | 0.86        | -0.055em | centred or left                 |
+| `display-lg` (section titles: FAQ title, work title)      | Frama 400                | `clamp(3rem, 7vw, 7.5rem)`     | 0.88        | -0.05em  |                                 |
+| `display-md` (quote, legal page titles)                   | Frama 400                | `clamp(2rem, 5vw, 6rem)`       | 0.92        | -0.045em | quote is on the inverse surface |
+| `display-sm` (FAQ title, matches ref 09 scale)            | Frama 400                | `clamp(2rem, 3.4vw, 3.5rem)`   | 1           | -0.045em | added in Phase 09               |
+| `heading` ("Start to Finish", "Single Project", legal h2) | Neue Montreal 500        | `clamp(1.75rem, 3vw, 3rem)`    | 1.0         | -0.035em |                                 |
+| `title` (project card titles, FAQ questions)              | Neue Montreal 400        | 1.5rem                         | 1.25        | -0.015em |                                 |
+| `body-lg`                                                 | Neue Montreal 400        | 1.25rem                        | 1.35        | -0.01em  |                                 |
+| `body`                                                    | Neue Montreal 350 (Book) | 1rem                           | 1.5         | 0        | FAQ answers, legal prose        |
+| `label` (step names "YOUR PROJECT", "STANDARD")           | Neue Montreal 400        | 0.8125rem                      | 1           | 0.02em   | uppercase                       |
+| `mono-ui` (buttons, chips, credentials row)               | Supply Mono 500          | 0.875rem                       | 1           | 0.04em   | uppercase                       |
 
 ---
 
 ## 4. Shared components
 
-- **Header buttons:** `Pricing` = outline mono button; `Start a conversation` = solid inverse mono button; theme toggle = small segmented pill (sun / moon), replacing FR/EN.
+- **Header buttons:** `Start a conversation` = solid inverse mono button; theme toggle = small segmented pill (sun / moon), replacing FR/EN.
 - **Framed panel:** full-bleed minus 16px inset, `2rem` radius, grey gradient + halftone + `<WaveField>`. Used by Hero, CTA and, in a dark variant, the Quote panel.
 - **Numbered step row:** small rounded number badge · hairline that fills the width · uppercase label on the right. Inactive steps are dimmed to `--subtle-foreground` until the previous step is valid (used in pricing and the inquiry form).
 - **Chips:** pill, `--surface-muted`, mono or sans small.
@@ -92,7 +91,7 @@ Wiring in `globals.css` (Tailwind v4):
 
 ### Header (fixed)
 
-Logo tile (left, links to site URL `/`) · `Pricing` (smooth-scrolls to `#pricing` via Lenis) · `Start a conversation` (opens the Inquiry modal) · theme toggle. Stays above all sections. Must remain legible over both light and dark panels (test over the quote panel).
+Logo tile (left, links to site URL `/`) · `Start a conversation` (opens the Inquiry modal) · theme toggle. Stays above all sections. Must remain legible over both light and dark panels (test over the quote panel).
 
 ### 1 · Hero — `#hero` · refs 05, 02
 
@@ -117,15 +116,11 @@ Bento grid:
 
 ### Interlude — "Let's talk about your project." · refs 08, 10
 
-`display-xl` centred statement between Work and Pricing. A reveal on enter (line-by-line rise/mask) is enough. Can be part of the Pricing section.
+`display-xl` centred statement between Work and FAQ. A reveal on enter (line-by-line rise/mask) is enough.
 
-### 4 · Pricing — `#pricing` · refs 04, 10, 07
+### 4 · Pricing — removed
 
-Left: sticky "Simple pricing" + two short paragraphs. Right: segmented control **Single project / Recurring** (animated pill indicator).
-
-- **Single project:** card with 4 numbered step rows, each a select (type, size, creativity, timeline). Progressive enabling. Once complete, show an estimated timeline + price range with an animated number roll. Footnote below the card.
-- **Recurring:** intro card + two plan cards (name, big price `/month`, fit line, feature rows with hairlines, full-width CTA → Inquiry modal prefilled with the plan).
-  **All pricing content: pending** (see OPEN_QUESTIONS).
+Dropped (the site is a hiring portfolio). Sections keep their numbering; ids and the registry are unaffected.
 
 ### 5 · FAQ — `#faq` · refs 09, 14
 
@@ -146,12 +141,12 @@ Left: `Legals`, `Privacy` → routes. Centre: email (`mailto:`). Right: `LinkedI
 
 ### Inquiry — ref 01
 
-Backdrop: page dims to grey with halftone. Layout: left column = title card ("Project enquiry") + info card (copy, email link, WhatsApp link, location/timezone: _Yerevan, Armenia · UTC+4_ (placeholder)); right = form card with numbered steps:
+Backdrop: page dims to grey with halftone. Layout: left column = title card ("Let's talk") + info card (copy, email link, WhatsApp link, location/timezone: _Yerevan, Armenia · UTC+4_ (placeholder)); right = form card with numbered steps:
 
 1. **You:** Name*, Email*
 2. **Your company:** Company name, Website
-3. **Your project:** Budget range* (select), Estimated start date, Expected launch date
-4. **Tell us more:** textarea "My project is…"
+3. **The role:** Role title, Employment type (select), Work setup (select), Ideal start date
+4. **Tell me more:** textarea "About the role and your team …"
    Consent line with privacy-policy link · `Send` pill (disabled until valid). Later step groups are dimmed until the required fields above are valid. Enter: backdrop fade + cards rise with a stagger (Motion). Success: in-place confirmation state, not a toast. Error: inline message + retry. Close: `×`, `Esc`, backdrop click (with a confirm if the form is dirty).
 
 ### Video — opened from the Showreel tile

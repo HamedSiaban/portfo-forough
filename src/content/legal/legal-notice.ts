@@ -56,7 +56,7 @@ const legalNotice: LegalDocument = {
       blocks: [
         {
           type: "p",
-          text: "I take care to keep the information on this site accurate and up to date, but cannot guarantee that it is free of errors. Prices shown are indicative estimates, not a binding offer. External links are provided for convenience; I am not responsible for the content of third-party sites.",
+          text: "I take care to keep the information on this site accurate and up to date, but cannot guarantee that it is free of errors. External links are provided for convenience; I am not responsible for the content of third-party sites.",
         },
       ],
     },

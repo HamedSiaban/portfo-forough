@@ -67,7 +67,7 @@ function SmoothScrollProvider({ children }: { children: React.ReactNode }) {
 
   // SmoothScrollProvider lives in the root layout and never remounts on client-side
   // navigation, so a mount-only effect would miss a hash that appears after an
-  // in-app nav (e.g. a Pricing link clicked from /legals). Re-check on pathname change.
+  // in-app nav (e.g. a section link clicked from /legals). Re-check on pathname change.
   // The target section can still be streaming in (Cache Components), so poll a few
   // frames for it to exist instead of firing once and silently missing it.
   React.useEffect(() => {

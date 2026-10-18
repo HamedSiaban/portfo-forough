@@ -1,12 +1,8 @@
 import { create } from "zustand";
 
-/** `plan` is "single-project" or a recurring plan id from content/pricing.ts. */
-type InquiryPrefill = { plan?: string };
-
 type UiStore = {
   inquiryOpen: boolean;
-  inquiryPrefill: InquiryPrefill | undefined;
-  openInquiry: (prefill?: InquiryPrefill) => void;
+  openInquiry: () => void;
   closeInquiry: () => void;
   videoOpen: boolean;
   activeVideo: string | null;
@@ -22,9 +18,8 @@ type UiStore = {
  */
 export const useUiStore = create<UiStore>((set) => ({
   inquiryOpen: false,
-  inquiryPrefill: undefined,
-  openInquiry: (prefill) => set({ inquiryOpen: true, inquiryPrefill: prefill }),
-  closeInquiry: () => set({ inquiryOpen: false, inquiryPrefill: undefined }),
+  openInquiry: () => set({ inquiryOpen: true }),
+  closeInquiry: () => set({ inquiryOpen: false }),
   videoOpen: false,
   activeVideo: null,
   videoOrigin: null,

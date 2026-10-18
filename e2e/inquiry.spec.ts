@@ -3,15 +3,15 @@ import { expect, type Page, test } from "@playwright/test";
 async function fillValid(page: Page) {
   await page.getByRole("textbox", { name: "Name*" }).fill("Ada Lovelace");
   await page.getByRole("textbox", { name: "Email*" }).fill("ada@example.com");
-  await page.getByRole("combobox", { name: "Budget range*" }).click();
-  await page.getByRole("option", { name: /€3,000 – €6,000/ }).click();
+  await page.getByRole("combobox", { name: "Employment type" }).click();
+  await page.getByRole("option", { name: "Full-time" }).click();
 }
 
 test.describe("inquiry modal", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/");
     await page.getByRole("button", { name: "Start a conversation" }).first().click();
-    await expect(page.getByRole("dialog", { name: "Project enquiry" })).toBeVisible();
+    await expect(page.getByRole("dialog", { name: "Let's talk" })).toBeVisible();
   });
 
   test("Send is disabled until valid, then submits and shows success", async ({ page }) => {
@@ -65,7 +65,7 @@ test.describe("inquiry modal", () => {
     const confirm = page.getByRole("alertdialog");
     await expect(confirm).toBeVisible();
     await confirm.getByRole("button", { name: "Keep editing" }).click();
-    await expect(page.getByRole("dialog", { name: "Project enquiry" })).toBeVisible();
+    await expect(page.getByRole("dialog", { name: "Let's talk" })).toBeVisible();
     await page.keyboard.press("Escape");
     await page.getByRole("button", { name: "Discard" }).click();
     await expect(page.getByRole("dialog")).not.toBeVisible();
@@ -75,18 +75,6 @@ test.describe("inquiry modal", () => {
     await page.keyboard.press("Escape");
     await expect(page.getByRole("dialog")).not.toBeVisible();
   });
-});
-
-test("pricing plan prefills the inquiry", async ({ page }) => {
-  await page.goto("/");
-  await page.locator("#pricing").scrollIntoViewIfNeeded();
-  await page.getByRole("tab", { name: "Recurring" }).click();
-  await page
-    .locator("#pricing")
-    .getByRole("button", { name: "Start a conversation" })
-    .first()
-    .click();
-  await expect(page.getByText("Recurring · Standard")).toBeVisible();
 });
 
 test("mobile: single-column full-height sheet", async ({ page }) => {
@@ -108,6 +96,6 @@ test("privacy link opens in a new tab and keeps the draft", async ({ page, conte
   ]);
   await popup.waitForLoadState();
   expect(popup.url()).toContain("/privacy");
-  await expect(page.getByRole("dialog", { name: "Project enquiry" })).toBeVisible();
+  await expect(page.getByRole("dialog", { name: "Let's talk" })).toBeVisible();
   await expect(page.getByRole("textbox", { name: "Name*" })).toHaveValue("Ada");
 });

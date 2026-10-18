@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { inquirySchema } from "./inquiry";
 
-const valid = { name: "Ada", email: "ada@example.com", budget: "3k-6k" };
+const valid = { name: "Ada", email: "ada@example.com" };
 
 describe("inquirySchema", () => {
   it("accepts the minimal payload", () => {
@@ -18,10 +18,13 @@ describe("inquirySchema", () => {
     expect(inquirySchema.parse({ ...valid, website: "" }).website).toBe("");
   });
 
-  it("rejects launch before start but allows same day", () => {
-    const base = { ...valid, startDate: "2026-05-02" };
-    expect(inquirySchema.safeParse({ ...base, launchDate: "2026-05-01" }).success).toBe(false);
-    expect(inquirySchema.safeParse({ ...base, launchDate: "2026-05-02" }).success).toBe(true);
+  it("accepts known employment types and work setups only", () => {
+    expect(
+      inquirySchema.safeParse({ ...valid, employmentType: "full-time", workSetup: "remote" })
+        .success,
+    ).toBe(true);
+    expect(inquirySchema.safeParse({ ...valid, employmentType: "free" }).success).toBe(false);
+    expect(inquirySchema.safeParse({ ...valid, workSetup: "moon" }).success).toBe(false);
   });
 
   it("passes the honeypot through so the route can detect it", () => {

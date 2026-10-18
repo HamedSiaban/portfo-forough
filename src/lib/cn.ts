@@ -12,7 +12,6 @@ const twMerge = extendTailwindMerge<"font-type-scale">({
         "text-display-xl",
         "text-display-lg",
         "text-display-md",
-        "text-price",
         "text-heading",
         "text-title",
         "text-body-lg",

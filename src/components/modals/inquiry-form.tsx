@@ -3,7 +3,7 @@
 import { WarningCircleIcon } from "@phosphor-icons/react";
 import Link from "next/link";
 import * as React from "react";
-import { Controller, type UseFormReturn, useWatch } from "react-hook-form";
+import { type Control, Controller, type UseFormReturn, useWatch } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -58,6 +58,48 @@ function DateField({ label, empty, className, ...props }: DateFieldProps) {
   );
 }
 
+type OptionSelectProps = {
+  control: Control<InquiryInput, unknown, InquiryValues>;
+  name: "employmentType" | "workSetup";
+  label: string;
+  options: { value: string; label: string }[];
+};
+
+/** Optional select: placeholder shows the field label until a choice is made. */
+function OptionSelect({ control, name, label, options }: OptionSelectProps) {
+  return (
+    <Controller
+      control={control}
+      name={name}
+      render={({ field }) => (
+        <Select
+          items={options}
+          value={field.value ?? null}
+          onValueChange={(value) => {
+            if (typeof value === "string") field.onChange(value);
+          }}
+        >
+          <SelectTrigger
+            ref={field.ref}
+            onBlur={field.onBlur}
+            aria-label={label}
+            className="w-full px-5 text-base data-[size=default]:h-14"
+          >
+            <SelectValue placeholder={label} />
+          </SelectTrigger>
+          <SelectContent alignItemWithTrigger={false}>
+            {options.map((option) => (
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
+    />
+  );
+}
+
 function FieldError({ id, message }: { id: string; message?: string }) {
   return (
     <p id={id} className="mt-1.5 min-h-4 px-1 text-xs text-destructive">
@@ -67,7 +109,7 @@ function FieldError({ id, message }: { id: string; message?: string }) {
 }
 
 /**
- * The 4-step enquiry form (DESIGN_SPEC §6). Steps 2–4 are dimmed — not disabled — until step 1
+ * The 4-step hiring enquiry form (DESIGN_SPEC §6). Steps 2–4 are dimmed — not disabled — until step 1
  * is valid, so keyboard and screen-reader users can still reach every field. Send stays disabled
  * until the whole schema validates and while a request is in flight (double-submit guard).
  */
@@ -78,9 +120,9 @@ function InquiryForm({ form, onSubmit, pending, error }: InquiryFormProps) {
     handleSubmit,
     formState: { errors, isValid },
   } = form;
-  const [name, email, startDate, launchDate, plan] = useWatch({
+  const [name, email, startDate] = useWatch({
     control,
-    name: ["name", "email", "startDate", "launchDate", "plan"],
+    name: ["name", "email", "startDate"],
   });
   const youValid = Boolean(name?.trim()) && emailSchema.safeParse(email).success;
   const dimmed = !youValid;
@@ -162,49 +204,36 @@ function InquiryForm({ form, onSubmit, pending, error }: InquiryFormProps) {
       </section>
 
       <section aria-labelledby="inquiry-step-3" className="flex flex-col gap-4">
-        <StepRow step={3} label={inquiry.steps.project} id="inquiry-step-3" dimmed={dimmed} />
-        {plan ? (
-          <p className="text-sm text-muted-foreground">
-            {inquiry.planChip}:{" "}
-            <span className="text-foreground">{inquiry.plans[plan] ?? plan}</span>
-          </p>
-        ) : null}
+        <StepRow step={3} label={inquiry.steps.role} id="inquiry-step-3" dimmed={dimmed} />
         <div
-          className={cn("grid gap-x-4 transition-opacity md:grid-cols-3", dimmed && "opacity-50")}
+          className={cn("grid gap-x-4 transition-opacity sm:grid-cols-2", dimmed && "opacity-50")}
         >
           <div>
-            <Controller
-              control={control}
-              name="budget"
-              render={({ field }) => (
-                <Select
-                  items={inquiry.budgets}
-                  value={field.value ?? null}
-                  onValueChange={(value) => {
-                    if (typeof value === "string") field.onChange(value);
-                  }}
-                >
-                  <SelectTrigger
-                    ref={field.ref}
-                    onBlur={field.onBlur}
-                    aria-label={f.budget}
-                    aria-invalid={Boolean(errors.budget)}
-                    aria-describedby={describe("budget")}
-                    className="w-full px-5 text-base data-[size=default]:h-14"
-                  >
-                    <SelectValue placeholder={f.budget} />
-                  </SelectTrigger>
-                  <SelectContent alignItemWithTrigger={false}>
-                    {inquiry.budgets.map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              )}
+            <Input
+              aria-label={f.role}
+              placeholder={f.role}
+              className="h-14 px-5 text-base"
+              {...register("role")}
             />
-            <FieldError id="inquiry-budget-error" message={err("budget")} />
+            <FieldError id="inquiry-role-error" message={err("role")} />
+          </div>
+          <div>
+            <OptionSelect
+              control={control}
+              name="employmentType"
+              label={f.employmentType}
+              options={inquiry.employmentTypes}
+            />
+            <FieldError id="inquiry-employmentType-error" message={err("employmentType")} />
+          </div>
+          <div>
+            <OptionSelect
+              control={control}
+              name="workSetup"
+              label={f.workSetup}
+              options={inquiry.workSetups}
+            />
+            <FieldError id="inquiry-workSetup-error" message={err("workSetup")} />
           </div>
           <div>
             <DateField
@@ -214,17 +243,6 @@ function InquiryForm({ form, onSubmit, pending, error }: InquiryFormProps) {
               {...register("startDate")}
             />
             <FieldError id="inquiry-startDate-error" message={err("startDate")} />
-          </div>
-          <div>
-            <DateField
-              label={f.launchDate}
-              empty={!launchDate}
-              min={startDate || undefined}
-              aria-invalid={Boolean(errors.launchDate)}
-              aria-describedby={describe("launchDate")}
-              {...register("launchDate")}
-            />
-            <FieldError id="inquiry-launchDate-error" message={err("launchDate")} />
           </div>
         </div>
       </section>

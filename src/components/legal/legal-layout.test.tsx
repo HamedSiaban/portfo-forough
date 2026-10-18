@@ -32,7 +32,7 @@ describe("privacy content", () => {
     for (const field of Object.values(inquiry.fields)) {
       const name = field
         .replace(/\*$/, "")
-        .replace(/^My project is …$/, "message")
+        .replace(/^About the role and your team …$/, "message")
         .toLowerCase();
       expect(text).toContain(name);
     }

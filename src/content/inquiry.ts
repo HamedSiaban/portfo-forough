@@ -1,28 +1,26 @@
-/**
- * Inquiry modal copy and options (DESIGN_SPEC §6 "Inquiry").
- * ⚠️ Budget ranges are placeholders until OPEN_QUESTIONS Q10 is answered.
- */
+/** Hiring enquiry modal copy and options (DESIGN_SPEC §6 "Inquiry"). */
+
+type Option = { value: string; label: string };
 
 type InquiryContent = {
   title: string;
   intro: string[];
   emailLinkLabel: string;
   whatsappLinkLabel: string;
-  steps: { you: string; company: string; project: string; more: string };
+  steps: { you: string; company: string; role: string; more: string };
   fields: {
     name: string;
     email: string;
     company: string;
     website: string;
-    budget: string;
+    role: string;
+    employmentType: string;
+    workSetup: string;
     startDate: string;
-    launchDate: string;
     message: string;
   };
-  budgets: { value: string; label: string }[];
-  /** Human labels for plan ids passed through `openInquiry({ plan })`. */
-  plans: Record<string, string>;
-  planChip: string;
+  employmentTypes: Option[];
+  workSetups: Option[];
   consent: { before: string; link: string };
   send: string;
   sending: string;
@@ -32,38 +30,38 @@ type InquiryContent = {
 };
 
 const inquiry: InquiryContent = {
-  title: "Project enquiry",
+  title: "Let's talk",
   intro: [
-    "Share your project details and timeline, and I'll get back to you shortly.",
+    "Tell me about the role and your team, and I'll get back to you shortly.",
     "You can also {email} — I generally respond within 48h.",
     "Need to move fast? I'm on {whatsapp}.",
   ],
   emailLinkLabel: "send me an email",
   whatsappLinkLabel: "WhatsApp",
-  steps: { you: "You", company: "Your company", project: "Your project", more: "Tell us more" },
+  steps: { you: "You", company: "Your company", role: "The role", more: "Tell me more" },
   fields: {
     name: "Name*",
     email: "Email*",
     company: "Company name",
-    website: "Website",
-    budget: "Budget range*",
-    startDate: "Estimated start date",
-    launchDate: "Expected launch date",
-    message: "My project is …",
+    website: "Company website",
+    role: "Role title",
+    employmentType: "Employment type",
+    workSetup: "Work setup",
+    startDate: "Ideal start date",
+    message: "About the role and your team …",
   },
-  budgets: [
-    { value: "under-3k", label: "Under €3,000" },
-    { value: "3k-6k", label: "€3,000 – €6,000" },
-    { value: "6k-12k", label: "€6,000 – €12,000" },
-    { value: "12k-plus", label: "€12,000 +" },
+  employmentTypes: [
+    { value: "full-time", label: "Full-time" },
+    { value: "part-time", label: "Part-time" },
+    { value: "contract", label: "Contract / freelance" },
     { value: "unsure", label: "Not sure yet" },
   ],
-  plans: {
-    "single-project": "Single project",
-    standard: "Recurring · Standard",
-    extended: "Recurring · Extended",
-  },
-  planChip: "Interested in",
+  workSetups: [
+    { value: "remote", label: "Remote" },
+    { value: "hybrid", label: "Hybrid" },
+    { value: "on-site", label: "On-site" },
+    { value: "flexible", label: "Flexible" },
+  ],
   consent: { before: "By submitting this form, you agree to our", link: "privacy policy" },
   send: "Send",
   sending: "Sending…",
@@ -77,7 +75,7 @@ const inquiry: InquiryContent = {
     retry: "Try again",
   },
   discard: {
-    title: "Discard this enquiry?",
+    title: "Discard this message?",
     body: "You have unsent changes. Closing now will lose them.",
     keep: "Keep editing",
     discard: "Discard",

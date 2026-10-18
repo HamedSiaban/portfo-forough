@@ -28,11 +28,11 @@ const emptyValues: InquiryInput = {
   email: "",
   company: "",
   website: "",
-  budget: undefined as unknown as string,
+  role: "",
+  employmentType: undefined,
+  workSetup: undefined,
   startDate: "",
-  launchDate: "",
   message: "",
-  plan: undefined,
   companyWebsite: "",
 };
 
@@ -75,7 +75,6 @@ function InfoCopy({ text }: { text: string }) {
  */
 function InquiryModal() {
   const open = useUiStore((state) => state.inquiryOpen);
-  const prefill = useUiStore((state) => state.inquiryPrefill);
   const closeInquiry = useUiStore((state) => state.closeInquiry);
   const { setPaused } = useSmoothScroll();
   const reduced = useReducedMotion();
@@ -92,13 +91,12 @@ function InquiryModal() {
   const { isDirty } = form.formState;
   const sent = mutation.isSuccess;
 
-  // Fresh form on every open; prefill (e.g. the pricing plan) is captured here because the
-  // store clears it on close, which would otherwise blank the chip during the exit fade.
+  // Fresh form on every open.
   React.useEffect(() => {
     if (!open) return;
-    resetForm({ ...emptyValues, plan: prefill?.plan });
+    resetForm(emptyValues);
     resetMutation();
-  }, [open, prefill, resetForm, resetMutation]);
+  }, [open, resetForm, resetMutation]);
 
   React.useEffect(() => {
     if (!open) return;
@@ -161,7 +159,7 @@ function InquiryModal() {
                 className="flex flex-col gap-5 rounded-card bg-surface p-8 text-body-lg text-muted-foreground md:p-14"
               >
                 <DialogPrimitive.Description className="sr-only">
-                  Send a project enquiry by filling in the form.
+                  Send a hiring enquiry by filling in the form.
                 </DialogPrimitive.Description>
                 {inquiry.intro.map((line) => (
                   <InfoCopy key={line} text={line} />

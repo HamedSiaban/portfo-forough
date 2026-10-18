@@ -2,10 +2,8 @@ import { z } from "zod";
 
 import { inquiry } from "@/content/inquiry";
 
-const budgetValues = inquiry.budgets.map((budget) => budget.value) as [string, ...string[]];
-
-/** Plan ids passed through `openInquiry({ plan })` — kept loose; unknown ids are just labels. */
-const planSchema = z.string().max(64);
+const values = (options: { value: string }[]) =>
+  options.map((o) => o.value) as [string, ...string[]];
 
 /** Accepts "example.com" as well as full URLs; stores the normalised absolute URL. */
 const websiteSchema = z
@@ -30,24 +28,19 @@ const dateSchema = z
   .regex(/^(\d{4}-\d{2}-\d{2})?$/, "Enter a valid date")
   .optional();
 
-const inquirySchema = z
-  .object({
-    name: z.string().trim().min(1, "Please enter your name").max(120),
-    email: z.email("Please enter a valid email").max(254),
-    company: z.string().trim().max(160).optional(),
-    website: websiteSchema.optional(),
-    budget: z.enum(budgetValues, { error: "Please choose a budget range" }),
-    startDate: dateSchema,
-    launchDate: dateSchema,
-    message: z.string().trim().max(4000, "Please keep it under 4000 characters").optional(),
-    plan: planSchema.optional(),
-    /** Honeypot: hidden from people, irresistible to bots. The route drops submissions where it is filled. */
-    companyWebsite: z.string().max(300).optional(),
-  })
-  .refine((v) => !v.startDate || !v.launchDate || v.launchDate >= v.startDate, {
-    path: ["launchDate"],
-    message: "Launch date can't be before the start date",
-  });
+const inquirySchema = z.object({
+  name: z.string().trim().min(1, "Please enter your name").max(120),
+  email: z.email("Please enter a valid email").max(254),
+  company: z.string().trim().max(160).optional(),
+  website: websiteSchema.optional(),
+  role: z.string().trim().max(160).optional(),
+  employmentType: z.enum(values(inquiry.employmentTypes)).optional(),
+  workSetup: z.enum(values(inquiry.workSetups)).optional(),
+  startDate: dateSchema,
+  message: z.string().trim().max(4000, "Please keep it under 4000 characters").optional(),
+  /** Honeypot: hidden from people, irresistible to bots. The route drops submissions where it is filled. */
+  companyWebsite: z.string().max(300).optional(),
+});
 
 /** Form-side type (before transforms) and the parsed type the server receives. */
 type InquiryInput = z.input<typeof inquirySchema>;

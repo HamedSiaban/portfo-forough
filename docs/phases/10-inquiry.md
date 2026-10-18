@@ -35,6 +35,8 @@ propose a plan, wait for approval. Build, verify, follow CLAUDE.md §8, and stop
 
 ## Decisions log
 
+- **Reworked for hiring (post-Phase 11):** budget, launch date and plan prefill removed; added role title, employment type, work setup, ideal start date. Only name and email are required. `openInquiry()` takes no arguments.
+
 - Groups 2–4 are dimmed (opacity only, new `StepRow dimmed` prop) but stay focusable.
 - Dates use native `type="date"` (mobile UX, no JS) with a faux placeholder while empty.
 - Close guard is an inline `alertdialog` inside the popup, not a second Dialog (avoids stacked focus traps). Focus starts on "Keep editing".

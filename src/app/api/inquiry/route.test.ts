@@ -7,7 +7,7 @@ vi.mock("@/lib/email", () => ({ sendInquiryEmail }));
 
 import { POST } from "./route";
 
-const valid = { name: "Ada", email: "ada@example.com", budget: "3k-6k" };
+const valid = { name: "Ada", email: "ada@example.com" };
 
 function post(body: unknown, ip = "1.1.1.1"): Request {
   return new Request("http://test/api/inquiry", {
@@ -30,8 +30,8 @@ describe("POST /api/inquiry", () => {
   it.each([
     ["missing name", { ...valid, name: "" }],
     ["bad email", { ...valid, email: "nope" }],
-    ["unknown budget", { ...valid, budget: "free" }],
-    ["launch before start", { ...valid, startDate: "2026-05-02", launchDate: "2026-05-01" }],
+    ["unknown employment type", { ...valid, employmentType: "free" }],
+    ["bad start date", { ...valid, startDate: "soon" }],
     ["bad website", { ...valid, website: "not a url" }],
   ])("rejects %s", async (_label, body) => {
     const res = await POST(post(body));

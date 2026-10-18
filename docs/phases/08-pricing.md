@@ -1,3 +1,5 @@
+> **Removed:** pricing was dropped because the site is a hiring portfolio; its code, content and tests are deleted.
+
 # Phase 08 · Section 4 · Pricing
 
 **Branch:** `phase/08-pricing` · **Spec:** DESIGN_SPEC §5 "4 · Pricing" · **Refs:** 10, 04, 07

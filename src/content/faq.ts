@@ -55,7 +55,7 @@ const faq: FaqContent = {
       id: "timeline",
       question: "How long does a typical project take?",
       answer:
-        "A focused product or website design usually runs four to eight weeks. A short audit can take one to two. The pricing estimator gives a rough range, and I'll confirm a plan after a first conversation.",
+        "A focused product or website design usually runs four to eight weeks. A short audit can take one to two. I'll confirm the scope after a first conversation.",
     },
     {
       id: "availability",

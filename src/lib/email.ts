@@ -14,17 +14,17 @@ function escapeHtml(value: string): string {
 }
 
 function rows(values: InquiryValues): [string, string][] {
-  const budget = inquiry.budgets.find((b) => b.value === values.budget)?.label ?? values.budget;
-  const plan = values.plan ? (inquiry.plans[values.plan] ?? values.plan) : "";
+  const labelOf = (options: { value: string; label: string }[], value?: string): string =>
+    options.find((o) => o.value === value)?.label ?? value ?? "";
   return [
     ["Name", values.name],
     ["Email", values.email],
     ["Company", values.company ?? ""],
     ["Website", values.website ?? ""],
-    ["Budget", budget],
-    ["Plan", plan],
-    ["Start date", values.startDate ?? ""],
-    ["Launch date", values.launchDate ?? ""],
+    ["Role", values.role ?? ""],
+    ["Employment type", labelOf(inquiry.employmentTypes, values.employmentType)],
+    ["Work setup", labelOf(inquiry.workSetups, values.workSetup)],
+    ["Ideal start date", values.startDate ?? ""],
     ["Message", values.message ?? ""],
   ].filter((row): row is [string, string] => row[1] !== "");
 }
@@ -49,7 +49,7 @@ async function sendInquiryEmail(values: InquiryValues): Promise<boolean> {
       from: process.env.INQUIRY_FROM_EMAIL || DEFAULT_FROM,
       to,
       replyTo: values.email,
-      subject: `New enquiry — ${values.name}`,
+      subject: `New hiring enquiry — ${values.name}`,
       text,
       html,
     });
