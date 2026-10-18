@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-/** Shape refined in Phase 10 once the real pricing plans exist. */
+/** `plan` is "single-project" or a recurring plan id from content/pricing.ts. */
 type InquiryPrefill = { plan?: string };
 
 type UiStore = {
@@ -24,7 +24,7 @@ export const useUiStore = create<UiStore>((set) => ({
   inquiryOpen: false,
   inquiryPrefill: undefined,
   openInquiry: (prefill) => set({ inquiryOpen: true, inquiryPrefill: prefill }),
-  closeInquiry: () => set({ inquiryOpen: false }),
+  closeInquiry: () => set({ inquiryOpen: false, inquiryPrefill: undefined }),
   videoOpen: false,
   activeVideo: null,
   videoOrigin: null,

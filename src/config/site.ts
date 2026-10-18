@@ -7,6 +7,7 @@ export const site = {
   shortName: "Foro",
   url: "https://foroughforoughi.com",
   email: "hello@foroughforoughi.com", // placeholder — OPEN_QUESTIONS Q10
+  whatsapp: "https://wa.me/37400000000", // placeholder — OPEN_QUESTIONS Q10
   linkedin: "https://www.linkedin.com/in/foroughforoughi", // placeholder — OPEN_QUESTIONS Q10
   location: "Yerevan, Armenia", // placeholder — OPEN_QUESTIONS Q10
   timezone: "UTC+4", // placeholder — OPEN_QUESTIONS Q10
