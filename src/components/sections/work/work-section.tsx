@@ -5,9 +5,10 @@ import { ProjectCard } from "./project-card";
 import { ShowreelTile } from "./showreel-tile";
 import { WorkCta } from "./work-cta";
 import { WorkReveal } from "./work-reveal";
+import { WorkStage } from "./work-stage";
 
 /**
- * Work (DESIGN_SPEC §5): one screen. The reel is a one-third band (cards get two thirds) and carries the intro (title,
+ * Work (DESIGN_SPEC §5): one full screen (pinned while the next section covers it). The reel is a one-third band (cards get two thirds) and carries the intro (title,
  * subtitle, button) on top of it; a single row of project cards sits underneath. Deliberately
  * quiet — hairline borders and soft shadows only, so the work holds the focus. Below `md`
  * the cards stack and the section grows past one screen; that is expected.
@@ -16,10 +17,10 @@ function WorkSection() {
   const { delivery, showreel, projects } = work;
 
   return (
-    <section
+    <WorkStage
       id="work"
       aria-labelledby="work-heading"
-      className="flex min-h-svh flex-col px-4 pt-20 pb-4 md:px-12 md:pt-24 md:pb-6"
+      bodyClassName="px-4 pt-20 pb-4 md:px-12 md:pt-24 md:pb-6"
     >
       <WorkReveal className="flex flex-1 flex-col gap-3">
         <div data-work-panel className="flex min-h-56 flex-1">
@@ -54,7 +55,7 @@ function WorkSection() {
           ))}
         </ul>
       </WorkReveal>
-    </section>
+    </WorkStage>
   );
 }
 

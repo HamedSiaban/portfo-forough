@@ -11,7 +11,10 @@ import { useMotionPrefs } from "@/providers/motion-prefs-provider";
 type ScrollTarget = string | number | HTMLElement;
 
 type SmoothScrollContextValue = {
-  scrollTo: (target: ScrollTarget, options?: { offset?: number }) => void;
+  scrollTo: (
+    target: ScrollTarget,
+    options?: { offset?: number; immediate?: boolean; duration?: number },
+  ) => void;
   /** Freeze/resume smooth scrolling (modals). No-op when Lenis is disabled. */
   setPaused: (paused: boolean) => void;
 };
@@ -53,7 +56,11 @@ function SmoothScrollProvider({ children }: { children: React.ReactNode }) {
       // after a client-side route change it can still reflect the previous
       // (shorter) page, which silently clamps scrollTo. Force a resync first.
       lenis.resize();
-      lenis.scrollTo(target, { offset: options?.offset ?? 0 });
+      lenis.scrollTo(target, {
+        offset: options?.offset ?? 0,
+        immediate: options?.immediate,
+        duration: options?.duration,
+      });
       return;
     }
     const element = typeof target === "string" ? document.querySelector(target) : null;

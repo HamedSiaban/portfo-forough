@@ -13,7 +13,11 @@ function TrailSection() {
   const { heading, trail, quote } = work;
 
   return (
-    <section id="trail" aria-labelledby="trail-heading" className="px-4 py-3 md:px-12">
+    <section
+      id="trail"
+      aria-labelledby="trail-heading"
+      className="relative z-10 rounded-t-panel bg-background px-4 py-3 md:px-12"
+    >
       <WorkReveal className="grid gap-3 lg:grid-cols-[1.4fr_1fr]">
         <TrailPanel
           heading={

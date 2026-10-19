@@ -50,6 +50,8 @@ type WorkContent = {
     player: PlayerLabels;
   };
   delivery: { title: string; note: string; cta: string; projectsLabel: string };
+  /** Scroll-gate prompt under the section (progress ring + label). */
+  gate: { label: string };
   projects: Project[];
 };
 
@@ -91,6 +93,7 @@ const work: WorkContent = {
       close: "Close showreel",
     },
   },
+  gate: { label: "Want to know me more?" },
   delivery: {
     title: "Latest delivery",
     note: "New projects typically start within 2 weeks.",
