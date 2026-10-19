@@ -8,7 +8,7 @@ import { CtaPanel } from "./cta-panel";
  */
 function CtaSection() {
   return (
-    <section id="contact" aria-labelledby="contact-heading" className="py-4">
+    <section id="contact" aria-labelledby="contact-heading" className="relative z-10 py-4">
       <CtaPanel>
         <h2 id="contact-heading" className="relative text-display-xl text-foreground">
           {cta.heading.map((line) => (

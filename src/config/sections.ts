@@ -19,8 +19,8 @@ type SectionEntry = {
  */
 export const sections: SectionEntry[] = [
   { id: "hero", label: "Hero", Component: HeroSection },
-  { id: "approach", label: "Value cards", Component: ValueCardsSection },
   { id: "work", label: "Work", Component: WorkSection },
   { id: "trail", label: "Trail & quote", Component: TrailSection },
+  { id: "approach", label: "Value cards", Component: ValueCardsSection },
   { id: "contact", label: "CTA", Component: CtaSection },
 ];

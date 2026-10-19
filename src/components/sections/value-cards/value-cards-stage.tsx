@@ -159,7 +159,13 @@ function ValueCardsStage({ headline, body, children }: ValueCardsStageProps) {
   );
 
   return (
-    <section ref={rootRef} id="approach" className="relative">
+    // Negative bottom margin = the exit scroll (EXIT_UNITS x STEP_VH), so whatever follows rises
+    // over the lifting, fading stack instead of arriving after a blank pinned screen.
+    <section
+      ref={rootRef}
+      id="approach"
+      className="relative mb-[-35svh] motion-reduce:mb-0 md:mb-[-45svh]"
+    >
       <div
         data-stage
         className="relative flex h-svh items-center justify-center overflow-hidden motion-reduce:block motion-reduce:h-auto motion-reduce:overflow-visible motion-reduce:py-24"
