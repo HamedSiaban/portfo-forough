@@ -14,15 +14,24 @@ type ShowreelTileProps = {
   previewSrc?: string | undefined;
   /** Server-rendered placeholder art shown while there is no reel. */
   fallback: React.ReactNode;
+  /** Server-rendered intro (title, subtitle, CTA) laid over the top of the tile. */
+  intro?: React.ReactNode;
 };
 
 /**
- * Dark showreel tile. The muted preview loop only gets a `src` once the tile is within 200px of
+ * Dark, showreel tile that fills its flex cell and hosts the section intro. The muted preview loop only gets a `src` once the tile is within 200px of
  * the viewport and plays only while visible; reduced motion keeps the poster. With no reel yet
  * (OPEN_QUESTIONS Q7) it shows generated art and a "coming soon" note. The tile element is
  * handed to the video modal as the shared-element origin.
  */
-function ShowreelTile({ label, comingSoon, poster, previewSrc, fallback }: ShowreelTileProps) {
+function ShowreelTile({
+  label,
+  comingSoon,
+  poster,
+  previewSrc,
+  fallback,
+  intro,
+}: ShowreelTileProps) {
   const openVideo = useUiStore((state) => state.openVideo);
   const tileRef = React.useRef<HTMLDivElement>(null);
   const videoRef = React.useRef<HTMLVideoElement>(null);
@@ -41,8 +50,7 @@ function ShowreelTile({ label, comingSoon, poster, previewSrc, fallback }: Showr
     <div
       ref={tileRef}
       id="showreel-tile"
-      data-work-panel
-      className="relative isolate min-h-64 overflow-hidden rounded-panel bg-surface-inverse text-on-inverse"
+      className="relative isolate min-h-56 w-full overflow-hidden rounded-card border border-border bg-surface-inverse text-on-inverse shadow-xs"
     >
       {previewSrc ? (
         <video
@@ -61,6 +69,7 @@ function ShowreelTile({ label, comingSoon, poster, previewSrc, fallback }: Showr
           {fallback}
         </div>
       )}
+      {intro}
       <div className="flex h-full min-h-[inherit] flex-col items-center justify-center gap-3 p-6">
         <Button
           variant="outline"

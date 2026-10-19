@@ -3,6 +3,7 @@ import type { ComponentType } from "react";
 import { CtaSection } from "@/components/sections/cta/cta-section";
 import { HeroSection } from "@/components/sections/hero/hero-section";
 import { ValueCardsSection } from "@/components/sections/value-cards/value-cards-section";
+import { TrailSection } from "@/components/sections/work/trail-section";
 import { WorkSection } from "@/components/sections/work/work-section";
 
 type SectionEntry = {
@@ -20,5 +21,6 @@ export const sections: SectionEntry[] = [
   { id: "hero", label: "Hero", Component: HeroSection },
   { id: "approach", label: "Value cards", Component: ValueCardsSection },
   { id: "work", label: "Work", Component: WorkSection },
+  { id: "trail", label: "Trail & quote", Component: TrailSection },
   { id: "contact", label: "CTA", Component: CtaSection },
 ];
