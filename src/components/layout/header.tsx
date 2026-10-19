@@ -1,10 +1,14 @@
 "use client";
 
 import { useGSAP } from "@gsap/react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import * as React from "react";
 
-import { Button } from "@/components/ui/button";
+import { useSmoothScroll } from "@/components/motion/smooth-scroll";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { HEADER_OFFSET_PX } from "@/config/site";
+import { cn } from "@/lib/cn";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { useUiStore } from "@/stores/ui-store";
 
@@ -18,6 +22,8 @@ import { ThemeToggle } from "./theme-toggle";
  */
 function Header() {
   const openInquiry = useUiStore((state) => state.openInquiry);
+  const pathname = usePathname();
+  const { scrollTo } = useSmoothScroll();
   const headerRef = React.useRef<HTMLElement>(null);
   const [isDark, setIsDark] = React.useState(false);
 
@@ -47,6 +53,19 @@ function Header() {
     >
       <Logo className="pointer-events-auto shrink-0" />
       <div className="pointer-events-auto flex min-w-0 flex-1 flex-wrap items-center justify-end gap-1 sm:gap-2">
+        <Link
+          href="/#work"
+          className={cn(buttonVariants({ variant: isDark ? "secondary" : "solid", size: "sm" }))}
+          onClick={(event) => {
+            // On the home page scroll via Lenis (offset for this fixed header); elsewhere let
+            // the link navigate — SmoothScroll resolves the hash after the route change.
+            if (pathname !== "/") return;
+            event.preventDefault();
+            scrollTo("#work", { offset: -HEADER_OFFSET_PX });
+          }}
+        >
+          Projects
+        </Link>
         <Button variant={isDark ? "secondary" : "solid"} size="sm" onClick={() => openInquiry()}>
           Start a conversation
         </Button>

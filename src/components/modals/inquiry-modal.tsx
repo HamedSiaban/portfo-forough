@@ -1,11 +1,9 @@
 "use client";
 
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { XIcon } from "@phosphor-icons/react";
-import { AnimatePresence, motion } from "motion/react";
+import { motion } from "motion/react";
 import * as React from "react";
-import { useForm } from "react-hook-form";
 
 import { Halftone } from "@/components/effects/halftone";
 import { useSmoothScroll } from "@/components/motion/smooth-scroll";
@@ -13,101 +11,29 @@ import { Button } from "@/components/ui/button";
 import { site } from "@/config/site";
 import { inquiry } from "@/content/inquiry";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
-import { useSubmitInquiry } from "@/hooks/use-submit-inquiry";
-import { type InquiryInput, inquirySchema, type InquiryValues } from "@/lib/schemas/inquiry";
 import { useUiStore } from "@/stores/ui-store";
 
-import { InquiryDiscardConfirm } from "./inquiry-discard-confirm";
-import { InquiryForm } from "./inquiry-form";
-import { InquirySuccess } from "./inquiry-success";
+import { ContactGrid } from "./contact-grid";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-const emptyValues: InquiryInput = {
-  name: "",
-  email: "",
-  company: "",
-  website: "",
-  role: "",
-  employmentType: undefined,
-  workSetup: undefined,
-  startDate: "",
-  message: "",
-  companyWebsite: "",
-};
-
-/** Renders "{email}" / "{whatsapp}" tokens in the intro copy as links. */
-function InfoCopy({ text }: { text: string }) {
-  const parts = text.split(/(\{email\}|\{whatsapp\})/);
-  return (
-    <p>
-      {parts.map((part, i) => {
-        if (part === "{email}")
-          return (
-            <a key={i} href={`mailto:${site.email}`} className="underline underline-offset-2">
-              {inquiry.emailLinkLabel}
-            </a>
-          );
-        if (part === "{whatsapp}")
-          return (
-            <a
-              key={i}
-              href={site.whatsapp}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline underline-offset-2"
-            >
-              {inquiry.whatsappLinkLabel}
-            </a>
-          );
-        return <React.Fragment key={i}>{part}</React.Fragment>;
-      })}
-    </p>
-  );
-}
-
 /**
- * Inquiry modal (DESIGN_SPEC §6, ref 01). Base UI Dialog supplies the focus trap, Esc, scroll
+ * Contact modal (DESIGN_SPEC §6, ref 01). Base UI Dialog supplies the focus trap, Esc, scroll
  * lock and focus return (same approach as VideoModal). The dialog's own open/close fade uses
  * data-open/data-closed CSS (Base UI waits for it before unmounting); Motion owns the cards'
- * staggered rise and the success/confirm swaps inside. Lenis is paused while open.
- * Form state lives here so the close guard can see `isDirty`.
+ * staggered rise. Lenis is paused while open.
  */
 function InquiryModal() {
   const open = useUiStore((state) => state.inquiryOpen);
   const closeInquiry = useUiStore((state) => state.closeInquiry);
   const { setPaused } = useSmoothScroll();
   const reduced = useReducedMotion();
-  const [confirming, setConfirming] = React.useState(false);
-  const mutation = useSubmitInquiry();
-  const { reset: resetMutation } = mutation;
-
-  const form = useForm<InquiryInput, unknown, InquiryValues>({
-    resolver: zodResolver(inquirySchema),
-    mode: "onChange",
-    defaultValues: emptyValues,
-  });
-  const { reset: resetForm } = form;
-  const { isDirty } = form.formState;
-  const sent = mutation.isSuccess;
-
-  // Fresh form on every open.
-  React.useEffect(() => {
-    if (!open) return;
-    resetForm(emptyValues);
-    resetMutation();
-  }, [open, resetForm, resetMutation]);
 
   React.useEffect(() => {
     if (!open) return;
     setPaused(true);
     return () => setPaused(false);
   }, [open, setPaused]);
-
-  const requestClose = React.useCallback(() => {
-    if (isDirty && !sent) setConfirming(true);
-    else closeInquiry();
-  }, [isDirty, sent, closeInquiry]);
 
   const rise = (index: number) => ({
     initial: reduced ? false : ({ opacity: 0, y: 32 } as const),
@@ -119,7 +45,7 @@ function InquiryModal() {
     <DialogPrimitive.Root
       open={open}
       onOpenChange={(next) => {
-        if (!next) requestClose();
+        if (!next) closeInquiry();
       }}
     >
       <DialogPrimitive.Portal>
@@ -137,11 +63,6 @@ function InquiryModal() {
                 className="fixed top-5 right-5 z-20 md:absolute md:top-6 md:right-6"
               />
             }
-            onClick={(event) => {
-              // Route the × through the same guard as Esc / backdrop.
-              event.preventDefault();
-              requestClose();
-            }}
           >
             <XIcon aria-hidden />
             <span className="sr-only">Close</span>
@@ -159,10 +80,10 @@ function InquiryModal() {
                 className="flex flex-col gap-5 rounded-card bg-surface p-8 text-body-lg text-muted-foreground md:p-14"
               >
                 <DialogPrimitive.Description className="sr-only">
-                  Send a hiring enquiry by filling in the form.
+                  {inquiry.description}
                 </DialogPrimitive.Description>
                 {inquiry.intro.map((line) => (
-                  <InfoCopy key={line} text={line} />
+                  <p key={line}>{line}</p>
                 ))}
                 <p className="text-sm text-subtle-foreground">
                   {site.location} · {site.timezone}
@@ -170,31 +91,10 @@ function InquiryModal() {
               </motion.div>
             </div>
 
-            <motion.div {...rise(2)} className="relative rounded-card bg-surface p-6 md:p-14">
-              {sent ? (
-                <InquirySuccess onClose={closeInquiry} />
-              ) : (
-                <InquiryForm
-                  form={form}
-                  pending={mutation.isPending}
-                  error={mutation.error?.code ?? null}
-                  onSubmit={(values) => mutation.mutate(values)}
-                />
-              )}
+            <motion.div {...rise(2)} className="relative">
+              <ContactGrid />
             </motion.div>
           </div>
-
-          <AnimatePresence>
-            {confirming ? (
-              <InquiryDiscardConfirm
-                onKeep={() => setConfirming(false)}
-                onDiscard={() => {
-                  setConfirming(false);
-                  closeInquiry();
-                }}
-              />
-            ) : null}
-          </AnimatePresence>
         </DialogPrimitive.Popup>
       </DialogPrimitive.Portal>
     </DialogPrimitive.Root>

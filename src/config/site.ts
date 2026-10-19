@@ -8,6 +8,7 @@ export const site = {
   url: "https://foroforoughi.netlify.app", // Netlify default domain; swap for the custom domain later
   email: "forouxui@gmail.com",
   whatsapp: "https://wa.me/37499653445",
+  calendly: "https://calendly.com/foroughforoughi", // placeholder — OPEN_QUESTIONS Q10
   linkedin: "https://www.linkedin.com/in/foroughforoughi", // placeholder — OPEN_QUESTIONS Q10
   location: "Yerevan, Armenia", // placeholder — OPEN_QUESTIONS Q10
   timezone: "UTC+4", // placeholder — OPEN_QUESTIONS Q10

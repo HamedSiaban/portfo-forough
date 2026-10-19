@@ -70,7 +70,7 @@ const TYPE_SPECIMENS = [
     sample: "Body copy for FAQ answers and legal prose, set in the Book weight.",
   },
   { name: "label", className: "text-label", sample: "Your project" },
-  { name: "mono-ui", className: "text-mono-ui", sample: "Start a conversation" },
+  { name: "mono-ui", className: "text-mono-ui", sample: "Projects" },
 ] as const;
 
 const RADII = [
@@ -163,7 +163,7 @@ export default function StyleguidePage() {
                   Work
                 </Button>
                 <Button variant={variant} size="md">
-                  Start a conversation
+                  Projects
                 </Button>
                 <Button variant={variant} size="md" shape="pill">
                   Build your next project

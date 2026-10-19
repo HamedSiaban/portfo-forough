@@ -7,10 +7,10 @@
 
 ## 1. Project
 
-A portfolio site for **Foroughozaman (Foro) Foroughi**, a senior product/UX designer. Its job is to _prove_ UI/UX craft through design, motion and interaction, and to convert visitors through the **project inquiry modal**.
+A portfolio site for **Foroughozaman (Foro) Foroughi**, a senior product/UX designer. Its job is to _prove_ UI/UX craft through design, motion and interaction, and to get Foro hired through the **contact grid** (WhatsApp, LinkedIn, Calendly, email) in the contact modal opened from the header and CTA.
 
-- **Routes:** `/` (single page), `/legals`, `/privacy`
-- **Page anatomy:** Header → 6 sections → Footer, plus two modals (Inquiry, Video)
+- **Routes:** `/` (single page), `/privacy` (one paragraph)
+- **Page anatomy:** Header → sections (`config/sections.ts`) → Footer, plus two modals (Contact, Video)
 - **Interaction reference:** incredibles.dev. Screenshots live in `docs/reference/` (index in `docs/reference/README.md`).
   We reproduce **patterns and feel only**. We never copy its copy, logos, imagery or client names. All content is Foro's own.
   We do use the same type families (PP Frama, PP Neue Montreal, PP Supply Mono).
@@ -39,15 +39,13 @@ Install the **latest stable** version of each package at the time of Phase 0 and
 | UI primitives            | **shadcn/ui** (Base UI)                                                                                                                                                                                                                | Dialog, Accordion, Tabs, Select, Input, Textarea, Label, Button, Form/Field, Sonner. Base UI is Radix's successor and shadcn's current default (Phase 00 decision — see decisions log) |
 | Fonts                    | **PP Frama** (display, `ss01`), **PP Neue Montreal** (sans), **PP Supply Mono** (mono) via `next/font/local`                                                                                                                           | Config in `src/fonts/index.ts`; roles in DESIGN_SPEC §3. ⚠️ Dev files until licensed                                                                                                   |
 | Theme                    | **next-themes**                                                                                                                                                                                                                        | `class` strategy, default `system`, no flash                                                                                                                                           |
-| Server state             | **TanStack Query v5**                                                                                                                                                                                                                  | Inquiry submit (mutation), future CMS data                                                                                                                                             |
+| Server state             | **TanStack Query v5**                                                                                                                                                                                                                  | Future CMS data (no mutations today)                                                                                                                                                   |
 | Local state              | **Zustand** for cross-tree UI state; **React Context** only for scoped providers                                                                                                                                                       | See §6                                                                                                                                                                                 |
-| Forms                    | **react-hook-form** + **zod** + `@hookform/resolvers`                                                                                                                                                                                  | Schemas shared client/server in `src/lib/schemas`                                                                                                                                      |
 | Scroll & timeline motion | **GSAP 3** + ScrollTrigger (+ Flip/SplitText when needed) via `@gsap/react` (`useGSAP`)                                                                                                                                                | GSAP and all its plugins are free                                                                                                                                                      |
 | Smooth scroll            | **Lenis**, driven by the GSAP ticker                                                                                                                                                                                                   | One instance, in `SmoothScroll` provider                                                                                                                                               |
 | Component enter/exit     | **Motion** (`motion/react`)                                                                                                                                                                                                            | Modals, accordion content, tabs, presence                                                                                                                                              |
 | WebGL                    | **three.js** (vanilla, client-only, dynamically imported)                                                                                                                                                                              | Wave glow field                                                                                                                                                                        |
 | 2D canvas                | Native Canvas 2D                                                                                                                                                                                                                       | Card cascade ("solitaire")                                                                                                                                                             |
-| Email                    | **Resend** (pending, see OPEN_QUESTIONS)                                                                                                                                                                                               | Called from a Route Handler                                                                                                                                                            |
 | Icons                    | **@phosphor-icons/react**                                                                                                                                                                                                              | Ships with shadcn's current `base-lyra` style (Phase 00 decision)                                                                                                                      |
 | Package manager          | **pnpm**                                                                                                                                                                                                                               | Never commit other lockfiles                                                                                                                                                           |
 | Lint/format              | ESLint flat config (`next/core-web-vitals` + `next/typescript`, `@tanstack/eslint-plugin-query`, `eslint-plugin-better-tailwindcss`, `simple-import-sort`, `eslint-config-prettier`) + **Prettier** with `prettier-plugin-tailwindcss` |                                                                                                                                                                                        |
@@ -65,31 +63,24 @@ Source of truth is `package.json`; this is a point-in-time mirror for quick refe
 | ---------------------------------------- | -------- |
 | `@base-ui/react`                         | ^1.9.0   |
 | `@gsap/react`                            | ^2.1.2   |
-| `@hookform/resolvers`                    | ^5.9.1   |
 | `@phosphor-icons/react`                  | ^2.1.10  |
 | `@tanstack/react-query`                  | ^5.104.3 |
 | `@tanstack/react-query-devtools`         | ^5.104.3 |
 | `class-variance-authority`               | ^0.7.1   |
 | `clsx`                                   | ^2.1.1   |
-| `date-fns`                               | ^4.4.0   |
 | `gsap`                                   | ^3.15.0  |
 | `lenis`                                  | ^1.3.27  |
 | `motion`                                 | ^14.3.0  |
 | `next`                                   | 16.4.1   |
 | `next-themes`                            | ^0.4.6   |
 | `react`                                  | 19.3.0   |
-| `react-day-picker`                       | ^10.0.2  |
 | `react-dom`                              | 19.3.0   |
-| `react-hook-form`                        | ^7.90.0  |
-| `resend`                                 | ^6.33.0  |
 | `shadcn`                                 | ^4.21.5  |
 | `sonner`                                 | ^2.0.8   |
 | `tailwind-merge`                         | ^3.7.0   |
 | `three`                                  | ^0.186.1 |
 | `tw-animate-css`                         | ^1.4.0   |
-| `zod`                                    | ^4.6.7   |
 | `zustand`                                | ^5.0.15  |
-| `@axe-core/playwright` (dev)             | ^4.14.0  |
 | `@commitlint/cli` (dev)                  | ^21.2.3  |
 | `@commitlint/config-conventional` (dev)  | ^21.2.3  |
 | `@playwright/test` (dev)                 | ^1.64.1  |
@@ -98,7 +89,6 @@ Source of truth is `package.json`; this is a point-in-time mirror for quick refe
 | `@testing-library/dom` (dev)             | ^10.4.2  |
 | `@testing-library/jest-dom` (dev)        | ^7.0.1   |
 | `@testing-library/react` (dev)           | ^16.3.3  |
-| `@testing-library/user-event` (dev)      | ^14.6.8  |
 | `@types/node` (dev)                      | ^20      |
 | `@types/react` (dev)                     | ^19      |
 | `@types/react-dom` (dev)                 | ^19      |
@@ -153,15 +143,13 @@ src/
     layout.tsx            # fonts, <Providers>, metadata
     page.tsx              # renders sections from config/sections.ts
     globals.css           # Tailwind v4 + @theme tokens (light/dark)
-    legals/page.tsx
     privacy/page.tsx
-    api/inquiry/route.ts  # POST, zod-validated, rate-limited
     sitemap.ts  robots.ts  opengraph-image.tsx
   components/
     ui/                   # shadcn-generated. Change via variants, not ad-hoc edits
     layout/               # Header, Footer, ThemeToggle, Logo
     sections/             # hero/ value-cards/ work/ faq/ cta/  (one folder each)
-    modals/               # InquiryModal, VideoModal
+    modals/               # InquiryModal (contact tiles), VideoModal
     effects/              # WaveField (WebGL), Halftone, ImageTrail, CardCascade, PatternArt
     motion/               # SmoothScroll, Reveal primitives
   fonts/                  # woff2 files + index.ts (next/font/local) + README.md
@@ -170,7 +158,7 @@ src/
     site.ts               # name, url, email, socials, timezone
   content/                # all copy & data, typed (hero.ts, cards.ts, projects.ts, faq.ts, legal/*.mdx|ts)
   hooks/                  # useReducedMotion, usePointer, useMediaQuery, useIsTouch, useInViewport
-  lib/                    # cn.ts, gsap.ts (plugin registration, once), query-client.ts, schemas/, email.ts
+  lib/                    # cn.ts, gsap.ts (plugin registration, once), query-client.ts
   providers/              # Providers.tsx (Theme, Query, MotionPrefs, SmoothScroll)
   stores/                 # ui-store.ts (zustand)
   types/
@@ -202,15 +190,14 @@ docs/                     # reference/, phases/, ROADMAP.md, DESIGN_SPEC.md, OPE
 
 ## 6. State management
 
-| Kind                | Tool                           | Examples                                                   |
-| ------------------- | ------------------------------ | ---------------------------------------------------------- |
-| Async / server data | TanStack Query                 | `useSubmitInquiry` (mutation)                              |
-| Cross-tree UI state | Zustand (`stores/ui-store.ts`) | `inquiryOpen`, `openInquiry()`, `videoOpen`, `activeVideo` |
-| Scoped, tree-local  | React Context                  | `MotionPrefsContext`, `SectionRegistryContext`             |
-| Form state          | react-hook-form                | inquiry form                                               |
-| Theme               | next-themes                    | Don't duplicate in Zustand or localStorage                 |
+| Kind                | Tool                           | Examples                                       |
+| ------------------- | ------------------------------ | ---------------------------------------------- |
+| Async / server data | TanStack Query                 | (none yet)                                     |
+| Cross-tree UI state | Zustand (`stores/ui-store.ts`) | `videoOpen`, `activeVideo`                     |
+| Scoped, tree-local  | React Context                  | `MotionPrefsContext`, `SectionRegistryContext` |
+| Theme               | next-themes                    | Don't duplicate in Zustand or localStorage     |
 
-Rules: never store server data in Zustand. Use selectors (`useUiStore(s => s.inquiryOpen)`), never subscribe to the whole store. No `useEffect` for derived state.
+Rules: never store server data in Zustand. Use selectors (`useUiStore(s => s.videoOpen)`), never subscribe to the whole store. No `useEffect` for derived state.
 
 ---
 
