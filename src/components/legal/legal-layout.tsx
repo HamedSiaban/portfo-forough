@@ -1,4 +1,3 @@
-import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { HEADER_OFFSET_PX, site } from "@/config/site";
@@ -11,16 +10,6 @@ const tokens: Record<string, ReactNode> = {
     <a href={`mailto:${site.email}`} className={linkClass}>
       {site.email}
     </a>
-  ),
-  privacy: (
-    <Link href="/privacy" className={linkClass}>
-      privacy policy
-    </Link>
-  ),
-  legals: (
-    <Link href="/legals" className={linkClass}>
-      legal notice
-    </Link>
   ),
 };
 

@@ -1,6 +1,6 @@
 /**
- * Typed legal copy (DESIGN_SPEC §7). Inline tokens in strings: `{email}` renders the contact
- * mailto link, `{privacy}` links to /privacy, `{legals}` links to /legals.
+ * Typed legal copy (DESIGN_SPEC §7). Inline token in strings: `{email}` renders the contact
+ * mailto link.
  */
 type LegalBlock = { type: "p"; text: string } | { type: "list"; items: string[] };
 

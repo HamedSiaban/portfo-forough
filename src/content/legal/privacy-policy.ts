@@ -1,117 +1,21 @@
-import { inquiry } from "@/content/inquiry";
-
 import type { LegalDocument } from "./types";
 
-const f = inquiry.fields;
-/** Strip the required-field asterisk so the list reads naturally. */
-const label = (value: string): string => value.replace(/\*$/, "");
-
 /**
- * Must match what the site actually does: the inquiry form fields (content/inquiry.ts), Resend
- * (lib/email.ts), in-memory rate limiting (lib/rate-limit.ts), Umami and Microsoft Clarity analytics, Netlify hosting (Q12).
+ * One paragraph on purpose: the site has no forms or accounts. It must keep matching reality —
+ * Umami (cookieless) and Microsoft Clarity (consent-gated, see content/cookies.ts) analytics,
+ * Netlify hosting. Update it when anything that collects data is added.
  */
 const privacyPolicy: LegalDocument = {
-  title: "Privacy policy",
-  description: "What personal data this website collects, why, who processes it and your rights.",
+  title: "Privacy",
+  description: "How this portfolio handles visitor data.",
   sections: [
     {
-      id: "who-we-are",
-      heading: "1. Who I am",
+      id: "privacy",
+      heading: "Privacy",
       blocks: [
         {
           type: "p",
-          text: "This site is operated by Foroughozaman Foroughi, an independent designer based in Armenia (see the {legals}). For any privacy question, write to {email}.",
-        },
-      ],
-    },
-    {
-      id: "data-we-collect",
-      heading: "2. What data I collect",
-      blocks: [
-        {
-          type: "p",
-          text: "Only what you send me through the hiring enquiry form:",
-        },
-        {
-          type: "list",
-          items: [
-            label(f.name),
-            label(f.email),
-            label(f.company),
-            label(f.website),
-            label(f.role),
-            label(f.employmentType),
-            label(f.workSetup),
-            label(f.startDate),
-            "Your message",
-          ],
-        },
-        {
-          type: "p",
-          text: "Name and email are required; everything else is optional. To limit abuse, the form is rate-limited by IP address; this is kept briefly in server memory and not stored with your enquiry.",
-        },
-        {
-          type: "p",
-          text: "Your theme preference (light or dark) is saved in your browser's local storage. It never leaves your device. This site sets no advertising cookies. Microsoft Clarity sets cookies, but only if you accept them in the cookie banner. You can change your choice at any time with “Cookie settings” in the footer.",
-        },
-      ],
-    },
-    {
-      id: "why",
-      heading: "3. Why and on what basis",
-      blocks: [
-        {
-          type: "p",
-          text: "I use your enquiry data solely to reply to you and to discuss the opportunity. The basis is your request to be contacted (pre-contractual steps) and my legitimate interest in answering enquiries. I never sell your data or use it for marketing without your consent.",
-        },
-      ],
-    },
-    {
-      id: "processors",
-      heading: "4. Who processes it",
-      blocks: [
-        {
-          type: "list",
-          items: [
-            "Resend: delivers the enquiry to my inbox by email.",
-            "Netlify: hosts the website.",
-            "Umami: cookieless aggregate analytics (page views, referrers, country, device type). It honours your browser's Do Not Track setting.",
-            "Microsoft Clarity: records anonymised usage, such as clicks, scrolling and session replays, and produces heatmaps so I can improve the design. It only runs if you accept cookies. Form fields are masked and not recorded. See Microsoft's privacy statement at privacy.microsoft.com.",
-          ],
-        },
-        {
-          type: "p",
-          text: "These providers may process data outside your country, including in the United States, under standard contractual safeguards.",
-        },
-      ],
-    },
-    {
-      id: "retention",
-      heading: "5. How long I keep it",
-      blocks: [
-        {
-          type: "p",
-          text: "Enquiries are deleted after 12 months unless we are in an ongoing conversation or working relationship.",
-        },
-      ],
-    },
-    {
-      id: "your-rights",
-      heading: "6. Your rights",
-      blocks: [
-        {
-          type: "p",
-          text: "Depending on where you live, you may ask to access, correct, delete or export your data, to object to or restrict its use, and to withdraw consent at any time. Email {email} and I'll respond within 30 days. You can also complain to your local data-protection authority.",
-        },
-      ],
-    },
-    {
-      id: "changes",
-      heading: "7. Changes",
-      blocks: [
-        {
-          type: "p",
-          text: "If this policy changes materially, the updated version will be posted here. Last updated: 18 October 2026.",
+          text: "This is a personal portfolio run by Foroughozaman Foroughi from Armenia. It has no forms or accounts and I don't collect personal data directly. The site is hosted on Netlify, uses Umami for cookieless visit statistics, and, only if you accept cookies, Microsoft Clarity to record anonymised sessions and heatmaps so I can improve the design; you can change your choice any time from “Cookie settings” in the footer. If you contact me by email, WhatsApp, LinkedIn or Calendly, I use your details only to reply to you. For any question or to ask for deletion, write to {email}.",
         },
       ],
     },
