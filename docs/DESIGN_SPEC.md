@@ -108,11 +108,18 @@ Centred sticky `display-xl` headline + short paragraph. On scroll, **4 cards fly
 
 ### 3 · Work — `#work` · refs 12, 13, 15, 08
 
-Bento grid:
+One screen (`min-h-svh`), deliberately quiet so the work holds the focus: hairline borders and soft shadows only.
+
+- **Reel tile (top band, ~40% of the height):** dark, muted looping preview + `SHOWREEL` button centred. The intro sits on it: "Latest delivery" title, "projects typically start within…" and `Request a quote` (→ Inquiry modal). On click the tile opens the **Video modal** with a shared-element transition: it expands into the full-screen player (GSAP Flip or Motion `layoutId`), and closing reverses it. A real video needs a dark scrim behind the intro text.
+- **Project cards (one row, ~60%):** four tall cards (2 per row on `md`, stacked on mobile). Number, title, region + duration chips, arrow icon or "NDA". The whole card is the link; NDA cards are static with no hover. Space above the title is reserved for project thumbnails.
+- **Effects:** only a hairline that draws along the card's bottom edge on hover/focus, a border and shadow lift, an arrow nudge, and a 1px press. Section enter is the shared staggered rise.
+
+### 3b · Trail & quote — `#trail` · refs 12, 13
+
+Interim section (it was the top of the old Work bento). Merging it with the CTA was considered and dropped.
 
 - **Left (large, surface):** "See for yourself" heading. **Image trail:** pointer movement spawns design images at the cursor from a pool. Each new image appears on top, follows the travel direction, and fades/scales out after ~0.8–1.2s. Spawn by distance travelled, not by time. An accent dot follows the cursor.
 - **Right (inverse surface):** huge testimonial quote + attribution, dark halftone + subtle `<WaveField>` in a dark palette.
-- **Bottom row:** **Showreel tile** (dark, muted looping preview + `SHOWREEL` button). On click it opens the **Video modal** with a shared-element transition: the tile expands into the full-screen player (GSAP Flip or Motion `layoutId`), and closing reverses it. Then "Latest delivery" intro (title, "projects typically start within…", `Request a quote` → Inquiry modal) and a horizontal row of project cards (title, region chip, duration chip, link icon or "NDA"). Horizontally scrollable with drag on desktop and native swipe on touch.
 
 ### Interlude — "Let's talk about your project." · refs 08, 10
 
