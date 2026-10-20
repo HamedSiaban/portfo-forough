@@ -13,6 +13,7 @@ import {
   type Card,
   cardSize,
   createRng,
+  type Ledge,
   needsStamp,
   nextSpawnDelay,
   sampleTrail,
@@ -26,7 +27,8 @@ import { buildSprites, type Sprites } from "./cascade-sprites";
 /**
  * Solitaire-victory cascade (DESIGN_SPEC §5 "6 · CTA", ref 11), kept deliberately calm: a few
  * pink cards launch one at a time from the top-left, fall under gravity and bounce off the panel
- * floor, leaving a short stepped trail. Each trail stamp remembers when it was drawn; every
+ * floor — or on the heading and button, which act as invisible ledges — leaving a short
+ * stepped trail. Each trail stamp remembers when it was drawn; every
  * frame the canvas is cleared and the stamps are redrawn with alpha falling by age — this
  * replaced an accumulate-and-`destination-out` fade that pulsed and left 8-bit alpha residue.
  * Physics is a fixed-step sim in `cascade-math`. Runs on `gsap.ticker`; idle while off-screen or
@@ -97,11 +99,28 @@ function CardCascade({ className }: { className?: string }) {
         if (reducedMotion) drawStatic();
       }
 
+      // Elements marked `data-cascade-floor` (heading, button) act as invisible floors.
+      function measureLedges(rect: DOMRect): Ledge[] {
+        return Array.from(panel.querySelectorAll<HTMLElement>("[data-cascade-floor]")).map((el) => {
+          const box = el.getBoundingClientRect();
+          return {
+            left: box.left - rect.left,
+            right: box.right - rect.left,
+            top: box.top - rect.top,
+          };
+        });
+      }
+
       function resize(): void {
         const rect = panel.getBoundingClientRect();
         if (rect.width === 0 || rect.height === 0) return;
         dpr = Math.min(window.devicePixelRatio || 1, config.dprCap);
-        world = { width: rect.width, height: rect.height, size: cardSize(rect.width) };
+        world = {
+          width: rect.width,
+          height: rect.height,
+          size: cardSize(rect.width),
+          ledges: measureLedges(rect),
+        };
         canvas.width = Math.round(rect.width * dpr);
         canvas.height = Math.round(rect.height * dpr);
         cards = [];
@@ -164,6 +183,8 @@ function CardCascade({ className }: { className?: string }) {
 
       const resizeObserver = new ResizeObserver(resize);
       resizeObserver.observe(panel);
+      // The heading reflows when the display font swaps in, without the panel changing size.
+      panel.querySelectorAll("[data-cascade-floor]").forEach((el) => resizeObserver.observe(el));
       resize();
 
       // Sprites bake theme colours in; rebuild when next-themes flips the class on <html>.

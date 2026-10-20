@@ -8,7 +8,7 @@ const cascadeConfig = {
   step: 1 / 60,
   /** Longest frame we simulate (tab refocus etc.) before dropping time. */
   maxFrame: 0.1,
-  spawnInterval: { min: 0.9, max: 1.5 },
+  spawnInterval: { min: 1.8, max: 2.8 },
   /** Spawn x range as a fraction of panel width — the top-left region. */
   spawnX: { min: 0.03, max: 0.22 },
   /** Share of cards launched to the right, so the cascade crosses the panel. */
@@ -31,7 +31,7 @@ const cascadeConfig = {
   rollFriction: 0.985,
   /** A rolling card slower than this is removed (its trail stays and fades). */
   minRollVx: 8,
-  maxCards: 5,
+  maxCards: 3,
   /** Card side as a fraction of panel width, clamped to px bounds. */
   size: { ratio: 0.08, min: 56, max: 110 },
   /**

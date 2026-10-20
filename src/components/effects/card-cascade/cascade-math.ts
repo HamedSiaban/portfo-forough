@@ -1,6 +1,15 @@
 import { cascadeConfig as config } from "./cascade-config";
 
-type World = { width: number; height: number; size: number };
+/** A solid ledge in panel coordinates: cards land on `top` between `left` and `right`. */
+type Ledge = { left: number; right: number; top: number };
+
+type World = {
+  width: number;
+  height: number;
+  size: number;
+  /** Invisible floors (e.g. the heading) that cards bounce on instead of falling behind. */
+  ledges?: readonly Ledge[];
+};
 
 type Card = {
   /** Centre position. */
@@ -63,6 +72,21 @@ function spawnCard(rng: Rng, world: World, spriteCount: number, startX?: number)
   };
 }
 
+/**
+ * Lowest y the card centre may reach this step. A ledge only counts if the card was still above
+ * it before the move, so a card already beside or below the text is never snapped on top of it.
+ */
+function floorFor(card: Card, prevY: number, world: World): number {
+  const half = world.size / 2;
+  let floor = world.height - half;
+  for (const ledge of world.ledges ?? []) {
+    const top = ledge.top - half;
+    const overlaps = card.x > ledge.left - half && card.x < ledge.right + half;
+    if (overlaps && prevY <= top + 1 && top < floor) floor = top;
+  }
+  return floor;
+}
+
 function gravityFor(world: World): number {
   return config.gravity * Math.max(0.6, world.height / config.referenceHeight);
 }
@@ -73,12 +97,15 @@ function gravityFor(world: World): number {
  * (off the side edges, or rolled to a stop).
  */
 function stepCard(card: Card, world: World, dt: number = config.step): boolean {
+  const prevY = card.y;
   card.vy += gravityFor(world) * dt;
   card.x += card.vx * dt;
   card.y += card.vy * dt;
   card.angle += card.spin * dt;
 
-  const floor = world.height - world.size / 2;
+  const floor = floorFor(card, prevY, world);
+  // A rolling card that has rolled off the end of a ledge is falling again.
+  if (card.rolling && card.y < floor - 0.5) card.rolling = false;
   if (card.y >= floor) {
     card.y = floor;
     if (Math.abs(card.vy) * config.bounceDamping < config.restVy) {
@@ -139,4 +166,4 @@ export {
   stepCard,
   trailAlpha,
 };
-export type { Card, Rng, World };
+export type { Card, Ledge, Rng, World };

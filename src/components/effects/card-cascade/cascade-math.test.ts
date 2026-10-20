@@ -55,6 +55,22 @@ describe("cascade math", () => {
     expect(card.y).toBeLessThanOrEqual(world.height - world.size / 2);
   });
 
+  it("lands on a ledge instead of falling behind it, and drops off its end", () => {
+    const ledge = { left: 100, right: 700, top: 500 };
+    const ledged = { ...world, ledges: [ledge] };
+    const card = { ...spawnCard(createRng(1), ledged, 1, 300), vx: 0 };
+    let lowest = 0;
+    for (let step = 0; step < 600; step += 1) {
+      stepCard(card, ledged);
+      lowest = Math.max(lowest, card.y);
+    }
+    expect(lowest).toBeLessThanOrEqual(ledge.top - world.size / 2);
+
+    const rolling = { ...spawnCard(createRng(1), ledged, 1, 650), vx: 250 };
+    for (let step = 0; step < 600; step += 1) stepCard(rolling, ledged);
+    expect(rolling.y).toBeGreaterThan(ledge.top);
+  });
+
   it("stops bouncing, rolls, and is eventually removed", () => {
     const card = { ...spawnCard(createRng(2), world, 1), vx: 200 };
     let alive = true;

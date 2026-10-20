@@ -40,6 +40,7 @@ function CtaPanel({ children }: { children: React.ReactNode }) {
       <CardCascade />
       {children}
       <Button
+        data-cascade-floor
         size="md"
         shape="pill"
         className="relative h-14 px-8 md:mb-6"
