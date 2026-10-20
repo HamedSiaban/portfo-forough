@@ -37,8 +37,10 @@ type PlayerLabels = {
 
 type WorkContent = {
   heading: string[];
+  /** Touch devices get no hover trail (it auto-plays), so the copy drops "feel". */
+  touchHeading: string[];
   trail: { images: TrailImage[] };
-  quote: { text: string[]; author: string; role: string };
+  quote: { text: string[]; author: string; role?: string };
   showreel: {
     label: string;
     /** Q7: no reel yet. When all three are set the tile plays a muted preview. */
@@ -56,7 +58,8 @@ type WorkContent = {
 };
 
 const work: WorkContent = {
-  heading: ["See for", "yourself"],
+  heading: ["Details you", "can feel."],
+  touchHeading: ["Details worth", "a closer look."],
   trail: {
     images: [
       { pattern: "steps", seed: "trail-1" },
@@ -71,9 +74,13 @@ const work: WorkContent = {
   },
   quote: {
     // One entry per visual line; each gets its own reveal mask.
-    text: ["Clear thinking,", "careful craft,", "and a calm", "hand on", "every detail."],
-    author: "Alex Example",
-    role: "Product lead, Sample Co.",
+    text: [
+      "I design for BOTH:",
+      "The user and the business.",
+      "One without the other is half a job.",
+      "Great products don't just solve human problems—they drive growth.",
+    ],
+    author: "Foro",
   },
   showreel: {
     label: "Showreel",

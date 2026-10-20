@@ -118,7 +118,7 @@ One full screen (`min-h-svh`), deliberately quiet so the work holds the focus: h
 
 Interim section (it was the top of the old Work bento). Merging it with the CTA was considered and dropped.
 
-- **Left (large, surface):** "See for yourself" heading. **Image trail:** pointer movement spawns design images at the cursor from a pool. Each new image appears on top, follows the travel direction, and fades/scales out after ~0.8–1.2s. Spawn by distance travelled, not by time. An accent dot follows the cursor.
+- **Left (large, surface):** "Details you can feel" heading ("Details worth a closer look" on touch, where the trail auto-plays). **Image trail:** pointer movement spawns design images at the cursor from a pool. Each new image appears on top, follows the travel direction, and fades/scales out after ~0.8–1.2s. Spawn by distance travelled, not by time. An accent dot follows the cursor.
 - **Right (inverse surface):** huge testimonial quote + attribution, dark halftone + subtle `<WaveField>` in a dark palette.
 
 ### Interlude — "Let's talk about your project." · refs 08, 10

@@ -7,7 +7,7 @@ function TrailPanel({ heading, images }: { heading: React.ReactNode; images: Rea
   return (
     <div
       data-work-panel
-      className="relative min-h-112 overflow-hidden rounded-panel bg-surface p-6 md:p-10 lg:min-h-[85svh]"
+      className="relative min-h-[calc(100svh-1.5rem)] overflow-hidden rounded-panel bg-surface p-6 md:p-10"
     >
       <ImageTrail images={images} />
       <div className="relative">{heading}</div>

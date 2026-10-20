@@ -9,7 +9,7 @@ import { useIsTouch } from "@/hooks/use-is-touch";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { gsap } from "@/lib/gsap";
 
-type QuotePanelProps = { lines: string[]; author: string; role: string };
+type QuotePanelProps = { lines: string[]; author: string; role?: string };
 
 /**
  * Inverse-surface testimonial with the shared wave glow (palette "dark") over a halftone.
@@ -41,7 +41,7 @@ function QuotePanel({ lines, author, role }: QuotePanelProps) {
       ref={panelRef}
       data-work-panel
       data-header-theme="dark"
-      className="mx-0 min-h-112 bg-surface-inverse bg-none text-on-inverse [--halftone-dot:rgb(255_255_255/0.08)] md:mx-0 lg:min-h-[85svh] dark:[--halftone-dot:rgb(0_0_0/0.08)]"
+      className="mx-0 min-h-112 bg-surface-inverse bg-none text-on-inverse [--halftone-dot:rgb(255_255_255/0.08)] md:mx-0 lg:min-h-[calc(100svh-1.5rem)] dark:[--halftone-dot:rgb(0_0_0/0.08)]"
       contentClassName="flex h-full min-h-[inherit] flex-col justify-between gap-12 p-6 md:p-10"
       overlay={
         <WaveField
@@ -56,10 +56,10 @@ function QuotePanel({ lines, author, role }: QuotePanelProps) {
     >
       <figure className="flex flex-1 flex-col justify-between gap-12">
         <blockquote>
-          <span aria-hidden className="block text-display-md">
+          <span aria-hidden className="block text-display-sm">
             “
           </span>
-          <p className="text-display-md">
+          <p className="text-display-sm text-[clamp(2rem,4.2vw,4.5rem)]">
             {lines.map((line) => (
               <span key={line} className="block overflow-hidden pb-[0.08em]">
                 <span data-quote-line className="block">
@@ -70,7 +70,8 @@ function QuotePanel({ lines, author, role }: QuotePanelProps) {
           </p>
         </blockquote>
         <figcaption className="text-body-lg">
-          — {author}, {role}
+          — {author}
+          {role ? `, ${role}` : null}
         </figcaption>
       </figure>
     </Panel>

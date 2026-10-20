@@ -6,11 +6,11 @@ import { TrailPanel } from "./trail-panel";
 import { WorkReveal } from "./work-reveal";
 
 /**
- * "See for yourself" (image trail) beside the quote's dot-wave panel; one column under `lg`.
+ * "Details you can feel" (image trail) beside the quote's dot-wave panel; one column under `lg`.
  * Interim home until it is merged with the CTA section. Self-contained, any position works.
  */
 function TrailSection() {
-  const { heading, trail, quote } = work;
+  const { heading, touchHeading, trail, quote } = work;
 
   return (
     <section
@@ -22,11 +22,22 @@ function TrailSection() {
         <TrailPanel
           heading={
             <h2 id="trail-heading" className="text-display-lg text-foreground">
-              {heading.map((line) => (
-                <span key={line} className="block">
-                  {line}
-                </span>
-              ))}
+              {/* Both variants render and CSS picks one by pointer type: no hydration flash, and
+                  display:none keeps the hidden one out of the accessibility tree. */}
+              <span className="pointer-coarse:hidden">
+                {heading.map((line) => (
+                  <span key={line} className="block">
+                    {line}
+                  </span>
+                ))}
+              </span>
+              <span className="hidden pointer-coarse:block">
+                {touchHeading.map((line) => (
+                  <span key={line} className="block">
+                    {line}
+                  </span>
+                ))}
+              </span>
             </h2>
           }
           images={trail.images.map((image) => (
