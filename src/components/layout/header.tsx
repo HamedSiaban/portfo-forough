@@ -55,7 +55,10 @@ function Header() {
       <div className="pointer-events-auto flex min-w-0 flex-1 flex-wrap items-center justify-end gap-1 sm:gap-2">
         <Link
           href="/#work"
-          className={cn(buttonVariants({ variant: isDark ? "secondary" : "solid", size: "sm" }))}
+          className={cn(
+            buttonVariants({ variant: isDark ? "secondary" : "outline", size: "md" }),
+            !isDark && "bg-transparent",
+          )}
           onClick={(event) => {
             // On the home page scroll via Lenis (offset for this fixed header); elsewhere let
             // the link navigate — SmoothScroll resolves the hash after the route change.
@@ -66,7 +69,7 @@ function Header() {
         >
           Projects
         </Link>
-        <Button variant={isDark ? "secondary" : "solid"} size="sm" onClick={() => openInquiry()}>
+        <Button variant={isDark ? "secondary" : "solid"} size="md" onClick={() => openInquiry()}>
           Start a conversation
         </Button>
         <ThemeToggle />
