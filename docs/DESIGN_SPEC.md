@@ -64,8 +64,8 @@ Wiring in `globals.css` (Tailwind v4):
 
 | Style                                                     | Family · weight          | Size                           | Line height | Tracking | Notes                           |
 | --------------------------------------------------------- | ------------------------ | ------------------------------ | ----------- | -------- | ------------------------------- |
-| `display-xl` (hero, interlude, CTA)                       | Frama 500                | `clamp(3.5rem, 11vw, 12.5rem)` | 0.86        | -0.055em | centred or left                 |
-| `display-lg` (section titles: FAQ title, work title)      | Frama 400                | `clamp(3rem, 7vw, 7.5rem)`     | 0.88        | -0.05em  |                                 |
+| `display-xl` (hero, interlude)                            | Frama 500                | `clamp(3.5rem, 11vw, 12.5rem)` | 0.86        | -0.055em | centred or left                 |
+| `display-lg` (section titles: FAQ, work, CTA)             | Frama 400                | `clamp(3rem, 7vw, 7.5rem)`     | 0.88        | -0.05em  |                                 |
 | `display-md` (quote, legal page titles)                   | Frama 400                | `clamp(2rem, 5vw, 6rem)`       | 0.92        | -0.045em | quote is on the inverse surface |
 | `display-sm` (FAQ title, matches ref 09 scale)            | Frama 400                | `clamp(2rem, 3.4vw, 3.5rem)`   | 1           | -0.045em | added in Phase 09               |
 | `heading` ("Start to Finish", "Single Project", legal h2) | Neue Montreal 500        | `clamp(1.75rem, 3vw, 3rem)`    | 1.0         | -0.035em |                                 |
@@ -135,7 +135,7 @@ Title + "Need more information? Feel free to reach out." (link opens the Inquiry
 
 ### 6 · CTA — `#contact` · ref 11
 
-Framed panel with halftone + `<WaveField>`. Left-aligned `display-xl` "Build your next project with us" + pill CTA (→ Inquiry modal).
+Framed panel with halftone + `<WaveField>`. Left-aligned `display-lg` "Ready to build something exceptional from 0 to 1?" + pill CTA (→ Inquiry modal).
 **Effect: solitaire victory cascade.** Pink cards (using the PatternArt palette) launch one at a time from the top-left area with random horizontal velocity and slight angle. Gravity pulls them down, they bounce off the panel floor with damping, and **the canvas is not cleared between frames**, so each card leaves a stepped "waterfall" trail like the Windows Solitaire win screen. Trails slowly fade (draw a low-alpha background rect each frame, or decay on an offscreen buffer). Starts when the panel enters the viewport, pauses when it leaves, and the user can replay it (click the panel). Reduced motion: a static composition of a few trails.
 
 ### Footer

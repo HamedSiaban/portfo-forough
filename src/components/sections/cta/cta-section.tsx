@@ -10,7 +10,11 @@ function CtaSection() {
   return (
     <section id="contact" aria-labelledby="contact-heading" className="relative z-10 py-4">
       <CtaPanel>
-        <h2 id="contact-heading" className="relative text-display-xl text-foreground">
+        <h2
+          id="contact-heading"
+          data-cascade-floor
+          className="relative text-display-lg text-foreground"
+        >
           {cta.heading.map((line) => (
             <span key={line} className="mb-[-0.24em] block pb-[0.24em]">
               {line}

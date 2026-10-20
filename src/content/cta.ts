@@ -2,7 +2,7 @@
 type CtaContent = { heading: string[]; button: string };
 
 const cta: CtaContent = {
-  heading: ["Build your next", "project with us"],
+  heading: ["Ready to build", "something exceptional", "from 0 to 1?"],
   button: "Start a conversation",
 };
 

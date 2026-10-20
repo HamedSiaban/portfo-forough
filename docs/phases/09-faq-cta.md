@@ -43,7 +43,7 @@ and reference images 09, 14, 11, 07. Create branch phase/09-faq-cta, enter plan 
 
 ## Decisions log
 
-Placeholder FAQ answers/CTA copy in `content/faq.ts` / `content/cta.ts` (Q4 still open). The CTA heading is the spec'd "Build your next project with us".
+Placeholder FAQ answers/CTA copy in `content/faq.ts` / `content/cta.ts` (Q4 still open). The CTA heading is "Ready to build something exceptional from 0 to 1?".
 
 - FAQ title uses a new `display-sm` token (`clamp(2rem, 3.4vw, 3.5rem)`, added to DESIGN_SPEC §3) — spec said `display-lg`, but ref 09 shows a much smaller title.
 - Accordion body is animated by Motion (height + opacity, expo-out 0.35s). Base UI's panel only waits for CSS animations before hiding, so `AccordionContent` keeps the panel mounted, drops Base UI's `hidden`/`style`, and sets `visibility: hidden` after the collapse (also removes closed content from tab order and the a11y tree). The CSS `animate-accordion-*` classes are no longer used.
