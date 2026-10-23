@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 import { hero } from "@/content/hero";
 
 const delay = (seconds: number): React.CSSProperties =>
@@ -12,7 +10,7 @@ import { HeroPanel } from "./hero-panel";
  * element, and its entrance is CSS-only. The wave glow and scroll-out live in <HeroPanel />.
  */
 function HeroSection() {
-  const { credentials, headline, subline, logosLabel, logos } = hero;
+  const { credentials, headline, subline } = hero;
 
   return (
     <section id="hero" className="relative z-10 mb-[-10svh] pt-4">
@@ -43,28 +41,6 @@ function HeroSection() {
         >
           {subline}
         </p>
-
-        {logos.length > 0 && (
-          <div
-            className="mt-12 flex animate-hero-fade flex-col items-center gap-5"
-            style={delay(0.75)}
-          >
-            <p className="text-mono-ui text-muted-foreground">{logosLabel}</p>
-            <ul className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
-              {logos.map((logo) => (
-                <li key={logo.name}>
-                  <Image
-                    className="dark:invert"
-                    src={logo.src}
-                    alt={logo.name}
-                    width={logo.width}
-                    height={logo.height}
-                  />
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
       </HeroPanel>
     </section>
   );
