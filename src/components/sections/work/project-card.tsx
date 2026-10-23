@@ -1,4 +1,5 @@
 import { ArrowUpRightIcon } from "@phosphor-icons/react/dist/ssr";
+import Image from "next/image";
 import Link from "next/link";
 
 import { Chip } from "@/components/ui/chip";
@@ -11,7 +12,7 @@ type ProjectCardProps = {
 };
 
 const staticClass =
-  "relative flex w-full min-h-44 flex-col justify-between gap-8 overflow-hidden rounded-card border border-border bg-surface p-5 shadow-xs";
+  "relative flex w-full min-h-44 flex-col justify-between gap-5 overflow-hidden rounded-card border border-border bg-surface p-5 shadow-xs";
 
 const linkClass = cn(
   staticClass,
@@ -25,30 +26,60 @@ const linkClass = cn(
 
 /**
  * One project, an `<li>` wrapping either an `<Link>` (case study) or a static block (NDA). The whole
- * card is the hit area; pressing it nudges it down a pixel. NDA cards are static and get no hover state. Imagery can slot into the gap above the
- * title once Foro supplies it (OPEN_QUESTIONS Q8).
+ * card is the hit area; pressing it nudges it down a pixel. NDA cards are static and get no hover state. Covers are 4:3 and carry their own title art, so they are shown uncropped.
  */
 function ProjectCard({ project, index }: ProjectCardProps) {
-  const body = (
+  const { cover } = project;
+  const coverImage = (src: string, className?: string) => (
+    <Image
+      src={src}
+      alt=""
+      fill
+      sizes="(min-width: 1280px) 25vw, (min-width: 768px) 50vw, 100vw"
+      className={cn("object-cover", className)}
+    />
+  );
+  const arrow = project.slug ? (
+    <ArrowUpRightIcon
+      aria-hidden
+      className="size-5 shrink-0 text-muted-foreground transition-[transform,color] duration-(--duration-ui) ease-(--ease-ui) group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground"
+    />
+  ) : (
+    <span className="text-label text-muted-foreground">NDA</span>
+  );
+
+  // The cover section is deliberately compact: the work section is one pinned screen, so the card
+  // must fit beside the reel without clipping.
+  const body = cover ? (
+    <>
+      <div aria-hidden className="relative aspect-4/3 w-full shrink-0 overflow-hidden rounded-card">
+        {coverImage(cover.src, cover.srcDark && "dark:hidden")}
+        {cover.srcDark && coverImage(cover.srcDark, "hidden dark:block")}
+      </div>
+      <div className="flex items-start justify-between gap-4">
+        <h3 className="text-body-lg text-foreground">
+          <span className="mr-2 text-mono-ui text-muted-foreground">
+            {String(index + 1).padStart(2, "0")}
+          </span>
+          {project.title}
+        </h3>
+        {arrow}
+      </div>
+    </>
+  ) : (
     <>
       <div className="flex items-start justify-between gap-6">
         <span className="text-mono-ui text-muted-foreground">
           {String(index + 1).padStart(2, "0")}
         </span>
-        {project.slug ? (
-          <ArrowUpRightIcon
-            aria-hidden
-            className="size-5 text-muted-foreground transition-[transform,color] duration-(--duration-ui) ease-(--ease-ui) group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground"
-          />
-        ) : (
-          <span className="text-label text-muted-foreground">NDA</span>
-        )}
+        {arrow}
       </div>
       <div className="flex flex-col gap-6">
         <h3 className="text-title text-foreground">{project.title}</h3>
         <div className="flex items-center gap-2">
-          <Chip>{project.region}</Chip>
-          <Chip>{project.duration}</Chip>
+          {project.tags.map((tag) => (
+            <Chip key={tag}>{tag}</Chip>
+          ))}
         </div>
       </div>
     </>
@@ -60,12 +91,12 @@ function ProjectCard({ project, index }: ProjectCardProps) {
         <Link
           href={`/work/${project.slug}`}
           aria-label={`Open case study: ${project.title}`}
-          className={linkClass}
+          className={cn(linkClass, cover && "justify-start")}
         >
           {body}
         </Link>
       ) : (
-        <div className={staticClass}>{body}</div>
+        <div className={cn(staticClass, cover && "justify-start")}>{body}</div>
       )}
     </li>
   );

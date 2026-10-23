@@ -1,8 +1,11 @@
+import { aiSpecGen } from "./ai-spec-gen";
 import type { CaseStudy } from "./types";
-import { wondrfly } from "./wondrfly";
+import { wondrflyHome } from "./wondrfly-home";
+import { wondrflyPro } from "./wondrfly-pro";
+import { wondrflyTrust } from "./wondrfly-trust";
 
 /** Order here is the "next case study" order at the bottom of each page. */
-const caseStudies: CaseStudy[] = [wondrfly];
+const caseStudies: CaseStudy[] = [aiSpecGen, wondrflyPro, wondrflyTrust, wondrflyHome];
 
 function getCaseStudy(slug: string): CaseStudy | undefined {
   return caseStudies.find((study) => study.slug === slug);

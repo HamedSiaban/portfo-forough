@@ -1,10 +1,10 @@
 import type { PatternArtVariant } from "@/components/effects/pattern-art";
 
 /**
- * Work-section copy and data. PLACEHOLDER — OPEN_QUESTIONS Q4 (quote), Q6 (trail art),
- * Q7 (showreel) and Q8 (projects) are unresolved. Replace with Foro's own material before
+ * Work-section copy and data. PLACEHOLDER — OPEN_QUESTIONS Q4 (quote), Q6 (trail art) and
+ * Q7 (showreel) are unresolved; projects are Foro's four real case studies. Replace with Foro's own material before
  * launch; never reuse the reference site's text. Defaults: generated PatternArt tiles for the
- * trail, a poster-less "coming soon" showreel, four placeholder projects.
+ * trail, a poster-less "coming soon" showreel, four case-study cards.
  */
 type TrailImage = {
   pattern: PatternArtVariant;
@@ -13,10 +13,12 @@ type TrailImage = {
 
 type Project = {
   title: string;
-  region: string;
-  duration: string;
+  /** Short chips under the title (discipline, product area). */
+  tags: string[];
   /** Slug of an internal case study (`/work/<slug>`). Omit for NDA work. */
   slug?: string;
+  /** Card image (decorative; the cover art carries the title). `srcDark` swaps in under the dark theme. */
+  cover?: { src: string; srcDark?: string };
   nda?: boolean;
 };
 
@@ -109,26 +111,31 @@ const work: WorkContent = {
   },
   projects: [
     {
-      title: "Onboarding redesign for a fintech mobile app.",
-      region: "Europe",
-      duration: "6 weeks",
-      nda: true,
+      title: "From Figma to sprint-ready: an AI handoff pipeline.",
+      tags: ["AI workflow", "Design ops"],
+      slug: "ai-spec-gen",
+      cover: {
+        src: "/media/work/covers/ai-spec-gen-light.webp",
+        srcDark: "/media/work/covers/ai-spec-gen-dark.webp",
+      },
     },
     {
-      title: "Wondrfly: from marketplace to a product families rely on.",
-      region: "US",
-      duration: "10 weeks",
-      slug: "wondrfly",
+      title: "Wondrfly Pro: a 0-1 marketplace launch.",
+      tags: ["Strategy", "Monetisation"],
+      slug: "wondrfly-pro",
+      cover: { src: "/media/work/covers/wondrfly-pro.webp" },
     },
     {
-      title: "Marketing site and product tour for a health startup.",
-      region: "UK",
-      duration: "4 weeks",
+      title: "Wondrfly's Trust Shift: designing for parent confidence.",
+      tags: ["Trust", "Conversion"],
+      slug: "wondrfly-trust",
+      cover: { src: "/media/work/covers/wondrfly-trust.webp" },
     },
     {
-      title: "Dashboard UX overhaul for a logistics tool.",
-      region: "Australia",
-      duration: "8 weeks",
+      title: "Clearing the path to go live: provider homepage redesign.",
+      tags: ["Activation", "Dashboard"],
+      slug: "wondrfly-home",
+      cover: { src: "/media/work/covers/wondrfly-home.webp" },
     },
   ],
 };

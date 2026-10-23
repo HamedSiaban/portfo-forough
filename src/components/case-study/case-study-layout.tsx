@@ -57,7 +57,9 @@ function CaseStudyLayout({ study, next }: CaseStudyLayoutProps) {
             <li key={result}>{result}</li>
           ))}
         </ul>
-        {study.cover && <CaseStudyImage block={{ type: "image", size: "wide", ...study.cover }} />}
+        {study.cover && (
+          <CaseStudyImage block={{ type: "image", size: "wide", ...study.cover }} priority />
+        )}
       </header>
 
       {study.sections.map((section) => (

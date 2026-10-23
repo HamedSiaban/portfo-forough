@@ -9,6 +9,8 @@ type ImageBlock = {
   type: "image";
   /** Path under /public, e.g. "/media/work/wondrfly/context.webp". Omit while drafting. */
   src?: string;
+  /** Dark-theme variant of `src`; when set, the image swaps with the theme (CSS only, no flash). */
+  srcDark?: string;
   alt: string;
   caption?: string;
   /** Intrinsic size, to reserve space (no layout shift). Defaults to 1600×900. */

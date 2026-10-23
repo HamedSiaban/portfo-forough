@@ -26,19 +26,29 @@ function Placeholder({ label, ratio }: { label: string; ratio: string }) {
   );
 }
 
-function CaseStudyImage({ block }: { block: ImageBlock }) {
-  const { src, alt, width = 1600, height = 900 } = block;
-  return src ? (
+function CaseStudyImage({ block, priority }: { block: ImageBlock; priority?: boolean }) {
+  const { src, srcDark, alt, width = 1600, height = 900 } = block;
+  if (!src) return <Placeholder label={alt} ratio={`${width} / ${height}`} />;
+
+  const image = (url: string, className?: string) => (
     <Image
-      src={src}
+      src={url}
       alt={alt}
       width={width}
       height={height}
       sizes="(min-width: 1024px) 1024px, 100vw"
-      className={cn(frameClass, "h-auto w-full")}
+      priority={priority}
+      className={cn(frameClass, "h-auto w-full", className)}
     />
+  );
+  // Both themes are in the DOM and CSS picks one, so a theme switch never reloads or flashes.
+  return srcDark ? (
+    <>
+      {image(src, "dark:hidden")}
+      {image(srcDark, "hidden dark:block")}
+    </>
   ) : (
-    <Placeholder label={alt} ratio={`${width} / ${height}`} />
+    image(src)
   );
 }
 
