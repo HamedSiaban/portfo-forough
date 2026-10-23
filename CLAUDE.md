@@ -152,7 +152,7 @@ src/
     layout/               # Header, Footer, ThemeToggle, Logo
     sections/             # hero/ value-cards/ work/ faq/ cta/  (one folder each)
     modals/               # InquiryModal (contact tiles), VideoModal
-    effects/              # WaveField (WebGL), Halftone, ImageTrail, CardCascade, PatternArt
+    effects/              # WaveField (WebGL), Halftone, ImageTrail, PatternArt
     motion/               # SmoothScroll, Reveal primitives
   fonts/                  # woff2 files + index.ts (next/font/local) + README.md
   config/
@@ -165,7 +165,6 @@ src/
   stores/                 # ui-store.ts (zustand)
   types/
 public/
-  media/trail/            # images for the cursor image trail
   media/work/             # project thumbnails, video posters
   video/
 docs/                     # reference/, phases/, ROADMAP.md, DESIGN_SPEC.md, OPEN_QUESTIONS.md
@@ -185,8 +184,8 @@ docs/                     # reference/, phases/, ROADMAP.md, DESIGN_SPEC.md, OPE
 4. **Design tokens only.** No raw hex/px values in components. Use Tailwind theme tokens backed by CSS variables (see DESIGN_SPEC §2). Dynamic values go through CSS custom properties, not inline style objects.
 5. **One shared wave engine.** Hero, quote panel and CTA panel all use `<WaveField />` with props (palette, intensity, halftone). Never fork it per section.
 6. **GSAP hygiene:** register plugins once in `lib/gsap.ts`; always `useGSAP({ scope })` so contexts revert on unmount; animate `transform`/`opacity` only; call `ScrollTrigger.refresh()` after fonts load and after section order changes; no scroll listeners outside Lenis/ScrollTrigger.
-7. **Reduced motion is a first-class mode**, not an afterthought. `useReducedMotion()` gates every effect: static halftone instead of the moving glow, no image trail, cards appear without 3D flight, cascade replaced by a static composition, Lenis disabled.
-8. **Touch devices get designed alternatives**, not broken hover effects: the wave glow follows touch and drifts on its own; the image trail auto-plays a slow sequence; the card stack still works with native scroll.
+7. **Reduced motion is a first-class mode**, not an afterthought. `useReducedMotion()` gates every effect: static halftone instead of the moving glow, cards appear without 3D flight, cascade replaced by a static composition, Lenis disabled.
+8. **Touch devices get designed alternatives**, not broken hover effects: the wave glow follows touch and drifts on its own; the card stack still works with native scroll.
 
 ---
 

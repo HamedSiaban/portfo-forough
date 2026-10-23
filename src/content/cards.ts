@@ -17,7 +17,12 @@ type ValueCardsContent = {
 };
 
 const valueCards: ValueCardsContent = {
-  headline: ["From raw vision", "straight to", "shipped code."],
+  headline: [
+    "I design for BOTH:",
+    "The user and the business.",
+    "One without the other is half a job.",
+    "Great products don't just solve human problems—they drive growth.",
+  ],
   body: "Considered interfaces for teams that ship, from first sketch to the last pixel in production.",
   cards: [
     {

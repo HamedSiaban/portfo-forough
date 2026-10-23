@@ -1,16 +1,9 @@
-import type { PatternArtVariant } from "@/components/effects/pattern-art";
-
 /**
- * Work-section copy and data. PLACEHOLDER — OPEN_QUESTIONS Q4 (quote), Q6 (trail art) and
- * Q7 (showreel) are unresolved; projects are Foro's four real case studies. Replace with Foro's own material before
- * launch; never reuse the reference site's text. Defaults: generated PatternArt tiles for the
- * trail, a poster-less "coming soon" showreel, four case-study cards.
+ * Work-section copy and data. PLACEHOLDER — OPEN_QUESTIONS
+ * Q7 (showreel) is unresolved; projects are Foro's four real case studies. Replace with Foro's own material before
+ * launch; never reuse the reference site's text. Defaults: generated showreel placeholder,
+ * a poster-less "coming soon" showreel, four case-study cards.
  */
-type TrailImage = {
-  pattern: PatternArtVariant;
-  seed: string;
-};
-
 type Project = {
   title: string;
   /** Short chips under the title (discipline, product area). */
@@ -38,11 +31,6 @@ type PlayerLabels = {
 };
 
 type WorkContent = {
-  heading: string[];
-  /** Touch devices get no hover trail (it auto-plays), so the copy drops "feel". */
-  touchHeading: string[];
-  trail: { images: TrailImage[] };
-  quote: { text: string[]; author: string; role?: string };
   showreel: {
     label: string;
     /** Q7: no reel yet. When all three are set the tile plays a muted preview. */
@@ -58,30 +46,6 @@ type WorkContent = {
 };
 
 const work: WorkContent = {
-  heading: ["Details you", "can feel."],
-  touchHeading: ["Details worth", "a closer look."],
-  trail: {
-    images: [
-      { pattern: "steps", seed: "trail-1" },
-      { pattern: "circles", seed: "trail-2" },
-      { pattern: "diamond", seed: "trail-3" },
-      { pattern: "snake", seed: "trail-4" },
-      { pattern: "steps", seed: "trail-5" },
-      { pattern: "diamond", seed: "trail-6" },
-      { pattern: "circles", seed: "trail-7" },
-      { pattern: "snake", seed: "trail-8" },
-    ],
-  },
-  quote: {
-    // One entry per visual line; each gets its own reveal mask.
-    text: [
-      "I design for BOTH:",
-      "The user and the business.",
-      "One without the other is half a job.",
-      "Great products don't just solve human problems—they drive growth.",
-    ],
-    author: "Foro",
-  },
   showreel: {
     label: "Showreel",
     comingSoon: "Reel coming soon",
@@ -138,4 +102,4 @@ const work: WorkContent = {
 };
 
 export { work };
-export type { PlayerLabels, Project, TrailImage, WorkContent };
+export type { PlayerLabels, Project, WorkContent };

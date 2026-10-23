@@ -14,7 +14,7 @@ function ValueCardsSection() {
   return (
     <ValueCardsStage
       headline={
-        <h2 className="text-display-xl text-foreground">
+        <h2 className="text-display-sm text-[clamp(2rem,4.2vw,4.5rem)] text-foreground">
           {headline.map((line) => (
             <span key={line} className="block">
               {line}

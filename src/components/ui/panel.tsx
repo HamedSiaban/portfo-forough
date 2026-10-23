@@ -13,9 +13,18 @@ type PanelProps = React.ComponentProps<"section"> & {
   overlay?: React.ReactNode;
   /** Classes for the inner content wrapper (layout of the panel's children). */
   contentClassName?: string;
+  /** Set false for panels whose own effect replaces the dot pattern (CTA image trail). */
+  halftone?: boolean;
 };
 
-function Panel({ className, contentClassName, children, overlay, ...props }: PanelProps) {
+function Panel({
+  className,
+  contentClassName,
+  children,
+  overlay,
+  halftone = true,
+  ...props
+}: PanelProps) {
   return (
     <section
       data-slot="panel"
@@ -25,7 +34,7 @@ function Panel({ className, contentClassName, children, overlay, ...props }: Pan
       )}
       {...props}
     >
-      <Halftone />
+      {halftone && <Halftone />}
       <div className={cn("relative", contentClassName)}>{children}</div>
       {overlay && <div className="pointer-events-none absolute inset-0">{overlay}</div>}
     </section>

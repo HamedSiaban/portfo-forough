@@ -95,7 +95,7 @@ Logo tile (left, links to site URL `/`) · `Start a conversation` (opens the Inq
 
 ### 1 · Hero — `#hero` · refs 05, 02
 
-Framed panel. Mono credentials row with accent dot separators → `display-xl` headline (centred, ~6 lines on desktop) → `body-lg` subline → "trusted by" mono label + client logo row.
+Framed panel. Mono credentials row with accent dot separators → `display-xl` headline (centred, ~6 lines on desktop) → `body-lg` subline.
 **Effect: wave glow (comet).** A shiny accent glow whose bright, narrow head stays exactly on the pointer. Moving it drags a wider, dimmer body of light behind the head, like a comet or a flame, so the back is larger than the front. The head has **momentum** (a damped spring): it eases into motion, lagging the pointer briefly before catching up, and when the pointer stops it carries a little past it, then settles back onto it (~0.5s) while the tail collapses. The glow is always pulled back to the pointer, so it never lives independently of it. Size follows pointer speed (faster = bigger and longer tail, slower = smaller, relaxing to a small round resting glow), and it fades out in place when the pointer leaves. Output is rendered through a **halftone dot shader**, so the glow reads as a field of dots that fades to a soft halo at the edges. Where the glow passes over the headline, the letters turn accent-coloured with a slight **RGB/chromatic offset** (cyan fringe).
 Technique (built in Phase 03, `<WaveField />`): dark DOM text, canvas above it with **normal alpha compositing** (no `mix-blend-mode` — `lighten`/`screen` has almost no headroom against a near-white backdrop; ref 19 confirmed the real effect reads as vivid pink over _both_ the background and dark text). The shader outputs full-saturation accent color with falloff driving alpha only, so low-density dots fade out as translucent pink rather than a dark muddy color. Chromatic offset is done in the shader.
 **Scroll out:** the panel scrolls up and away, uncovering section 2's headline beneath it (ref 02).
@@ -114,13 +114,6 @@ One screen (`min-h-svh`) at `lg`+, deliberately quiet so the work holds the focu
 - **Project cards (one row, ~60%):** four tall cards (2 per row on `md`, stacked on mobile). Number, title, region + duration chips, arrow icon or "NDA". The whole card is the link; NDA cards are static with no hover. Space above the title is reserved for project thumbnails.
 - **Effects:** only a hairline that draws along the card's bottom edge on hover/focus, a border and shadow lift, an arrow nudge, and a 1px press. Section enter is the shared staggered rise.
 
-### 3b · Trail & quote — `#trail` · refs 12, 13
-
-Interim section (it was the top of the old Work bento). Merging it with the CTA was considered and dropped.
-
-- **Left (large, surface):** "Details you can feel" heading ("Details worth a closer look" on touch, where the trail auto-plays). **Image trail:** pointer movement spawns design images at the cursor from a pool. Each new image appears on top, follows the travel direction, and fades/scales out after ~0.8–1.2s. Spawn by distance travelled, not by time. An accent dot follows the cursor.
-- **Right (inverse surface):** huge testimonial quote + attribution, dark halftone + subtle `<WaveField>` in a dark palette.
-
 ### Interlude — "Let's talk about your project." · refs 08, 10
 
 `display-xl` centred statement between Work and FAQ. A reveal on enter (line-by-line rise/mask) is enough.
@@ -135,8 +128,8 @@ Title + "Need more information? Feel free to reach out." (link opens the Inquiry
 
 ### 6 · CTA — `#contact` · ref 11
 
-Framed panel with halftone + `<WaveField>`. Left-aligned `display-lg` "Ready to build something exceptional from 0 to 1?" + pill CTA (→ Inquiry modal).
-**Effect: solitaire victory cascade.** Pink cards (using the PatternArt palette) launch one at a time from the top-left area with random horizontal velocity and slight angle. Gravity pulls them down, they bounce off the panel floor with damping, and **the canvas is not cleared between frames**, so each card leaves a stepped "waterfall" trail like the Windows Solitaire win screen. Trails slowly fade (draw a low-alpha background rect each frame, or decay on an offscreen buffer). Starts when the panel enters the viewport, pauses when it leaves, and the user can replay it (click the panel). Reduced motion: a static composition of a few trails.
+Framed panel, plain gradient (no halftone, no wave). Left-aligned `display-lg` "Ready to build something exceptional from 0 to 1?" + pill CTA (→ Inquiry modal).
+**Effect: cursor image trail.** Pointer movement spawns design tiles at the cursor from a recycled pool: each new tile lands on top, tilts with the travel direction and fades/scales out after ~1s. Spawn by distance travelled, not time; an accent dot eases after the cursor. Touch: a slow scripted path auto-plays while on screen. Reduced motion: a static three-tile collage.
 
 ### Footer
 
