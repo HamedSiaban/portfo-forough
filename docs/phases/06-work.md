@@ -8,7 +8,7 @@ Bento section: image-trail panel, quote panel with dark wave glow, showreel tile
 
 ## Scope
 
-- `content/work.ts`: trail images[], quote `{ text, author, role }`, showreel `{ poster, previewSrc, videoSrc, captions }`, intro copy, projects[] `{ title, region, duration, href? , nda? }`.
+- `content/work.ts`: trail images[], quote `{ text, author, role }`, showreel `{ poster, previewSrc, videoSrc, captions }`, intro copy, projects[] `{ title, region, duration, slug? , nda? }` (`slug` opens `/work/<slug>`; see `content/case-studies/`).
 - **ImageTrail** (`effects/image-trail`): pool of ~10 absolutely positioned `next/image`s (preloaded); spawn when pointer travelled > N px; new image on top at cursor, slight rotation in travel direction; GSAP timeline per image: scale-in → hold → fade/scale-out (~1s). Accent dot follows the cursor with easing. Touch: autoplay a slow scripted path. Reduced motion: a static 3-image collage.
 - **Quote panel:** inverse surface, `display-md` quote, `<WaveField palette="dark">`, halftone, `data-header-theme="dark"`. Line-by-line reveal on enter.
 - **Showreel tile:** muted looping preview video (lazy, `preload="none"`, plays only in viewport), `SHOWREEL` button that calls `openVideo('showreel')`. Give the tile a stable id for the shared-element transition in phase 07.

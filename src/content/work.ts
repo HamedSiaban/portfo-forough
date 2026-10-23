@@ -15,8 +15,8 @@ type Project = {
   title: string;
   region: string;
   duration: string;
-  /** External case-study link. Omit for NDA work. */
-  href?: string;
+  /** Slug of an internal case study (`/work/<slug>`). Omit for NDA work. */
+  slug?: string;
   nda?: boolean;
 };
 
@@ -115,22 +115,20 @@ const work: WorkContent = {
       nda: true,
     },
     {
-      title: "Design system and component library for a B2B platform.",
+      title: "Wondrfly: from marketplace to a product families rely on.",
       region: "US",
       duration: "10 weeks",
-      href: "https://example.com/case-study-1",
+      slug: "wondrfly",
     },
     {
       title: "Marketing site and product tour for a health startup.",
       region: "UK",
       duration: "4 weeks",
-      href: "https://example.com/case-study-2",
     },
     {
       title: "Dashboard UX overhaul for a logistics tool.",
       region: "Australia",
       duration: "8 weeks",
-      href: "https://example.com/case-study-3",
     },
   ],
 };

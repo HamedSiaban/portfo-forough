@@ -1,4 +1,5 @@
 import { ArrowUpRightIcon } from "@phosphor-icons/react/dist/ssr";
+import Link from "next/link";
 
 import { Chip } from "@/components/ui/chip";
 import type { Project } from "@/content/work";
@@ -23,7 +24,7 @@ const linkClass = cn(
 );
 
 /**
- * One project, an `<li>` wrapping either an `<a>` (case study) or a static block (NDA). The whole
+ * One project, an `<li>` wrapping either an `<Link>` (case study) or a static block (NDA). The whole
  * card is the hit area; pressing it nudges it down a pixel. NDA cards are static and get no hover state. Imagery can slot into the gap above the
  * title once Foro supplies it (OPEN_QUESTIONS Q8).
  */
@@ -34,7 +35,7 @@ function ProjectCard({ project, index }: ProjectCardProps) {
         <span className="text-mono-ui text-muted-foreground">
           {String(index + 1).padStart(2, "0")}
         </span>
-        {project.href ? (
+        {project.slug ? (
           <ArrowUpRightIcon
             aria-hidden
             className="size-5 text-muted-foreground transition-[transform,color] duration-(--duration-ui) ease-(--ease-ui) group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground"
@@ -55,16 +56,14 @@ function ProjectCard({ project, index }: ProjectCardProps) {
 
   return (
     <li className="flex">
-      {project.href ? (
-        <a
-          href={project.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={`Open project: ${project.title}`}
+      {project.slug ? (
+        <Link
+          href={`/work/${project.slug}`}
+          aria-label={`Open case study: ${project.title}`}
           className={linkClass}
         >
           {body}
-        </a>
+        </Link>
       ) : (
         <div className={staticClass}>{body}</div>
       )}

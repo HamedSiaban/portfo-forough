@@ -9,7 +9,7 @@
 
 A portfolio site for **Foroughozaman (Foro) Foroughi**, a senior product/UX designer. Its job is to _prove_ UI/UX craft through design, motion and interaction, and to get Foro hired through the **contact grid** (WhatsApp, LinkedIn, Calendly, email) in the contact modal opened from the header and CTA.
 
-- **Routes:** `/` (single page), `/privacy` (one paragraph)
+- **Routes:** `/` (single page), `/work/[slug]` (one internal case study per project), `/privacy` (one paragraph)
 - **Page anatomy:** Header → sections (`config/sections.ts`) → Footer, plus two modals (Contact, Video)
 - **Interaction reference:** incredibles.dev. Screenshots live in `docs/reference/` (index in `docs/reference/README.md`).
   We reproduce **patterns and feel only**. We never copy its copy, logos, imagery or client names. All content is Foro's own.
@@ -144,9 +144,11 @@ src/
     page.tsx              # renders sections from config/sections.ts
     globals.css           # Tailwind v4 + @theme tokens (light/dark)
     privacy/page.tsx
+    work/[slug]/page.tsx  # case study, statically generated from content/case-studies
     sitemap.ts  robots.ts  opengraph-image.tsx
   components/
     ui/                   # shadcn-generated. Change via variants, not ad-hoc edits
+    case-study/           # CaseStudyLayout + block renderer (server components)
     layout/               # Header, Footer, ThemeToggle, Logo
     sections/             # hero/ value-cards/ work/ faq/ cta/  (one folder each)
     modals/               # InquiryModal (contact tiles), VideoModal
@@ -156,7 +158,7 @@ src/
   config/
     sections.ts           # ordered section registry. Reorder sections HERE ONLY
     site.ts               # name, url, email, socials, timezone
-  content/                # all copy & data, typed (hero.ts, cards.ts, projects.ts, faq.ts, legal/*.mdx|ts)
+  content/                # all copy & data, typed (hero.ts, cards.ts, work.ts, faq.ts, legal/*.ts, case-studies/*.ts)
   hooks/                  # useReducedMotion, usePointer, useMediaQuery, useIsTouch, useInViewport
   lib/                    # cn.ts, gsap.ts (plugin registration, once), query-client.ts
   providers/              # Providers.tsx (Theme, Query, MotionPrefs, SmoothScroll)

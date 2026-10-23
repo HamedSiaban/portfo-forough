@@ -178,3 +178,7 @@ Header + footer as usual. Small title card ("Legal notice" / "Privacy policy") +
 | Stagger         | 0.06–0.1s                                                       |
 | Lenis           | `lerp: 0.1`, `smoothWheel: true`, disabled under reduced motion |
 | Hover           | 150–200ms, transform/opacity/colour only                        |
+
+## Case-study pages (`/work/[slug]`)
+
+Deliberately quiet so the reader's focus stays on the work: one centred column (`max-w-5xl`; text capped at `max-w-2xl`), no panels or effects, hairline-separated sections, the shared type scale and tokens, and the CSS-only hero fade (off under reduced motion). Hero = back link · `display-md` title · summary · meta row (role / timeline / deliverables) · results · cover. Body = sections of typed blocks (`p`, `subheading`, `list`, `quote`, `metrics`, `image`, `video`); media may break out wide, text never does. Video uses native controls, `preload="none"`, a poster and a captions track. Content: `src/content/case-studies/`; add a study by copying `wondrfly.ts`, registering it in `index.ts` and setting `slug` on its project in `content/work.ts`.
