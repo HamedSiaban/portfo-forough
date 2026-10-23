@@ -12,7 +12,7 @@ type ProjectCardProps = {
 };
 
 const staticClass =
-  "relative flex w-full min-h-44 flex-col justify-between gap-5 overflow-hidden rounded-card border border-border bg-surface p-5 shadow-xs";
+  "relative flex w-full flex-col lg:flex-row justify-between gap-6 overflow-hidden rounded-card border border-border bg-surface p-3 shadow-xs md:p-4";
 
 const linkClass = cn(
   staticClass,
@@ -35,30 +35,31 @@ function ProjectCard({ project, index }: ProjectCardProps) {
       src={src}
       alt=""
       fill
-      sizes="(min-width: 1280px) 25vw, (min-width: 768px) 50vw, 100vw"
+      sizes="(min-width: 1024px) 25vw, (min-width: 768px) 50vw, 100vw"
       className={cn("object-cover", className)}
     />
   );
   const arrow = project.slug ? (
     <ArrowUpRightIcon
       aria-hidden
-      className="size-5 shrink-0 text-muted-foreground transition-[transform,color] duration-(--duration-ui) ease-(--ease-ui) group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground"
+      className="size-6 shrink-0 text-muted-foreground transition-[transform,color] duration-(--duration-ui) ease-(--ease-ui) group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground lg:mt-0"
     />
   ) : (
     <span className="text-label text-muted-foreground">NDA</span>
   );
 
-  // The cover section is deliberately compact: the work section is one pinned screen, so the card
-  // must fit beside the reel without clipping.
   const body = cover ? (
     <>
-      <div aria-hidden className="relative aspect-4/3 w-full shrink-0 overflow-hidden rounded-card">
+      <div
+        aria-hidden
+        className="relative aspect-4/3 w-full shrink-0 overflow-hidden rounded-card lg:h-full lg:w-auto"
+      >
         {coverImage(cover.src, cover.srcDark && "dark:hidden")}
         {cover.srcDark && coverImage(cover.srcDark, "hidden dark:block")}
       </div>
-      <div className="flex items-start justify-between gap-4">
-        <h3 className="text-body-lg text-foreground">
-          <span className="mr-2 text-mono-ui text-muted-foreground">
+      <div className="flex items-start justify-between gap-4 px-2 pb-2 lg:min-w-0 lg:flex-1 lg:flex-col lg:px-4 lg:py-3">
+        <h3 className="text-body-lg font-medium text-balance text-foreground">
+          <span className="mb-2 block text-mono-ui font-normal text-muted-foreground">
             {String(index + 1).padStart(2, "0")}
           </span>
           {project.title}
