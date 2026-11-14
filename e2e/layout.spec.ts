@@ -9,7 +9,9 @@ test.describe("layout shell", () => {
 
   test("Start a conversation opens the contact modal and Esc returns focus", async ({ page }) => {
     await page.goto("/");
-    const trigger = page.getByRole("banner").getByRole("button", { name: "Start a conversation" });
+    const trigger = page
+      .getByRole("banner")
+      .getByRole("button", { name: /Start a conversation|Contact/ });
     await trigger.click();
 
     const dialog = page.getByRole("dialog", { name: "Let's talk" });

@@ -1,36 +1,29 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# foroughforoughi.com
 
-## Getting Started
+Portfolio of Foroughozaman (Foro) Foroughi, a senior product/UX designer. Next.js (App Router), Tailwind v4, GSAP + Lenis, three.js. Architecture and rules live in [`CLAUDE.md`](./CLAUDE.md).
 
-First, run the development server:
+## Run
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
+pnpm dev          # http://localhost:3000
+pnpm check        # typecheck + lint + format + unit tests
+pnpm build && pnpm start
+pnpm test:e2e     # Playwright (chromium, webkit, mobile) incl. axe a11y
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Add content
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+All copy is typed data in `src/content/`. New case study: add a file in `src/content/case-studies/`, register it in `index.ts` (order = "next" order), and drop media in `public/media/work/<slug>/`. Site constants (email, socials, URL) are in `src/config/site.ts`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Reorder sections
 
-## Learn More
+Edit `src/config/sections.ts` only. Sections are self-contained and work in any position.
 
-To learn more about Next.js, take a look at the following resources:
+## Environment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Copy `.env.example` to `.env.local`. Analytics vars are optional and production-only. The contact modal is a link grid, so no email API keys are needed.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deploy
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Netlify (`netlify.toml`). CI (`.github/workflows/ci.yml`) runs check, build and e2e on every PR.

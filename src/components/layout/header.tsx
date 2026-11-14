@@ -70,7 +70,8 @@ function Header() {
           Projects
         </Link>
         <Button variant={isDark ? "secondary" : "solid"} size="md" onClick={() => openInquiry()}>
-          Start a conversation
+          <span className="sm:hidden">Contact</span>
+          <span className="hidden sm:inline">Start a conversation</span>
         </Button>
         <ThemeToggle />
       </div>

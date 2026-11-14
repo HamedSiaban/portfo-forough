@@ -24,7 +24,7 @@
   --foreground: #2b2b2b;
   /* DESIGN_SPEC placeholder (#7A7A7A) fails AA (3.84:1 on --background) — darkened, see phase decisions log. */
   --muted-foreground: #6b6b6b;
-  --subtle-foreground: #b5b5b5;
+  --subtle-foreground: #707070; /* AA on surface + surface-muted (was #b5b5b5, 2.05:1) */
   --border: #e4e4e4;
   --accent: #ff3d71;
   --accent-soft-1: #ffb3c6;
@@ -44,7 +44,7 @@
   --on-inverse: #0f0f10;
   --foreground: #ededed;
   --muted-foreground: #9a9a9a;
-  --subtle-foreground: #5c5c5c;
+  --subtle-foreground: #8a8a8a;
   --border: #2a2a2d;
   --accent: #ff5c88;
   --accent-soft-1: #7a2e3f;

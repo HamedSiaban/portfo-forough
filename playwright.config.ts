@@ -9,9 +9,13 @@ export default defineConfig({
     baseURL: "http://localhost:3000",
     trace: "on-first-retry",
   },
-  projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
+  projects: [
+    { name: "chromium", use: { ...devices["Desktop Chrome"] } },
+    { name: "webkit", use: { ...devices["Desktop Safari"] } },
+    { name: "mobile", use: { ...devices["Pixel 7"] } },
+  ],
   webServer: {
-    command: "pnpm dev",
+    command: process.env.CI ? "pnpm start" : "pnpm dev",
     url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI,
   },

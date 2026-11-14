@@ -4,17 +4,30 @@ import type { Metadata } from "next";
 
 import { Analytics } from "@/components/analytics";
 import { CookieBanner } from "@/components/consent/cookie-banner";
+import { JsonLd } from "@/components/json-ld";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { InquiryModal } from "@/components/modals/inquiry-modal";
 import { VideoModal } from "@/components/modals/video-modal";
+import { site } from "@/config/site";
 import { fontVariables } from "@/fonts";
 import { cn } from "@/lib/cn";
 import { Providers } from "@/providers/providers";
 
+const description =
+  "Portfolio of Foroughozaman (Foro) Foroughi, a senior product and UX designer. Case studies in AI systems, trust and marketplace UX.";
+
 export const metadata: Metadata = {
-  title: "foroughforoughi.com (scaffold)",
-  description: "Portfolio scaffold — placeholder metadata, replaced in a later phase.",
+  metadataBase: new URL(site.url),
+  title: { default: `${site.name} · Product & UX designer`, template: `%s · ${site.shortName}` },
+  description,
+  openGraph: {
+    type: "website",
+    siteName: site.name,
+    title: `${site.name} · Product & UX designer`,
+    description,
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -33,6 +46,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <Footer />
           <InquiryModal />
           <VideoModal />
+          <JsonLd />
           <Analytics />
           <CookieBanner />
         </Providers>
