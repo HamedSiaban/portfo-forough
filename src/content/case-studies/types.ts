@@ -31,6 +31,8 @@ type VideoBlock = {
   caption?: string;
 };
 
+type Metric = { value: string; label: string };
+
 type CaseStudyBlock =
   | { type: "p"; text: string }
   | { type: "subheading"; text: string }
@@ -49,10 +51,10 @@ type CaseStudy = {
   summary: string;
   /** Short at-a-glance facts shown under the title. */
   meta: { label: string; value: string }[];
-  /** Headline outcomes shown in the hero. */
-  results: string[];
+  /** Exactly four headline figures, shown as the Executive Metric grid under the title. */
+  results: [Metric, Metric, Metric, Metric];
   cover?: Omit<ImageBlock, "type" | "caption" | "size">;
   sections: CaseStudySection[];
 };
 
-export type { CaseStudy, CaseStudyBlock, CaseStudySection, ImageBlock, VideoBlock };
+export type { CaseStudy, CaseStudyBlock, CaseStudySection, ImageBlock, Metric, VideoBlock };

@@ -14,9 +14,10 @@ const wondrflyPro: CaseStudy = {
     { label: "Focus", value: "Strategy, monetisation, end-to-end UX" },
   ],
   results: [
-    "$0 → 1: from a passive directory to an active monetisation engine.",
-    "65% of providers go live in their first session.",
-    "12+ core modules and 40+ end-to-end flows designed.",
+    { value: "$0 → 1", label: "A passive directory became an active monetisation engine" },
+    { value: "65%", label: "Providers go live in their first session" },
+    { value: "12+", label: "Core modules designed" },
+    { value: "40+", label: "End-to-end flows designed" },
   ],
   cover: {
     src: `${base}/key-results.webp`,
