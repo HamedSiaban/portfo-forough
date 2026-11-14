@@ -13,6 +13,9 @@
   --surface: #ffffff;
   --surface-muted: #fafafa;
   --surface-inverse: #262626;
+  /* Container card around case-study screenshots (hiring audit): same recipe both themes. */
+  --surface-media: #ffffff;
+  --border-media: rgb(0 0 0 / 0.08);
   /* Readable text color on top of --surface-inverse (not in DESIGN_SPEC's table; derived for AA). */
   --on-inverse: #f2f2f2;
   /* Video player is always dark (like a cinema), in both themes. */
@@ -36,6 +39,8 @@
   --surface: #18181a;
   --surface-muted: #1f1f22;
   --surface-inverse: #ededed;
+  --surface-media: #161820;
+  --border-media: rgb(255 255 255 / 0.08);
   --on-inverse: #0f0f10;
   --foreground: #ededed;
   --muted-foreground: #9a9a9a;
@@ -62,6 +67,8 @@
   --color-surface: var(--surface);
   --color-surface-muted: var(--surface-muted);
   --color-surface-inverse: var(--surface-inverse);
+  --color-surface-media: var(--surface-media);
+  --color-border-media: var(--border-media);
   --color-on-inverse: var(--on-inverse);
   --color-player: var(--player);
   --color-on-player: var(--on-player);
@@ -191,6 +198,7 @@
   --ease-entrance: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-ui: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --duration-ui: 250ms;
+  --duration-hover: 200ms;
   --stagger-sm: 0.06s;
   --stagger-lg: 0.1s;
   /* Value-cards stack (Phase 05): tighter on narrow screens so the trapezoid stays pronounced. */
@@ -231,6 +239,22 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* One hover recipe for every card: lift 4px, border change, 200ms. No shadows. */
+@utility card-hover {
+  transition:
+    transform var(--duration-hover) ease,
+    border-color var(--duration-hover) ease;
+  &:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in oklab, var(--foreground) 25%, transparent);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    &:hover {
+      transform: none;
+    }
   }
 }
 

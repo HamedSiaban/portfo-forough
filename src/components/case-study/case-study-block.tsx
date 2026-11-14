@@ -3,7 +3,7 @@ import { cn } from "@/lib/cn";
 
 import { CaseStudyImage, CaseStudyVideo } from "./case-study-media";
 
-const textColumn = "max-w-2xl";
+const textColumn = "mx-auto w-full max-w-[68ch]";
 
 function Figure({
   caption,
@@ -22,13 +22,13 @@ function Figure({
   );
 }
 
-/** Renders one content block. Text blocks stay in a ~65ch column; media may break out wide. */
+/** Renders one content block. Text blocks stay in a centred 68ch column; media may break out wide. */
 function CaseStudyBlockView({ block }: { block: CaseStudyBlock }) {
   switch (block.type) {
     case "p":
       return <p className={cn(textColumn, "text-body-lg")}>{block.text}</p>;
     case "subheading":
-      return <h3 className="text-title">{block.text}</h3>;
+      return <h3 className={cn(textColumn, "text-title")}>{block.text}</h3>;
     case "list":
       return (
         <ul className={cn(textColumn, "list-disc space-y-2 pl-6 text-body-lg")}>

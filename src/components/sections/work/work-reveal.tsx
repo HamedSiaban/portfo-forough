@@ -7,8 +7,8 @@ import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 
 /**
- * Section enter: the bento panels (direct children marked `data-work-panel`) rise with a
- * stagger once the grid is 85% into view. Initial state is set from JS, never CSS, so content
+ * Section enter: the bento panels (direct children marked `data-work-panel`) fade in together
+ * (single 0.2s fade, no stagger) once the grid is 85% into view. Initial state is set from JS, never CSS, so content
  * is visible without JS and reduced-motion users get the final state untouched.
  */
 function WorkReveal({ children, className }: { children: React.ReactNode; className?: string }) {
@@ -22,11 +22,9 @@ function WorkReveal({ children, className }: { children: React.ReactNode; classN
       const panels = gsap.utils.toArray<HTMLElement>("[data-work-panel]", root);
 
       gsap.from(panels, {
-        y: 48,
         opacity: 0,
-        duration: 0.9,
-        ease: "power3.out",
-        stagger: 0.12,
+        duration: 0.2,
+        ease: "none",
         scrollTrigger: { trigger: root, start: "top 85%", once: true },
       });
 

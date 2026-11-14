@@ -5,6 +5,8 @@ import type { ImageBlock, VideoBlock } from "@/content/case-studies";
 import { cn } from "@/lib/cn";
 
 const frameClass = "overflow-hidden rounded-card bg-surface";
+/** Screenshots sit in a container card (hiring audit): 12px radius, 16px padding, tokenised colours. */
+const cardClass = "rounded-xl border border-border-media bg-surface-media p-4";
 
 /** Draft stand-in so an unfinished page keeps its rhythm; disappears once `src` is set. */
 function Placeholder({ label, ratio }: { label: string; ratio: string }) {
@@ -42,13 +44,17 @@ function CaseStudyImage({ block, priority }: { block: ImageBlock; priority?: boo
     />
   );
   // Both themes are in the DOM and CSS picks one, so a theme switch never reloads or flashes.
-  return srcDark ? (
-    <>
-      {image(src, "dark:hidden")}
-      {image(srcDark, "hidden dark:block")}
-    </>
-  ) : (
-    image(src)
+  return (
+    <div className={cardClass}>
+      {srcDark ? (
+        <>
+          {image(src, "dark:hidden")}
+          {image(srcDark, "hidden dark:block")}
+        </>
+      ) : (
+        image(src)
+      )}
+    </div>
   );
 }
 
@@ -56,19 +62,21 @@ function CaseStudyImage({ block, priority }: { block: ImageBlock; priority?: boo
 function CaseStudyVideo({ block }: { block: VideoBlock }) {
   if (!block.src) return <Placeholder label={block.title} ratio="16 / 9" />;
   return (
-    <video
-      controls
-      playsInline
-      preload="none"
-      poster={block.poster}
-      aria-label={block.title}
-      className={cn(frameClass, "aspect-video w-full bg-player")}
-    >
-      <source src={block.src} />
-      {block.captions && (
-        <track kind="captions" src={block.captions} srcLang="en" label="English" default />
-      )}
-    </video>
+    <div className={cardClass}>
+      <video
+        controls
+        playsInline
+        preload="none"
+        poster={block.poster}
+        aria-label={block.title}
+        className={cn(frameClass, "aspect-video w-full bg-player")}
+      >
+        <source src={block.src} />
+        {block.captions && (
+          <track kind="captions" src={block.captions} srcLang="en" label="English" default />
+        )}
+      </video>
+    </div>
   );
 }
 

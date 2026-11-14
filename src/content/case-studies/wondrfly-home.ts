@@ -14,10 +14,10 @@ const wondrflyHome: CaseStudy = {
     { label: "Focus", value: "Activation, information architecture" },
   ],
   results: [
-    "70% faster time-to-discovery after onboarding.",
-    "65% less provider friction, with no premature verification gates.",
-    "80% clearer priorities: one unambiguous primary action.",
-    "A homepage aligned with the move from commissions to direct connection.",
+    { value: "70%", label: "Faster time-to-discovery after onboarding" },
+    { value: "65%", label: "Less provider friction, with no premature verification gates" },
+    { value: "80%", label: "Clearer priorities: one unambiguous primary action" },
+    { value: "Direct", label: "Connection model, aligned with the move from commissions" },
   ],
   cover: {
     src: `${base}/before-after.webp`,

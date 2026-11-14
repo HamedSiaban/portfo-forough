@@ -13,7 +13,7 @@ const rise = (delay: number) => ({ "--hero-delay": delay }) as React.CSSProperti
 
 /**
  * Deliberately quiet reading layout: one centred column, hairline-separated sections, media only
- * where it helps. Entrance reuses the CSS-only hero fade (off under reduced motion), so the whole
+ * where it helps. Entrance of the supporting copy reuses the CSS-only hero fade; headings render instantly (off under reduced motion), so the whole
  * page stays a Server Component. Content comes from `src/content/case-studies`.
  */
 function CaseStudyLayout({ study, next }: CaseStudyLayoutProps) {
@@ -32,15 +32,28 @@ function CaseStudyLayout({ study, next }: CaseStudyLayoutProps) {
           <ArrowLeftIcon aria-hidden className="size-4" />
           All work
         </Link>
-        <h1 style={rise(0.05)} className="max-w-4xl animate-hero-fade text-display-md">
-          {study.title}
-        </h1>
+        <h1 className="max-w-4xl text-display-md">{study.title}</h1>
         <p
           style={rise(0.1)}
           className="max-w-2xl animate-hero-fade text-body-lg text-muted-foreground"
         >
           {study.summary}
         </p>
+        <dl
+          aria-label="Key results"
+          style={rise(0.1)}
+          className="grid animate-hero-fade grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
+        >
+          {study.results.map(({ value, label }) => (
+            <div
+              key={label}
+              className="flex flex-col gap-2 rounded-card border border-border bg-surface p-5"
+            >
+              <dd className="order-1 text-display-sm">{value}</dd>
+              <dt className="order-2 text-label text-muted-foreground">{label}</dt>
+            </div>
+          ))}
+        </dl>
         <dl
           style={rise(0.15)}
           className="grid animate-hero-fade gap-6 border-y border-border py-6 sm:grid-cols-3"
@@ -52,11 +65,6 @@ function CaseStudyLayout({ study, next }: CaseStudyLayoutProps) {
             </div>
           ))}
         </dl>
-        <ul style={rise(0.2)} className="flex animate-hero-fade flex-col gap-2 text-title">
-          {study.results.map((result) => (
-            <li key={result}>{result}</li>
-          ))}
-        </ul>
         {study.cover && (
           <CaseStudyImage block={{ type: "image", size: "wide", ...study.cover }} priority />
         )}

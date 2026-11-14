@@ -73,7 +73,7 @@ const work: WorkContent = {
   projects: [
     {
       title: "From Figma to sprint-ready: an AI handoff pipeline.",
-      tags: ["AI workflow", "Design ops"],
+      tags: ["AI Systems", "Developer Experience"],
       slug: "ai-spec-gen",
       cover: {
         src: "/media/work/covers/ai-spec-gen-light.webp",
@@ -82,19 +82,19 @@ const work: WorkContent = {
     },
     {
       title: "Wondrfly Pro: a 0-1 marketplace launch.",
-      tags: ["Strategy", "Monetisation"],
+      tags: ["0-to-1 Marketplace", "Monetization"],
       slug: "wondrfly-pro",
       cover: { src: "/media/work/covers/wondrfly-pro.webp" },
     },
     {
       title: "Wondrfly's Trust Shift: designing for parent confidence.",
-      tags: ["Trust", "Conversion"],
+      tags: ["Conversion", "Growth UX"],
       slug: "wondrfly-trust",
       cover: { src: "/media/work/covers/wondrfly-trust.webp" },
     },
     {
       title: "Clearing the path to go live: provider homepage redesign.",
-      tags: ["Activation", "Dashboard"],
+      tags: ["Activation Funnel", "Merchant UX"],
       slug: "wondrfly-home",
       cover: { src: "/media/work/covers/wondrfly-home.webp" },
     },

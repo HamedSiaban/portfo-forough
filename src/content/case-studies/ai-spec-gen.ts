@@ -18,10 +18,10 @@ const aiSpecGen: CaseStudy = {
     { label: "Inputs", value: "Figma, ClickUp, live codebase" },
   ],
   results: [
-    "17-step autonomous pipeline, from design file to developer task.",
-    "100% edge-case coverage before handoff: arrival, empty, error and loading states.",
-    "Blockers caught in pre-flight, not mid-sprint.",
-    "No more manual ticket-writing fatigue for designers.",
+    { value: "17", label: "Autonomous pipeline steps, from design file to developer task" },
+    { value: "100%", label: "Edge-case coverage before handoff: arrival, empty, error, loading" },
+    { value: "Pre-flight", label: "Blockers caught before the sprint, not during it" },
+    { value: "Zero", label: "Manual ticket-writing for designers" },
   ],
   cover: {
     ...themed("cover"),

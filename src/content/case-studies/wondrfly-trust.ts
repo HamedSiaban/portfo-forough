@@ -15,10 +15,10 @@ const wondrflyTrust: CaseStudy = {
     { label: "Method", value: "User sessions, AI-simulated usability tests" },
   ],
   results: [
-    "60% revenue growth during the MVP phase.",
-    "More client-to-provider connections, and more lead-generating conversations.",
-    "No more discouraging “No reviews yet” label.",
-    "Providers collect testimonials through a low-friction request flow.",
+    { value: "60%", label: "Revenue growth during the MVP phase" },
+    { value: "More", label: "Client-to-provider connections and lead-generating conversations" },
+    { value: "0", label: "Discouraging “No reviews yet” labels left" },
+    { value: "1", label: "Low-friction flow for providers to request testimonials" },
   ],
   cover: {
     src: `${base}/review-request-hero.webp`,
