@@ -4,7 +4,7 @@ import * as React from "react";
 import { cn } from "@/lib/cn";
 
 const chipVariants = cva(
-  "inline-flex w-fit items-center gap-1.5 rounded-full bg-surface-muted px-3 py-1 text-foreground",
+  "inline-flex w-fit items-center gap-1.5 rounded-full bg-surface-muted px-3 py-1 whitespace-nowrap text-foreground",
   {
     variants: {
       font: {
