@@ -9,6 +9,11 @@ type PatternArtProps = React.ComponentProps<"svg"> & {
   seed?: string | number;
 };
 
+/** Pre-rolled random values: children must stay pure, so a re-render can't advance the PRNG and break hydration. */
+type VariantProps = { rolls: number[] };
+
+const MAX_ROLLS = 8;
+
 const PALETTE = ["var(--accent-soft-1)", "var(--accent-soft-2)", "var(--accent-soft-3)"] as const;
 
 /** Deterministic PRNG (mulberry32) so SSR and client render the same jitter from a seed. */
@@ -29,7 +34,7 @@ function createRng(seed: string | number) {
   };
 }
 
-function StepsVariant({ rng }: { rng: () => number }) {
+function StepsVariant({ rolls }: VariantProps) {
   const count = 6;
   return (
     <>
@@ -37,7 +42,7 @@ function StepsVariant({ rng }: { rng: () => number }) {
         const size = 36 - index * 3;
         const offset = index * 18;
         const fill = PALETTE[index % PALETTE.length];
-        const jitter = (rng() - 0.5) * 4;
+        const jitter = ((rolls[index] ?? 0.5) - 0.5) * 4;
         return (
           <rect
             key={index}
@@ -54,14 +59,14 @@ function StepsVariant({ rng }: { rng: () => number }) {
   );
 }
 
-function CirclesVariant({ rng }: { rng: () => number }) {
+function CirclesVariant({ rolls }: VariantProps) {
   const count = 5;
   return (
     <>
       {Array.from({ length: count }, (_, index) => {
         const radius = 22;
         const cx = 24 + index * 26;
-        const jitter = (rng() - 0.5) * 6;
+        const jitter = ((rolls[index] ?? 0.5) - 0.5) * 6;
         const fill = PALETTE[index % PALETTE.length];
         return <circle key={index} cx={cx} cy={64 + jitter} r={radius} fill={fill} />;
       })}
@@ -69,14 +74,14 @@ function CirclesVariant({ rng }: { rng: () => number }) {
   );
 }
 
-function DiamondVariant({ rng }: { rng: () => number }) {
+function DiamondVariant({ rolls }: VariantProps) {
   const count = 4;
   return (
     <>
       {Array.from({ length: count }, (_, index) => {
         const size = 100 - index * 22;
         const fill = PALETTE[index % PALETTE.length];
-        const jitter = (rng() - 0.5) * 4;
+        const jitter = ((rolls[index] ?? 0.5) - 0.5) * 4;
         return (
           <rect
             key={index}
@@ -93,14 +98,14 @@ function DiamondVariant({ rng }: { rng: () => number }) {
   );
 }
 
-function SnakeVariant({ rng }: { rng: () => number }) {
+function SnakeVariant({ rolls }: VariantProps) {
   const count = 7;
   return (
     <>
       {Array.from({ length: count }, (_, index) => {
         const size = 20;
         const x = 8 + index * 16;
-        const wobble = Math.sin(index * 1.3) * 16 + (rng() - 0.5) * 3;
+        const wobble = Math.sin(index * 1.3) * 16 + ((rolls[index] ?? 0.5) - 0.5) * 3;
         const fill = PALETTE[index % PALETTE.length];
         return (
           <rect
@@ -118,7 +123,7 @@ function SnakeVariant({ rng }: { rng: () => number }) {
   );
 }
 
-const VARIANTS: Record<PatternArtVariant, React.ComponentType<{ rng: () => number }>> = {
+const VARIANTS: Record<PatternArtVariant, React.ComponentType<VariantProps>> = {
   steps: StepsVariant,
   circles: CirclesVariant,
   diamond: DiamondVariant,
@@ -132,6 +137,7 @@ const VARIANTS: Record<PatternArtVariant, React.ComponentType<{ rng: () => numbe
  */
 function PatternArt({ variant, seed = variant, className, ...props }: PatternArtProps) {
   const rng = createRng(seed);
+  const rolls = Array.from({ length: MAX_ROLLS }, () => rng());
   const Variant = VARIANTS[variant];
 
   return (
@@ -142,7 +148,7 @@ function PatternArt({ variant, seed = variant, className, ...props }: PatternArt
       className={cn("size-full", className)}
       {...props}
     >
-      <Variant rng={rng} />
+      <Variant rolls={rolls} />
     </svg>
   );
 }
