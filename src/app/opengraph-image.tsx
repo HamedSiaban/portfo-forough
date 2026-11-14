@@ -1,3 +1,6 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
+
 import { ImageResponse } from "next/og";
 
 import { site } from "@/config/site";
@@ -7,7 +10,9 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 // Raw colours are fine here: ImageResponse renders outside the CSS token layer.
-export default function OpengraphImage() {
+export default async function OpengraphImage() {
+  const avatar = await readFile(join(process.cwd(), "public/media/avatar.svg"));
+  const avatarSrc = `data:image/svg+xml;base64,${avatar.toString("base64")}`;
   return new ImageResponse(
     <div
       style={{
@@ -21,21 +26,8 @@ export default function OpengraphImage() {
         color: "#f5f5f4",
       }}
     >
-      <div
-        style={{
-          width: 72,
-          height: 72,
-          borderRadius: 14,
-          background: "#f5f5f4",
-          color: "#0b0b0d",
-          fontSize: 40,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        F
-      </div>
+      {/* satori renders plain <img>, not next/image */}
+      <img src={avatarSrc} alt="" width={160} height={158} />
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         <div style={{ fontSize: 84, lineHeight: 1.05 }}>{site.name}</div>
         <div style={{ fontSize: 36, color: "#ff5c88" }}>Product & UX designer</div>
