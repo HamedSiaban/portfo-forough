@@ -1,3 +1,12 @@
-# Netlify auto-detects Next.js (OpenNext adapter); this only pins the build.
+# Netlify auto-detects Next.js (OpenNext adapter); this pins the build and Node version.
 [build]
   command = "pnpm build"
+
+[build.environment]
+  NODE_VERSION = "22.21.1"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"

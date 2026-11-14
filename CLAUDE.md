@@ -81,6 +81,7 @@ Source of truth is `package.json`; this is a point-in-time mirror for quick refe
 | `three`                                  | ^0.186.1 |
 | `tw-animate-css`                         | ^1.4.0   |
 | `zustand`                                | ^5.0.15  |
+| `@axe-core/playwright` (dev)             | ^4.14.0  |
 | `@commitlint/cli` (dev)                  | ^21.2.3  |
 | `@commitlint/config-conventional` (dev)  | ^21.2.3  |
 | `@playwright/test` (dev)                 | ^1.64.1  |

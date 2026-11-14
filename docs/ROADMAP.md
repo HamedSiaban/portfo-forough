@@ -17,11 +17,11 @@ To start a phase in Claude Code, paste the **Prompt** block from its phase doc.
 | 09  | Section 5 · FAQ + Section 6 · CTA (card cascade)                      | `phase/09-faq-cta`         | 03         | ☑      |
 | 10  | Inquiry modal + API route + email                                     | `phase/10-inquiry`         | 02         | ☑      |
 | 11  | Legal & privacy pages                                                 | `phase/11-legal`           | 02         | ☑      |
-| 12  | Polish: a11y audit, perf budget, SEO/OG, e2e, deploy                  | `phase/12-polish-launch`   | all        | ☐      |
+| 12  | Polish: a11y audit, perf budget, SEO/OG, e2e, deploy                  | `phase/12-polish-launch`   | all        | ☑      |
 | 13  | Hiring audit: calmer motion, tagged cards, case-study layout          | `phase/13-hiring-audit`    | all        | ☑      |
 
 Every phase doc has: Goal · Scope · Out of scope · References · Acceptance criteria · Prompt · Decisions log.
 
 ## Known issues
 
-- **Header wraps at narrow widths (≤ ~420px).** The fixed header's Start a conversation / theme toggle don't fit on one row at 375px and wrap to two, overlapping the top of the hero panel. Found in Phase 04, belongs to the Phase 02 layout shell. Fix before Phase 12 (e.g. icon-only or hidden Pricing button on mobile, or a compact CTA label).
+None.
